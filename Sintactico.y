@@ -7,21 +7,23 @@
 int yystopparser=0;
 FILE  *yyin;
 
-  int yyerror();
+  //int yyerror();
+  int yyerror(const char *s);
   int yylex();
 
 
 %}
 
 %token CTE
+%token CONST_INT CONST_FLOAT CONST_STR
+%token WHILE IF ELSE INIT WRITE
 %token ID
+%token OP_SUM OP_RES OP_MUL OP_DIV OP_MOD
 %token OP_AS
-%token OP_SUM
-%token OP_MUL
-%token OP_RES
-%token OP_DIV
-%token PA
-%token PC
+%token OP_MAYOR OP_MENOR OP_MAYOR_IGUAL OP_MENOR_IGUAL OP_COMPARACION
+%token SUMA_UNO RESTA_UNO
+%token PA PC LA LC CA CC
+%token PyC COMA COM_SIM COM_DOB
 
 %%
 sentencia:  	   
@@ -67,9 +69,15 @@ int main(int argc, char *argv[])
 	fclose(yyin);
         return 0;
 }
-int yyerror(void)
+/*int yyerror(void)
      {
        printf("Error Sintactico\n");
 	 exit (1);
      }
+     */
 
+     int yyerror(const char *s)
+{
+    printf("Error Sintactico: %s\n", s);
+    exit(1);
+}
