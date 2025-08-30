@@ -12,7 +12,8 @@ int yylval;
 char *yyltext;
 
 
-int informarError(char* descripcion, char* lexema);
+int informarError(char* lexema);
+void informarMatch(char* lexema, char* nombreDelToken);
 
 %}
 
@@ -135,83 +136,83 @@ COM_DOB          "\""
 %%
 
 
-{INT}			{printf("\nTipo INT: %s\n", yytext); }
-{FLOAT}			{printf("\nTipo FLOAT: %s\n", yytext); }
-{STRING}		{printf("\nTipo STRING: %s\n", yytext); }
-{BOOL}			{printf("\nTipo BOOL: %s\n", yytext); }
+{INT}			{informarMatch(yytext, "INT"); }
+{FLOAT}			{informarMatch(yytext, "FLOAT"); }
+{STRING}		{informarMatch(yytext, "STRING"); }
+{BOOL}			{informarMatch(yytext, "BOOL"); }
 
 
-{AND}			{printf("\nConector AND: %s\n", yytext); }
-{OR}			{printf("\nConector OR: %s\n", yytext); }
-{NOT}			{printf("\nConector NOT: %s\n", yytext); }
+{AND}			{informarMatch(yytext, "AND"); }
+{OR}			{informarMatch(yytext, "OR"); }
+{NOT}			{informarMatch(yytext, "NOT"); }
 
 
-{WHILE}			{printf("\nPalabra reservada WHILE: %s\n", yytext); }
+{WHILE}			{informarMatch(yytext, "WHILE"); }
 
-{IF}			{printf("\nPalabra reservada IF: %s\n", yytext); }
-{ELSE}			{printf("\nPalabra reservada ELSE: %s\n", yytext); }
+{IF}			{informarMatch(yytext, "IF"); }
+{ELSE}			{informarMatch(yytext, "ELSE"); }
 
-{INIT}			{printf("\nPalabra reservada INIT: %s\n", yytext); }
+{INIT}			{informarMatch(yytext, "INIT"); }
 
-{WRITE}			{printf("\nPalabra reservada WRITE: %s\n", yytext); }
-{READ}			{printf("\nPalabra reservada READ: %s\n", yytext); }
-
-
-{CONST_BOOL_T}	{printf("\nConstante Booleana True: %s\n", yytext); }
-{CONST_BOOL_F}	{printf("\nConstante Booleana False: %s\n", yytext); }
+{WRITE}			{informarMatch(yytext, "WRITE"); }
+{READ}			{informarMatch(yytext, "READ"); }
 
 
-{EQUAL_EXP}		{printf("\nFuncion equalExpressions: %s\n", yytext); }
-{TRIAN_MAX}		{printf("\nFuncion triangleAreaMaximum: %s\n", yytext); }
+{CONST_BOOL_T}	{informarMatch(yytext, "CONST_BOOL_T"); }
+{CONST_BOOL_F}	{informarMatch(yytext, "CONST_BOOL_F"); }
 
 
-{ID}			{printf("\nIdentificador: %s\n", yytext); }
-
-{CONST_INT}		{printf("\nConstante Entera: %s\n", yytext); }
-{CONST_FLOAT}	{printf("\nConstante Real: %s\n", yytext); }
-{CONST_STR}		{printf("\nConstante Cadena: %s\n", yytext); }
-
-{OP_ASIG_VALOR}	{printf("\nAsignacion de valor: %s\n", yytext); }
-{OP_ASIG_TIPO}	{printf("\nAsignacion de tipo: %s\n", yytext); }
-
-{COMENTARIO}	{printf("\nComentario: %s\n", yytext); }
+{EQUAL_EXP}		{informarMatch(yytext, "EQUAL_EXP"); }
+{TRIAN_MAX}		{informarMatch(yytext, "TRIAN_MAX"); }
 
 
-{OP_SUM}		{printf("\nSuma: %s\n", yytext); }
-{OP_MUL}		{printf("\nMultiplicacion: %s\n", yytext); }
-{OP_RES}		{printf("\nResta: %s\n", yytext); }
-{OP_DIV}		{printf("\nDivision: %s\n", yytext); }
+{ID}			{informarMatch(yytext, "ID"); }
+
+{CONST_INT}		{informarMatch(yytext, "CONST_INT"); }
+{CONST_FLOAT}	{informarMatch(yytext, "CONST_FLOAT"); }
+{CONST_STR}		{informarMatch(yytext, "CONST_STR"); }
+
+{OP_ASIG_VALOR}	{informarMatch(yytext, "OP_ASIG_VALOR"); }
+{OP_ASIG_TIPO}	{informarMatch(yytext, "OP_ASIG_TIPO"); }
+
+{COMENTARIO}	{informarMatch(yytext, "COMENTARIO"); }
 
 
-{OP_MAYOR}		{printf("\nMayor: %s\n", yytext); }
-{OP_MAYOR_IGUAL} {printf("\nMayor igual: %s\n", yytext); }
-
-{OP_MENOR}		{printf("\nMenor: %s\n", yytext); }
-{OP_MENOR_IGUAL} {printf("\nMenor igual: %s\n", yytext); }
-
-{OP_IGUAL}		{printf("\nIgual: %s\n", yytext); }
-{OP_DISTINTO}	{printf("\nDistinto: %s\n", yytext); }
+{OP_SUM}		{informarMatch(yytext, "OP_SUM"); }
+{OP_MUL}		{informarMatch(yytext, "OP_MUL"); }
+{OP_RES}		{informarMatch(yytext, "OP_RES"); }
+{OP_DIV}		{informarMatch(yytext, "OP_DIV"); }
 
 
-{PAR_A}			{printf("\nParentesis abre: %s\n", yytext); }
-{PAR_C}			{printf("\nParentesis cierra: %s\n", yytext); }
-{LLA_A}			{printf("\nLlave abre: %s\n", yytext); }
-{LLA_C}			{printf("\nLlave cierra: %s\n", yytext); }
-{COR_A}			{printf("\nCorchete abre: %s\n", yytext); }
-{COR_C}			{printf("\nCorchete cierra: %s\n", yytext); }
+{OP_MAYOR}		{informarMatch(yytext, "OP_MAYOR"); }
+{OP_MAYOR_IGUAL} {informarMatch(yytext, "OP_MAYOR_IGUAL"); }
+
+{OP_MENOR}		{informarMatch(yytext, "OP_MENOR"); }
+{OP_MENOR_IGUAL} {informarMatch(yytext, "OP_MENOR_IGUAL"); }
+
+{OP_IGUAL}		{informarMatch(yytext, "OP_IGUAL"); }
+{OP_DISTINTO}	{informarMatch(yytext, "OP_DISTINTO"); }
 
 
-{PUNTO_C}		{printf("\nPunto y coma: %s\n", yytext); }
-{COMA}			{printf("\nComa: %s\n", yytext); }
+{PAR_A}			{informarMatch(yytext, "PAR_A"); }
+{PAR_C}			{informarMatch(yytext, "PAR_C"); }
+{LLA_A}			{informarMatch(yytext, "LLA_A"); }
+{LLA_C}			{informarMatch(yytext, "LLA_C"); }
+{COR_A}			{informarMatch(yytext, "COR_A"); }
+{COR_C}			{informarMatch(yytext, "COR_C"); }
 
 
-{SUMA_UNO}		{printf("\nIncremento: %s\n", yytext); }
-{RESTA_UNO}		{printf("\nDecremento: %s\n", yytext); }
+{PUNTO_C}		{informarMatch(yytext, "PUNTO_C"); }
+{COMA}			{informarMatch(yytext, "COMA"); }
 
-{OP_MOD}		{printf("\nModulo: %s\n", yytext); }
 
-{COM_SIM}		{printf("\nComilla simple: %s\n", yytext); }
-{COM_DOB}		{printf("\nComilla doble: %s\n", yytext); }
+{SUMA_UNO}		{informarMatch(yytext, "SUMA_UNO"); }
+{RESTA_UNO}		{informarMatch(yytext, "RESTA_UNO"); }
+
+{OP_MOD}		{informarMatch(yytext, "OP_MOD"); }
+
+{COM_SIM}		{informarMatch(yytext, "COM_SIM"); }
+{COM_DOB}		{informarMatch(yytext, "COM_DOB"); }
 
 
 "\n"      		
@@ -221,9 +222,7 @@ COM_DOB          "\""
 "\r\n"
 
 
-.   {
-        informarError("Caracter no reconocido", yytext);
-    } 
+.   { informarError(yytext); } 
 
 
 %%
@@ -234,30 +233,23 @@ COM_DOB          "\""
 /*                          CODIGO PARA LA EJECUCCION                         */
 /* -------------------------------------------------------------------------- */
 
-int informarError(char* descripcion, char* lexema)
+void informarMatch(char* lexema, char* nombreDelToken) {
+    printf("LEXEMA: %-20s - TOKEN: %-15s\n", lexema, nombreDelToken);
+}
+
+int informarError( char* lexema)
 {
-    /* descripcion es el error léxico */
-    /* lexema es la cadena inválida */
- 
-    printf("\n");
-    printf("ERROR LEXICO - %s: %s\n", descripcion, lexema);
-    printf("LINEA: %d\n", yylineno);
-    printf("\n");
- 
+    printf("ERROR:  %-20s - LINEA: %-10d\n", lexema, yylineno);
     exit(1);
 }
 
 int main (int argc, char *argv[]){
-    /*abro archivo en modo lectura y dejo apuntando el puntero yyvin que nos pide flex alli*/
     if((yyin = fopen(argv[1],"rt"))== NULL){
-        printf("\nNo se puede abrir el archivo: %s\n", argv[1]);
         return 1;
     }
     else{
-        printf("\nEl archivo %s se abrió correctamente\n",argv[1]);
         yylex();
     }
-    printf("\nflex finalizó la lectura del archivo %s \n",argv[1]);
     fclose(yyin);
     return 0;
 }

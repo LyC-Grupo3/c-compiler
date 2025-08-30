@@ -66,3 +66,4 @@ compilador
 
 # Test output files
 test_outputs/
+temp/
