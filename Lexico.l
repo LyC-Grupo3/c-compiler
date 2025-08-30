@@ -75,7 +75,7 @@ TRIAN_MAX       "triangleAreaMaximum"
 ID			    {LETRA}({LETRA}|{DIGITO})*
 
 CONST_INT       -?{DIGITO}+
-CONST_FLOAT     -?{DIGITO}*"."{DIGITO}+
+CONST_FLOAT     -?({DIGITO}*"."{DIGITO}+([eE][+-]?{DIGITO}+)?|{DIGITO}+[eE][+-]?{DIGITO}+)
 CONST_STR       \"[^\n"]*\"
 
 OP_ASIG_VALOR   ":="
@@ -169,8 +169,8 @@ COM_DOB          "\""
 {ID}			{informarMatch(yytext, "ID"); }
 
 {CONST_INT}		{informarMatch(yytext, "CONST_INT"); validarRangoInt(yytext);}
-{CONST_FLOAT}	{informarMatch(yytext, "CONST_FLOAT"); }
-{CONST_STR}		{informarMatch(yytext, "CONST_STR"); }
+{CONST_FLOAT}	{informarMatch(yytext, "CONST_FLOAT"); validarRangoFloat(yytext);}
+{CONST_STR}		{informarMatch(yytext, "CONST_STR"); validarLongitudString(yytext);}
 
 {OP_ASIG_VALOR}	{informarMatch(yytext, "OP_ASIG_VALOR"); }
 {OP_ASIG_TIPO}	{informarMatch(yytext, "OP_ASIG_TIPO"); }
@@ -257,6 +257,26 @@ int validarRangoInt(char*ptr)
     int valueCasted = atoi(ptr);
     if (valueCasted < INT_MIN || valueCasted > INT_MAX) {
         informarErrorValidacion("CONST_INT");
+        return 1;
+    }
+    return 0;
+}
+
+int validarRangoFloat(char*ptr)
+{
+    float valueCasted = atof(ptr);
+    if (valueCasted < FLOAT_MIN || valueCasted > FLOAT_MAX) {
+        informarErrorValidacion("CONST_FLOAT");
+        return 1;
+    }
+    return 0;
+}
+
+int validarLongitudString(char*ptr)
+{
+    int length = strlen(ptr) - 2; // -2 para no contar las comillas de apertura y cierre
+    if (length > STRING_MAX_LENGTH) {
+        informarErrorValidacion("CONST_STR");
         return 1;
     }
     return 0;
