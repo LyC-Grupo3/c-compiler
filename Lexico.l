@@ -4,16 +4,16 @@
 /* -------------------------------------------------------------------------- */
 
 %{
-#include "utils/utils.h"
+#include "./utils/utils.h"
+#include "./utils/informes.h"
+#include "./utils/validacion.h"
+
+// Solo  se usa cuando se usa el analizador sintactico, el script se encarga de comentarlo para que no falle
 #include "y.tab.h"
 
 
 int yylval;
 char *yyltext;
-
-
-int informarError(char* lexema);
-void informarMatch(char* lexema, char* nombreDelToken);
 
 %}
 
@@ -168,7 +168,7 @@ COM_DOB          "\""
 
 {ID}			{informarMatch(yytext, "ID"); }
 
-{CONST_INT}		{informarMatch(yytext, "CONST_INT"); }
+{CONST_INT}		{informarMatch(yytext, "CONST_INT"); validarRangoInt(yytext);}
 {CONST_FLOAT}	{informarMatch(yytext, "CONST_FLOAT"); }
 {CONST_STR}		{informarMatch(yytext, "CONST_STR"); }
 
@@ -222,7 +222,7 @@ COM_DOB          "\""
 "\r\n"
 
 
-.   { informarError(yytext); } 
+.   { informarErrorNoMatch(yytext); } 
 
 
 %%
@@ -233,16 +233,37 @@ COM_DOB          "\""
 /*                          CODIGO PARA LA EJECUCCION                         */
 /* -------------------------------------------------------------------------- */
 
+/* -------------------------------- INFORMES -------------------------------- */
 void informarMatch(char* lexema, char* nombreDelToken) {
-    printf("LEXEMA: %-20s - TOKEN: %-15s\n", lexema, nombreDelToken);
+    printf("\n\nLEXEMA: %-20s - TOKEN: %-15s", lexema, nombreDelToken);
 }
 
-int informarError( char* lexema)
+void informarErrorNoMatch(char* lexema)
 {
-    printf("ERROR:  %-20s - LINEA: %-10d\n", lexema, yylineno);
+    printf("\n\nLEXEMA: %-20s - LINEA: %-10d - ERROR NO-MATCH", lexema, yylineno);
     exit(1);
 }
 
+void informarErrorValidacion(char* name_token)
+{
+    printf("\nLINEA:  %-20d - ERROR VALIDACION: %-20s", yylineno, name_token);
+}
+
+
+
+/* ------------------------------ VALIDACIONES ------------------------------ */
+int validarRangoInt(char*ptr)
+{
+    int valueCasted = atoi(ptr);
+    if (valueCasted < INT_MIN || valueCasted > INT_MAX) {
+        informarErrorValidacion("CONST_INT");
+        return 1;
+    }
+    return 0;
+}
+
+
+/* ---------------------------------- MAIN ---------------------------------- */
 int main (int argc, char *argv[]){
     if((yyin = fopen(argv[1],"rt"))== NULL){
         return 1;

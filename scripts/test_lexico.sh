@@ -58,15 +58,13 @@ NAME_FILE_OUTPUT="output.txt"
 PATH_OUTPUT="$NAME_FOLDER_OUTPUT/$NAME_FILE_OUTPUT"
 
 # TEMP
-NAME_FOLDER_TEMP="temp"
-
-NAME_FILE_TEMP_LEXICO_COPY="lexico.tmp"
+NAME_FILE_TEMP_LEXICO_COPY="lexico_temp.l"
 NAME_FILE_TEMP_RES_FLEX="lex.yy.c"
 NAME_FILE_TEMP_RES_GCC="analizador_lexico"
 
-PATH_TEMP_LEXICO_COPY="$NAME_FOLDER_TEMP/$NAME_FILE_TEMP_LEXICO_COPY"
-PATH_TEMP_RES_FLEX="$NAME_FOLDER_TEMP/$NAME_FILE_TEMP_RES_FLEX"
-PATH_TEMP_RES_GCC="$NAME_FOLDER_TEMP/$NAME_FILE_TEMP_RES_GCC"
+PATH_TEMP_LEXICO_COPY="$NAME_FILE_TEMP_LEXICO_COPY"
+PATH_TEMP_RES_FLEX="$NAME_FILE_TEMP_RES_FLEX"
+PATH_TEMP_RES_GCC="$NAME_FILE_TEMP_RES_GCC"
 
 
 # Crear directorio de salidas si no existe
@@ -75,12 +73,12 @@ mkdir -p "$NAME_FOLDER_OUTPUT"
 
 # ------------------------------- MODO ELEGIDO ------------------------------- #
 if [ "$INCLUDE_YACC" = true ]; then
-    # Modo sintáctico: mantener y.tab.h incluido, ajustar path de utils.h
-    sed 's|#include "utils/utils.h"|#include "../utils/utils.h"|g' "$PATH_PARAM_FILE_LEXICO" > "$PATH_TEMP_LEXICO_COPY"
+    # Modo sintáctico: mantener y.tab.h incluido
+    cp "$PATH_PARAM_FILE_LEXICO" "$PATH_TEMP_LEXICO_COPY"
     printf "%-40s %s\n" "ANALISIS LEXICO Y SINTACTICO:" "manteniendo y.tab.h incluido"
 else
-    # Modo léxico únicamente: comentar y.tab.h y ajustar path de utils.h
-    sed -e 's|#include "y.tab.h"|// #include "y.tab.h"|g' -e 's|#include "utils/utils.h"|#include "../utils/utils.h"|g' "$PATH_PARAM_FILE_LEXICO" > "$PATH_TEMP_LEXICO_COPY"
+    # Modo léxico únicamente: comentar y.tab.h
+    sed 's|#include "y.tab.h"|// #include "y.tab.h"|g' "$PATH_PARAM_FILE_LEXICO" > "$PATH_TEMP_LEXICO_COPY"
     printf "%-40s %s\n" "SOLO ANALISIS LEXICO:" "comentando y.tab.h"
 fi
 
@@ -104,10 +102,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Mover el archivo generado por flex al directorio temp
-if [ -f "$NAME_FILE_TEMP_RES_FLEX" ]; then
-    mv "$NAME_FILE_TEMP_RES_FLEX" "$PATH_TEMP_RES_FLEX"
-else
+# Mover el archivo generado por flex al directorio actual (ya está aquí)
+if [ ! -f "$NAME_FILE_TEMP_RES_FLEX" ]; then
     echo "❌ Error: flex no generó el archivo $NAME_FILE_TEMP_RES_FLEX"
     exit 1
 fi
