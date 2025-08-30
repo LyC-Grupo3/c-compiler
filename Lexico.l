@@ -1,5 +1,5 @@
 %{
-#include "c-compiler\utils\utils.h"
+#include "utils/utils.h"
 #include "y.tab.h"
 
 FILE  *yyin;
@@ -8,7 +8,7 @@ int yylval;
 char *yyltext;
 
 
-int yyerror(void);
+int informarError(char* descripcion, char* lexema);
 
 %}
 
@@ -30,9 +30,13 @@ STRING            "string"
 
 /* -- OPERADORES LOGICOS -- */
 
+AND                "&&"
+OR                 "||"
+NOT                "!"
+
 /* -- OPERADORES ARITMETICOS -- */
 OP_MOD          "%"
-OP_AS   		":""="
+OP_ASIG   		":="
 OP_SUM		     "+"
 OP_MUL           "*"
 OP_RES		     "-"
@@ -89,7 +93,7 @@ COM_DOB          "\""
 
 
 {OP_SUM}		{printf("\nSuma: %s\n", yytext);return OP_SUM;}
-{OP_AS}			{printf("\nAsignacion: %s\n", yytext);return OP_AS;}
+{OP_ASIG}		{printf("\nAsignacion: %s\n", yytext);return OP_ASIG;}
 {OP_MUL}		{printf("\nMultiplicacion: %s\n", yytext);return OP_MUL;}
 {OP_RES}		{printf("\nResta: %s\n", yytext);return OP_RES;}
 {OP_DIV}		{printf("\nDivision: %s\n", yytext);return OP_DIV;}
@@ -116,6 +120,6 @@ COM_DOB          "\""
 "\n\t"
 " "             		
 "\r\n"
-.			 { printf( "ERROR LEXICO : Caracter no reconocido: %s\n", yytext ); exit (0);}
+.			 {informarError("Caracter no reconocido", yytext);}
 
 %%
