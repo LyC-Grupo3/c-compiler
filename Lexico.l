@@ -2,7 +2,6 @@
 #include "utils/utils.h"
 #include "y.tab.h"
 
-FILE  *yyin;
 
 int yylval;
 char *yyltext;
@@ -18,64 +17,97 @@ int informarError(char* descripcion, char* lexema);
 
 
 /* DEFINICION PARA TOKENS */
+/* -- BASICOS -- */
+ID			    {LETRA}({LETRA}|{DIGITO})*
+CONST_INT       -?{DIGITO}+
+CONST_FLOAT     -?{DIGITO}*"."{DIGITO}+
+CONST_STR       \"[^\n"]*\"
+CONST_BOOL      "true"|"false"
+OP_ASIG_VALOR   ":="
+OP_ASIG_TIPO    ":"
+
+
+/* -- COMENTARIOS -- */
+COMENTARIO      "#+"([^\n]|\n)*"+#"
+
 
 /* -- CONJUNTOS -- */
 DIGITO			[0-9]
 LETRA			[a-zA-Z]
 
+
 /* -- TIPOS DE DATOS -- */
 INT               "int"
 FLOAT             "float"
 STRING            "string"
+BOOL              "bool"
 
-/* -- OPERADORES LOGICOS -- */
 
+/* -- CONECTORES LOGICOS -- */
 AND                "&&"
 OR                 "||"
 NOT                "!"
 
+
 /* -- OPERADORES ARITMETICOS -- */
-OP_MOD          "%"
-OP_ASIG   		":="
 OP_SUM		     "+"
 OP_MUL           "*"
 OP_RES		     "-"
 OP_DIV           "/"
+
+
+/* -- OPERADORES LOGICOS -- */
 OP_MAYOR         ">"
+OP_MAYOR_IGUAL   ">="
+
 OP_MENOR         "<"
-SUMA_UNO         "++"
-RESTA_UNO        "--"
+OP_MENOR_IGUAL   "<="
+
+OP_IGUAL         "=="
+OP_DISTINTO      "!="
+
 
 /* -- PALABRAS RESERVADAS -- */
 WHILE           "while"
+
 IF              "if"
 ELSE            "else"
+
 INIT            "init"
+
 WRITE           "write"
+READ            "read"
 
-/* -- BASICOS -- */
-CTE		        {DIGITO}+
-CONST_INT       -?(DIGITO)+
-CONST_FLOAT     -?(DIGITO)+"."(DIGITO)+
-CONST_STR       {COM_DOB}.[^”]+.{COM_DOB}
-
-ID			    {LETRA}({LETRA}|{DIGITO})*
 
 /* -- BLOQUES -- */
-PA			     "("
-PC			     ")"
-LA               "{"
-LC               "}"
-CA               "["
-CC               "]"
+PAR_A			 "("
+PAR_C			 ")"
+LLA_A            "{"
+LLA_C            "}"
+COR_A            "["
+COR_C            "]"
+
 
 /* -- PUNTUACION -- */
-PyC              ";"
+PUNTO_C          ";"
 COMA             ","
+
+
+/* -- OTROS A REVISAR -- */
+SUMA_UNO         "++"
+RESTA_UNO        "--"
+
+OP_MOD          "%"
+
 COM_SIM          "'"
 COM_DOB          "\""
 
+
+/* -- NOMBRES FUNCIONES -- */
+EQUAL_EXP       "equalExpressions"
+
 %%
+
 
 {CTE}			{printf("\nConstante: %s\n", yytext);return CTE;}
 {CONST_INT}		{printf("\nConstante Entera: %s\n", yytext);return CONST_INT;}
