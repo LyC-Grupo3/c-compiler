@@ -1,9 +1,12 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <conio.h>
+#include <string.h>
 #include "y.tab.h"
+
 FILE  *yyin;
+
 int yylval;
 char *yyltext;
 
@@ -12,24 +15,25 @@ int yyerror(void);
 
 %}
 
+
 %option noyywrap  
 %option yylineno 
 
+
+/* DEFINICION PARA TOKENS */
+
+/* -- CONJUNTOS -- */
 DIGITO			[0-9]
 LETRA			[a-zA-Z]
 
-CTE		        {DIGITO}+
-CONST_INT       -?(DIGITO)+
-CONST_FLOAT     -?(DIGITO)+"."(DIGITO)+
-CONST_STR       {COM_DOB}.[^”]+.{COM_DOB}
-WHILE           "while"
-IF              "if"
-ELSE            "else"
-INIT            "init"
-WRITE           "write"
+/* -- TIPOS DE DATOS -- */
+INT               "int"
+FLOAT             "float"
+STRING            "string"
 
+/* -- OPERADORES LOGICOS -- */
 
-ID			    {LETRA}({LETRA}|{DIGITO})*
+/* -- OPERADORES ARITMETICOS -- */
 OP_MOD          "%"
 OP_AS   		":""="
 OP_SUM		     "+"
@@ -41,16 +45,31 @@ OP_MENOR         "<"
 SUMA_UNO         "++"
 RESTA_UNO        "--"
 
+/* -- PALABRAS RESERVADAS -- */
+WHILE           "while"
+IF              "if"
+ELSE            "else"
+INIT            "init"
+WRITE           "write"
+
+/* -- BASICOS -- */
+CTE		        {DIGITO}+
+CONST_INT       -?(DIGITO)+
+CONST_FLOAT     -?(DIGITO)+"."(DIGITO)+
+CONST_STR       {COM_DOB}.[^”]+.{COM_DOB}
+
+ID			    {LETRA}({LETRA}|{DIGITO})*
+
+/* -- BLOQUES -- */
 PA			     "("
 PC			     ")"
 LA               "{"
 LC               "}"
 CA               "["
 CC               "]"
+
+/* -- PUNTUACION -- */
 PyC              ";"
-
-
-
 COMA             ","
 COM_SIM          "'"
 COM_DOB          "\""
@@ -72,7 +91,6 @@ COM_DOB          "\""
 {ID}			{printf("\nIdentificador: %s\n", yytext);return ID;}
 
 
-
 {OP_SUM}		{printf("\nSuma: %s\n", yytext);return OP_SUM;}
 {OP_AS}			{printf("\nAsignacion: %s\n", yytext);return OP_AS;}
 {OP_MUL}		{printf("\nMultiplicacion: %s\n", yytext);return OP_MUL;}
@@ -81,7 +99,6 @@ COM_DOB          "\""
 {OP_MOD}		{printf("\nModulo: %s\n", yytext);return OP_MOD;}
 {OP_MAYOR}		{printf("\nMayor: %s\n", yytext);return OP_MAYOR;}
 {OP_MENOR}		{printf("\nMenor: %s\n", yytext);return OP_MENOR;}
-
 
 
 {SUMA_UNO}		{printf("\nIncremento: %s\n", yytext);return SUMA_UNO;}
