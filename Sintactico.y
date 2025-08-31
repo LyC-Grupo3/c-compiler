@@ -1,5 +1,7 @@
-// Usa Lexico_ClasePractica
-//Solo expresiones sin ()
+/* -------------------------------------------------------------------------- */
+/*                           SECCION DE DEFINICIONES                          */
+/* -------------------------------------------------------------------------- */
+
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,21 +13,63 @@ FILE  *yyin;
   int yyerror(const char *s);
   int yylex();
 
-
 %}
 
-%token CTE
-%token CONST_INT CONST_FLOAT CONST_STR
-%token WHILE IF ELSE INIT WRITE
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                              SECCION DE TOKENS                             */
+/* -------------------------------------------------------------------------- */
+
+/* ---------------------------- TIPOS DE DATOS ----------------------------- */
+%token INT FLOAT STRING BOOL
+
+/* --------------------------- CONECTORES LOGICOS --------------------------- */
+%token AND OR NOT
+
+/* --------------------------- PALABRAS RESERVADAS -------------------------- */
+%token WHILE IF ELSE INIT WRITE READ
+
+/* ---------------------------- CONSTANTES BOOLEANAS ------------------------ */
+%token CONST_BOOL_T CONST_BOOL_F
+
+/* ---------------------------- NOMBRES FUNCIONES --------------------------- */
+%token EQUAL_EXP TRIAN_MAX
+
+/* --------------------------------- BASICOS -------------------------------- */
 %token ID
-%token OP_SUM OP_RES OP_MUL OP_DIV OP_MOD
-%token OP_AS
-%token OP_MAYOR OP_MENOR OP_MAYOR_IGUAL OP_MENOR_IGUAL OP_COMPARACION
-%token SUMA_UNO RESTA_UNO
-%token PA PC LA LC CA CC
-%token PyC COMA COM_SIM COM_DOB
+
+/* -------------------------------- CONSTANTES ------------------------------- */
+%token CONST_INT CONST_FLOAT CONST_STR
+
+/* ---------------------------- OPERADORES ASIGNACION ----------------------- */
+%token OP_ASIG_VALOR OP_ASIG_TIPO
+
+/* --------------------------- COMENTARIOS ---------------------------------- */
+%token COMENTARIO
+
+/* ------------------------- OPERADORES ARITMETICOS ------------------------- */
+%token OP_SUM OP_MUL OP_RES OP_DIV
+
+/* --------------------------- OPERADORES LOGICOS --------------------------- */
+%token OP_MAYOR OP_MAYOR_IGUAL OP_MENOR OP_MENOR_IGUAL OP_IGUAL OP_DISTINTO
+
+/* --------------------------------- BLOQUES -------------------------------- */
+%token PAR_A PAR_C LLA_A LLA_C COR_A COR_C
+
+/* ------------------------------- PUNTUACION ------------------------------- */
+%token PUNTO_C COMA
+
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                              SECCION DE REGLAS                             */
+/* -------------------------------------------------------------------------- */
 
 %%
+
 sentencia:  	   
 	asignacion {printf(" FIN\n");} ;
 
@@ -50,8 +94,15 @@ factor:
       | CTE {printf("    CTE es Factor\n");}
 	| PA expresion PC {printf("    Expresion entre parentesis es Factor\n");}
      	;
+
 %%
 
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                          CODIGO PARA LA EJECUCCION                         */
+/* -------------------------------------------------------------------------- */
 
 int main(int argc, char *argv[])
 {
