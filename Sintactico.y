@@ -70,31 +70,6 @@ FILE  *yyin;
 
 %%
 
-sentencia:  	   
-	asignacion {printf(" FIN\n");} ;
-
-asignacion: 
-          ID OP_AS expresion {printf("    ID = Expresion es ASIGNACION\n");}
-	  ;
-
-expresion:
-         termino {printf("    Termino es Expresion\n");}
-	 |expresion OP_SUM termino {printf("    Expresion+Termino es Expresion\n");}
-	 |expresion OP_RES termino {printf("    Expresion-Termino es Expresion\n");}
-	 ;
-
-termino: 
-       factor {printf("    Factor es Termino\n");}
-       |termino OP_MUL factor {printf("     Termino*Factor es Termino\n");}
-       |termino OP_DIV factor {printf("     Termino/Factor es Termino\n");}
-       ;
-
-factor: 
-      ID {printf("    ID es Factor \n");}
-      | CTE {printf("    CTE es Factor\n");}
-	| PA expresion PC {printf("    Expresion entre parentesis es Factor\n");}
-     	;
-
 %%
 
 
