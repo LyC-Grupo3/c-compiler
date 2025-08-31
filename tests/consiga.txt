@@ -58,7 +58,7 @@ a := 1
 b := 1
 c := 2
 
-if (NOT a > b)
+if (!a > b)
 {
     write("a no es mas gr&&e que b")
 }
