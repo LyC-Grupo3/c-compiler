@@ -1,0 +1,5 @@
+init {
+    a1, b1, , a1, w : float
+    var1, var2, x, y, z, a, b, c : int
+    p1, p2, p3 : string
+}
