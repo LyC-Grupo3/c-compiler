@@ -12,7 +12,6 @@
 #include "y.tab.h"
 
 
-int yylval;
 char *yyltext;
 
 %}
@@ -81,7 +80,7 @@ CONST_STR       \"[^\n"]*\"
 OP_ASIG_VALOR   ":="
 OP_ASIG_TIPO    ":"
 
-COMENTARIO      "#+"([^\n]|\n)*"+#"
+COMENTARIO      "#+"([^+]|(\n|\+[^#]))*"+#"
 
 
 /* ------------------------- OPERADORES ARITMETICOS ------------------------- */
@@ -241,7 +240,6 @@ void informarMatch(char* lexema, char* nombreDelToken) {
 void informarErrorNoMatch(char* lexema)
 {
     printf("\n\nLEXEMA: %-20s - LINEA: %-10d - ERROR NO-MATCH", lexema, yylineno);
-    exit(1);
 }
 
 void informarErrorValidacion(char* name_token)
