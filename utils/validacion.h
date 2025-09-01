@@ -1,3 +1,12 @@
+#ifndef VALIDACION_H
+#define VALIDACION_H
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                                   DEFINES                                  */
+/* -------------------------------------------------------------------------- */
+
 #define INT_MIN -32768
 #define INT_MAX 32767
 
@@ -6,6 +15,14 @@
 
 #define STRING_MAX_LENGTH 50
 
+/* -------------------------------------------------------------------------- */
+/*                                  FUNCIONES                                 */
+/* -------------------------------------------------------------------------- */
+
 int validarRangoInt(char*ptr);
 int validarRangoFloat(char*ptr);
 int validarLongitudString(char*ptr);
+
+
+
+#endif // VALIDACION_H

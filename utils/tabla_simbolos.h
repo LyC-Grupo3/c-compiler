@@ -26,7 +26,6 @@ typedef struct {
 /*                                  FUNCIONES                                 */
 /* -------------------------------------------------------------------------- */
 
-
 // MANEJO DE TABLA
 void inicializarTablaSimbolos(t_tabla_simbolos* tabla);
 
@@ -40,6 +39,7 @@ int procesarLexemaTablaID(t_tabla_simbolos* tabla, const char* lexema);
 int procesarLexemaTablaConstanteInt(t_tabla_simbolos* tabla, const char* lexema);
 int procesarLexemaTablaConstanteFloat(t_tabla_simbolos* tabla, const char* lexema);
 int procesarLexemaTablaConstanteString(t_tabla_simbolos* tabla, const char* lexema);
+
 
 
 #endif // LISTA_H

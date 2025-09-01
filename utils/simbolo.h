@@ -32,8 +32,9 @@ typedef struct {
 /*                                  FUNCIONES                                 */
 /* -------------------------------------------------------------------------- */
 
-
 t_simbolo crearSimbolo(const char* nombre, const char* tipoDato, const char* valor, int longitud);
+
+
 
 
 #endif // SIMBOLO_H
