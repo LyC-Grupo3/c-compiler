@@ -156,9 +156,33 @@ COMA             ","
 
 {ID}			{informarMatchLexico(yytext, "ID"); procesarMatchID(yytext); return ID;}
 
-{CONST_INT}		{informarMatchLexico(yytext, "CONST_INT"); validarRangoInt(yytext); procesarMatchConstante(yytext, "CONST_INT"); return CONST_INT;}
-{CONST_FLOAT}	{informarMatchLexico(yytext, "CONST_FLOAT"); validarRangoFloat(yytext); procesarMatchConstante(yytext, "CONST_FLOAT"); return CONST_FLOAT;}
-{CONST_STR}		{informarMatchLexico(yytext, "CONST_STR"); validarLongitudString(yytext); procesarMatchConstante(yytext, "CONST_STR"); return CONST_STR;}
+{CONST_INT}		{
+    informarMatchLexico(yytext, "CONST_INT"); 
+    if (validarRangoInt(yytext) == 0) {
+        procesarMatchConstante(yytext, "CONST_INT");
+    } else {
+        informarErrorValidacion("CONST_INT fuera de rango");
+    }
+    return CONST_INT;
+}
+{CONST_FLOAT}	{
+    informarMatchLexico(yytext, "CONST_FLOAT"); 
+    if (validarRangoFloat(yytext) == 0) {
+        procesarMatchConstante(yytext, "CONST_FLOAT");
+    } else {
+        informarErrorValidacion("CONST_FLOAT fuera de rango");
+    }
+    return CONST_FLOAT;
+}
+{CONST_STR}		{
+    informarMatchLexico(yytext, "CONST_STR"); 
+    if (validarLongitudString(yytext) == 0) {
+        procesarMatchConstante(yytext, "CONST_STR");
+    } else {
+        informarErrorValidacion("CONST_STR longitud excedida");
+    }
+    return CONST_STR;
+}
 
 {OP_ASIG_VALOR}	{informarMatchLexico(yytext, "OP_ASIG_VALOR"); return OP_ASIG_VALOR;}
 {OP_ASIG_TIPO}	{informarMatchLexico(yytext, "OP_ASIG_TIPO"); return OP_ASIG_TIPO;}
