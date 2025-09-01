@@ -32,7 +32,7 @@ int yyerror(const char *s);
 void abrirArchivoSalidaLexico(const char* nombre_archivo);
 void cerrarArchivoSalidaLexico(void);
 
-void informarMatchSintactico(const char* mensaje);
+void informarMatchLexicoSintactico(const char* mensaje);
 
 void abrirArchivoSalidaSintactico(const char* nombre_archivo);
 void cerrarArchivoSalidaLexicoSintactico(void);
@@ -95,31 +95,31 @@ void cerrarArchivoSalidaLexicoSintactico(void);
 %%
 
 programa: conjunto_sentencias { 
-    informarMatchSintactico("SINTAXIS OK");
+    informarMatchLexicoSintactico("SINTAXIS OK");
 }
         ;
 
 conjunto_sentencias: sentencia {
-    informarMatchSintactico("\"sentencia\" -> \"conjunto_sentencias\"");
+    informarMatchLexicoSintactico("\"sentencia\" -> \"conjunto_sentencias\"");
 }
           | conjunto_sentencias sentencia {
-    informarMatchSintactico("\"conjunto_sentencias sentencia\" -> \"conjunto_sentencias\"");
+    informarMatchLexicoSintactico("\"conjunto_sentencias sentencia\" -> \"conjunto_sentencias\"");
 }
           ;
 
 sentencia: asignacion {
-    informarMatchSintactico("\"asignacion\" -> \"sentencia\"");
+    informarMatchLexicoSintactico("\"asignacion\" -> \"sentencia\"");
 }
          ;
 
 asignacion: ID OP_ASIG_VALOR expresion { 
-    informarMatchSintactico("\"ID OP_ASIG_VALOR expresion\" -> \"asignacion\"");
+    informarMatchLexicoSintactico("\"ID OP_ASIG_VALOR expresion\" -> \"asignacion\"");
 }
           ;
 
-expresion: CONST_INT { informarMatchSintactico("\"CONST_INT\" -> \"expresion\""); }
-         | CONST_FLOAT { informarMatchSintactico("\"CONST_FLOAT\" -> \"expresion\""); }
-         | CONST_STR { informarMatchSintactico("\"CONST_STR\" -> \"expresion\""); }
+expresion: CONST_INT { informarMatchLexicoSintactico("\"CONST_INT\" -> \"expresion\""); }
+         | CONST_FLOAT { informarMatchLexicoSintactico("\"CONST_FLOAT\" -> \"expresion\""); }
+         | CONST_STR { informarMatchLexicoSintactico("\"CONST_STR\" -> \"expresion\""); }
          ;
 
 
@@ -131,10 +131,11 @@ expresion: CONST_INT { informarMatchSintactico("\"CONST_INT\" -> \"expresion\"")
 /*                          FUNCIONES PARA EL SINTACTICO                      */
 /* -------------------------------------------------------------------------- */
 
-void informarMatchSintactico(const char* mensaje) {
+void informarMatchLexicoSintactico(const char* mensaje) {
     char mensaje_formateado[500];
     sprintf(mensaje_formateado, "[SINTACTICO]   %s\n", mensaje);
-    
+
+    printf("%s", mensaje_formateado);
     if (archivo_salida_sintactico != NULL) {
         fprintf(archivo_salida_sintactico, "%s", mensaje_formateado);
         fflush(archivo_salida_sintactico);
