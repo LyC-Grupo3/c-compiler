@@ -14,9 +14,7 @@ extern t_tabla_simbolos tabla_simbolos;
 void crearTablaSimbolos(void);
 int exportarTablaSimbolos(const char* nombre_archivo);
 
-void procesarMatchID(const char* lexema);
-void procesarMatchConstante(const char* lexema, const char* tipo_token);
+void procesarSimbolo(const char* lexema, const char* tipo_token);
 
 
-
-#endif // UTILS_H
+#endif // UTILS_Hs

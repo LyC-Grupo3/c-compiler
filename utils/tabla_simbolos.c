@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "./tabla_simbolos.h"
-#include "./informes.h"
 
 
 void inicializarTablaSimbolos(t_tabla_simbolos* tabla) {
@@ -24,13 +23,7 @@ int insertarSimbolo(t_tabla_simbolos* tabla, const t_simbolo* simbolo) {
         return 0;
     }
     
-    if (existeSimbolo(tabla, simbolo->nombre)) {
-        informarDuplicadoSimbolo(simbolo->nombre);
-        return 0;
-    }
-    
     tabla->elementos[tabla->cantidad] = *simbolo;
-
     tabla->cantidad++;
     
     return 1;
@@ -84,9 +77,6 @@ int procesarLexemaTablaID(t_tabla_simbolos* tabla, const char* lexema) {
 
     // 4. Insertar Simbolo
     int resultado = insertarSimbolo(tabla, &simbolo);
-    if (resultado) {
-        informarExitoInsertarSimbolo(nombre_simbolo, lexema, "ID");
-    }
     
     return resultado;
 }
@@ -114,9 +104,6 @@ int procesarLexemaTablaConstanteInt(t_tabla_simbolos* tabla, const char* lexema)
     
     // 4. Insertar Simbolo
     int resultado = insertarSimbolo(tabla, &simbolo);
-    if (resultado) {
-        informarExitoInsertarSimbolo(nombre_simbolo, lexema, TIPO_INT);
-    }
     
     return resultado;
 }
@@ -159,9 +146,6 @@ int procesarLexemaTablaConstanteFloat(t_tabla_simbolos* tabla, const char* lexem
     
     // 4. Insertar Simbolo
     int resultado = insertarSimbolo(tabla, &simbolo);
-    if (resultado) {
-        informarExitoInsertarSimbolo(nombre_simbolo, lexema, TIPO_FLOAT);
-    }
     
     return resultado;
 }
@@ -205,9 +189,6 @@ int procesarLexemaTablaConstanteString(t_tabla_simbolos* tabla, const char* lexe
 
     // 4. Insertar Simbolo
     int resultado = insertarSimbolo(tabla, &simbolo);
-    if (resultado) {
-        informarExitoInsertarSimbolo(nombre_simbolo, lexema, TIPO_STRING);
-    }
     
     return resultado;
 }
