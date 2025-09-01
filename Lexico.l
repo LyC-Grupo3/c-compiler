@@ -15,6 +15,8 @@
 
 char *yyltext;
 
+FILE *archivo_salida_lexico;
+
 %}
 
 
@@ -125,74 +127,74 @@ COMA             ","
 %%
 
 
-{INT}			{informarMatch(yytext, "INT"); }
-{FLOAT}			{informarMatch(yytext, "FLOAT"); }
-{STRING}		{informarMatch(yytext, "STRING"); }
-{BOOL}			{informarMatch(yytext, "BOOL"); }
+{INT}			{informarMatch(yytext, "INT"); return INT;}
+{FLOAT}			{informarMatch(yytext, "FLOAT"); return FLOAT;}
+{STRING}		{informarMatch(yytext, "STRING"); return STRING;}
+{BOOL}			{informarMatch(yytext, "BOOL"); return BOOL;}
 
 
-{AND}			{informarMatch(yytext, "AND"); }
-{OR}			{informarMatch(yytext, "OR"); }
-{NOT}			{informarMatch(yytext, "NOT"); }
+{AND}			{informarMatch(yytext, "AND"); return AND;}
+{OR}			{informarMatch(yytext, "OR"); return OR;}
+{NOT}			{informarMatch(yytext, "NOT"); return NOT;}
 
 
-{WHILE}			{informarMatch(yytext, "WHILE"); }
+{WHILE}			{informarMatch(yytext, "WHILE"); return WHILE;}
 
-{IF}			{informarMatch(yytext, "IF"); }
-{ELSE}			{informarMatch(yytext, "ELSE"); }
+{IF}			{informarMatch(yytext, "IF"); return IF;}
+{ELSE}			{informarMatch(yytext, "ELSE"); return ELSE;}
 
-{INIT}			{informarMatch(yytext, "INIT"); }
+{INIT}			{informarMatch(yytext, "INIT"); return INIT;}
 
-{WRITE}			{informarMatch(yytext, "WRITE"); }
-{READ}			{informarMatch(yytext, "READ"); }
-
-
-{CONST_BOOL_T}	{informarMatch(yytext, "CONST_BOOL_T"); }
-{CONST_BOOL_F}	{informarMatch(yytext, "CONST_BOOL_F"); }
+{WRITE}			{informarMatch(yytext, "WRITE"); return WRITE;}
+{READ}			{informarMatch(yytext, "READ"); return READ;}
 
 
-{EQUAL_EXP}		{informarMatch(yytext, "EQUAL_EXP"); }
-{TRIAN_MAX}		{informarMatch(yytext, "TRIAN_MAX"); }
+{CONST_BOOL_T}	{informarMatch(yytext, "CONST_BOOL_T"); return CONST_BOOL_T;}
+{CONST_BOOL_F}	{informarMatch(yytext, "CONST_BOOL_F"); return CONST_BOOL_F;}
 
 
-{ID}			{informarMatch(yytext, "ID"); procesarMatchID(yytext); }
-
-{CONST_INT}		{informarMatch(yytext, "CONST_INT"); validarRangoInt(yytext); procesarMatchConstante(yytext, "CONST_INT");}
-{CONST_FLOAT}	{informarMatch(yytext, "CONST_FLOAT"); validarRangoFloat(yytext); procesarMatchConstante(yytext, "CONST_FLOAT");}
-{CONST_STR}		{informarMatch(yytext, "CONST_STR"); validarLongitudString(yytext); procesarMatchConstante(yytext, "CONST_STR");}
-
-{OP_ASIG_VALOR}	{informarMatch(yytext, "OP_ASIG_VALOR"); }
-{OP_ASIG_TIPO}	{informarMatch(yytext, "OP_ASIG_TIPO"); }
-
-{COMENTARIO}	{informarMatch(yytext, "COMENTARIO"); }
+{EQUAL_EXP}		{informarMatch(yytext, "EQUAL_EXP"); return EQUAL_EXP;}
+{TRIAN_MAX}		{informarMatch(yytext, "TRIAN_MAX"); return TRIAN_MAX;}
 
 
-{OP_SUM}		{informarMatch(yytext, "OP_SUM"); }
-{OP_MUL}		{informarMatch(yytext, "OP_MUL"); }
-{OP_RES}		{informarMatch(yytext, "OP_RES"); }
-{OP_DIV}		{informarMatch(yytext, "OP_DIV"); }
+{ID}			{informarMatch(yytext, "ID"); procesarMatchID(yytext); return ID;}
+
+{CONST_INT}		{informarMatch(yytext, "CONST_INT"); validarRangoInt(yytext); procesarMatchConstante(yytext, "CONST_INT"); return CONST_INT;}
+{CONST_FLOAT}	{informarMatch(yytext, "CONST_FLOAT"); validarRangoFloat(yytext); procesarMatchConstante(yytext, "CONST_FLOAT"); return CONST_FLOAT;}
+{CONST_STR}		{informarMatch(yytext, "CONST_STR"); validarLongitudString(yytext); procesarMatchConstante(yytext, "CONST_STR"); return CONST_STR;}
+
+{OP_ASIG_VALOR}	{informarMatch(yytext, "OP_ASIG_VALOR"); return OP_ASIG_VALOR;}
+{OP_ASIG_TIPO}	{informarMatch(yytext, "OP_ASIG_TIPO"); return OP_ASIG_TIPO;}
+
+{COMENTARIO}	{informarMatch(yytext, "COMENTARIO"); return COMENTARIO;}
 
 
-{OP_MAYOR}		{informarMatch(yytext, "OP_MAYOR"); }
-{OP_MAYOR_IGUAL} {informarMatch(yytext, "OP_MAYOR_IGUAL"); }
-
-{OP_MENOR}		{informarMatch(yytext, "OP_MENOR"); }
-{OP_MENOR_IGUAL} {informarMatch(yytext, "OP_MENOR_IGUAL"); }
-
-{OP_IGUAL}		{informarMatch(yytext, "OP_IGUAL"); }
-{OP_DISTINTO}	{informarMatch(yytext, "OP_DISTINTO"); }
+{OP_SUM}		{informarMatch(yytext, "OP_SUM"); return OP_SUM;}
+{OP_MUL}		{informarMatch(yytext, "OP_MUL"); return OP_MUL;}
+{OP_RES}		{informarMatch(yytext, "OP_RES"); return OP_RES;}
+{OP_DIV}		{informarMatch(yytext, "OP_DIV"); return OP_DIV;}
 
 
-{PAR_A}			{informarMatch(yytext, "PAR_A"); }
-{PAR_C}			{informarMatch(yytext, "PAR_C"); }
-{LLA_A}			{informarMatch(yytext, "LLA_A"); }
-{LLA_C}			{informarMatch(yytext, "LLA_C"); }
-{COR_A}			{informarMatch(yytext, "COR_A"); }
-{COR_C}			{informarMatch(yytext, "COR_C"); }
+{OP_MAYOR}		{informarMatch(yytext, "OP_MAYOR"); return OP_MAYOR;}
+{OP_MAYOR_IGUAL} {informarMatch(yytext, "OP_MAYOR_IGUAL"); return OP_MAYOR_IGUAL;}
+
+{OP_MENOR}		{informarMatch(yytext, "OP_MENOR"); return OP_MENOR;}
+{OP_MENOR_IGUAL} {informarMatch(yytext, "OP_MENOR_IGUAL"); return OP_MENOR_IGUAL;}
+
+{OP_IGUAL}		{informarMatch(yytext, "OP_IGUAL"); return OP_IGUAL;}
+{OP_DISTINTO}	{informarMatch(yytext, "OP_DISTINTO"); return OP_DISTINTO;}
 
 
-{PUNTO_C}		{informarMatch(yytext, "PUNTO_C"); }
-{COMA}			{informarMatch(yytext, "COMA"); }
+{PAR_A}			{informarMatch(yytext, "PAR_A"); return PAR_A;}
+{PAR_C}			{informarMatch(yytext, "PAR_C"); return PAR_C;}
+{LLA_A}			{informarMatch(yytext, "LLA_A"); return LLA_A;}
+{LLA_C}			{informarMatch(yytext, "LLA_C"); return LLA_C;}
+{COR_A}			{informarMatch(yytext, "COR_A"); return COR_A;}
+{COR_C}			{informarMatch(yytext, "COR_C"); return COR_C;}
+
+
+{PUNTO_C}		{informarMatch(yytext, "PUNTO_C"); return PUNTO_C;}
+{COMA}			{informarMatch(yytext, "COMA"); return COMA;}
 
 
 
@@ -203,7 +205,7 @@ COMA             ","
 "\r\n"
 
 
-.   { informarErrorNoMatch(yytext); } 
+.   { informarErrorNoMatch(yytext); exit(1);} 
 
 
 %%
@@ -216,17 +218,36 @@ COMA             ","
 
 /* ------------------------------- INFORMES.C ------------------------------- */
 void informarMatch(char* lexema, char* nombreDelToken) {
-    printf("\n\nLEXEMA: %-20s - TOKEN: %-15s", lexema, nombreDelToken);
+    char mensaje[500];
+    sprintf(mensaje, "[LEXICO]       LEXEMA: %-20s - TOKEN: %-15s\n", lexema, nombreDelToken);
+    printf("%s", mensaje);
+    if (archivo_salida_lexico != NULL) {
+        fprintf(archivo_salida_lexico, "%s", mensaje);
+        fflush(archivo_salida_lexico);
+    }
 }
 
 void informarErrorNoMatch(char* lexema)
 {
-    printf("\n\nLEXEMA: %-20s - LINEA: %-10d - ERROR NO-MATCH", lexema, yylineno);
+    char mensaje[500];
+    sprintf(mensaje, "[LEXICO]       LEXEMA: %-20s - LINEA: %-10d - ERROR NO-MATCH\n", lexema, yylineno);
+    printf("%s", mensaje);
+    if (archivo_salida_lexico != NULL) {
+        fprintf(archivo_salida_lexico, "%s", mensaje);
+        fflush(archivo_salida_lexico);
+    }
 }
 
 void informarErrorValidacion(char* name_token)
 {
-    printf("\nLINEA:  %-20d - ERROR VALIDACION: %-20s", yylineno, name_token);
+    char mensaje[500];
+    sprintf(mensaje, "[LEXICO]       LINEA:  %-20d - ERROR VALIDACION: %-20s\n", yylineno, name_token);
+    printf("%s", mensaje);
+
+    if (archivo_salida_lexico != NULL) {
+        fprintf(archivo_salida_lexico, "%s", mensaje);
+        fflush(archivo_salida_lexico);
+    }
 }
 
 
@@ -285,6 +306,10 @@ int insertarSimbolo(t_tabla_simbolos* tabla, const t_simbolo* simbolo) {
     
     if (existeSimbolo(tabla, simbolo->nombre)) {
         printf("Warning: El símbolo '%s' ya existe en la tabla de simbolos\n", simbolo->nombre);
+        if (archivo_salida_lexico != NULL) {
+            fprintf(archivo_salida_lexico, "Warning: El símbolo '%s' ya existe en la tabla de simbolos\n", simbolo->nombre);
+            fflush(archivo_salida_lexico);
+        }
         return 0;
     }
     
@@ -344,7 +369,11 @@ int procesarLexemaTablaID(t_tabla_simbolos* tabla, const char* lexema) {
     // 4. Insertar Simbolo
     int resultado = insertarSimbolo(tabla, &simbolo);
     if (resultado) {
-        printf(" [ID agregado a tabla simbolos: (simbolo) %s = (lexema procesado) %s]", nombre_simbolo, lexema);
+        printf("ID agregado a tabla simbolos: (simbolo) %s = (lexema procesado) %s", nombre_simbolo, lexema);
+        if (archivo_salida_lexico != NULL) {
+            fprintf(archivo_salida_lexico, "ID agregado a tabla simbolos: (simbolo) %s = (lexema procesado) %s", nombre_simbolo, lexema);
+            fflush(archivo_salida_lexico);
+        }
     }
     
     return resultado;
@@ -374,7 +403,11 @@ int procesarLexemaTablaConstanteInt(t_tabla_simbolos* tabla, const char* lexema)
     // 4. Insertar Simbolo
     int resultado = insertarSimbolo(tabla, &simbolo);
     if (resultado) {
-        printf(" [Constante INT agregada a tabla simbolos: (simbolo) %s = (lexema procesado) %s]", nombre_simbolo, lexema);
+        printf("Constante INT agregada a tabla simbolos: (simbolo) %s = (lexema procesado) %s", nombre_simbolo, lexema);
+        if (archivo_salida_lexico != NULL) {
+            fprintf(archivo_salida_lexico, "Constante INT agregada a tabla simbolos: (simbolo) %s = (lexema procesado) %s", nombre_simbolo, lexema);
+            fflush(archivo_salida_lexico);
+        }
     }
     
     return resultado;
@@ -419,7 +452,11 @@ int procesarLexemaTablaConstanteFloat(t_tabla_simbolos* tabla, const char* lexem
     // 4. Insertar Simbolo
     int resultado = insertarSimbolo(tabla, &simbolo);
     if (resultado) {
-        printf(" [Constante FLOAT agregada a tabla simbolos: (simbolo) %s = (lexema procesado) %s]", nombre_simbolo, lexema);
+        printf("Constante FLOAT agregada a tabla simbolos: (simbolo) %s = (lexema procesado) %s", nombre_simbolo, lexema);
+        if (archivo_salida_lexico != NULL) {
+            fprintf(archivo_salida_lexico, "Constante FLOAT agregada a tabla simbolos: (simbolo) %s = (lexema procesado) %s", nombre_simbolo, lexema);
+            fflush(archivo_salida_lexico);
+        }
     }
     
     return resultado;
@@ -465,7 +502,11 @@ int procesarLexemaTablaConstanteString(t_tabla_simbolos* tabla, const char* lexe
     // 4. Insertar Simbolo
     int resultado = insertarSimbolo(tabla, &simbolo);
     if (resultado) {
-        printf(" [Constante STRING agregada a tabla simbolos: (simbolo) %s = (lexema procesado) %s]", nombre_simbolo, lexema);
+        printf("Constante STRING agregada a tabla simbolos: (simbolo) %s = (lexema procesado) %s", nombre_simbolo, lexema);
+        if (archivo_salida_lexico != NULL) {
+            fprintf(archivo_salida_lexico, "Constante STRING agregada a tabla simbolos: (simbolo) %s = (lexema procesado) %s", nombre_simbolo, lexema);
+            fflush(archivo_salida_lexico);
+        }
     }
     
     return resultado;
@@ -521,6 +562,24 @@ void crearTablaSimbolos(void) {
     inicializarTablaSimbolos(&tabla_simbolos);
 }
 
+void abrirArchivoSalidaLexico(const char* nombre_archivo) {
+    archivo_salida_lexico = fopen(nombre_archivo, "w");
+    if (archivo_salida_lexico == NULL) {
+        printf("Error: No se pudo abrir el archivo %s para escritura\n", nombre_archivo);
+    } else {
+        // Escribir cabecera del archivo
+        fprintf(archivo_salida_lexico, "=== ANÁLISIS LÉXICO ===\n");
+        fflush(archivo_salida_lexico);
+    }
+}
+
+void cerrarArchivoSalidaLexico(void) {
+    if (archivo_salida_lexico != NULL) {
+        fclose(archivo_salida_lexico);
+        archivo_salida_lexico = NULL;
+    }
+}
+
 int exportarTablaSimbolos(const char* nombre_archivo) {
     if (nombre_archivo == NULL) {
         printf("Error: Nombre de archivo NULL\n");
@@ -546,7 +605,7 @@ int exportarTablaSimbolos(const char* nombre_archivo) {
     }
     
     fclose(archivo);
-    printf("\n✓ Tabla de símbolos guardada en: %s\n", nombre_archivo);
+    
     return 1;
 }
 
@@ -555,6 +614,7 @@ int exportarTablaSimbolos(const char* nombre_archivo) {
 /* ---------------------------------- MAIN ---------------------------------- */
 t_tabla_simbolos tabla_simbolos;
 
+/*
 int main (int argc, char *argv[]){
     if((yyin = fopen(argv[1],"rt"))== NULL){
         return 1;
@@ -569,3 +629,4 @@ int main (int argc, char *argv[]){
     fclose(yyin);
     return 0;
 }
+*/
