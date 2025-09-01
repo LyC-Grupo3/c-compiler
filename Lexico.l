@@ -7,15 +7,12 @@
 #include "./utils/utils.h"
 #include "./utils/informes.h"
 #include "./utils/validacion.h"
-#include "./utils/tabla_simbolos.h"
 
-// Solo  se usa cuando se usa el analizador sintactico, el script se encarga de comentarlo para que no falle
 #include "y.tab.h"
 
-
-char *yyltext;
-
 FILE *archivo_salida_lexico;
+
+t_tabla_simbolos tabla_simbolos;
 
 %}
 
@@ -209,24 +206,3 @@ COMA             ","
 
 
 %%
-
-
-/* ---------------------------------- MAIN ---------------------------------- */
-t_tabla_simbolos tabla_simbolos;
-
-/*
-int main (int argc, char *argv[]){
-    if((yyin = fopen(argv[1],"rt"))== NULL){
-        return 1;
-    }
-    else{
-        crearTablaSimbolos();
-        
-        yylex();
-        
-        exportarTablaSimbolos("test_outputs/tabla_simbolos.txt");
-    }
-    fclose(yyin);
-    return 0;
-}
-*/
