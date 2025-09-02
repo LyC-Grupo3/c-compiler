@@ -1,5 +1,8 @@
-#+ asdasddsa +#
+#+ COMENTARIO +#
 
+
+
+#+                                INIT                                  +#
 init {
     a1, b1 : float
     variable1 : int
@@ -7,6 +10,8 @@ init {
 }
 
 
+#+                                ASSIGMENTS                            +#
+#+ SIN EXP ARIMETICA +#
 a1 := 3.14
 b1 := .123
 
@@ -17,3 +22,11 @@ variable1 := 4
 p1 := "hello"
 p2 := "world"
 p3 := "!"
+
+
+#+ CON EXP ARITMETICA +#
+variable1 := 27 - variable1
+variable1 := variable1 + 500
+variable1 := 34 * 3
+variable1 := variable1 / variable1
+variable1 := (2 + 3) * 5 - (8 / 4)
