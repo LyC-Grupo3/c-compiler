@@ -94,34 +94,46 @@ void cerrarArchivoSalidaLexicoSintactico(void);
 
 %%
 
-programa: conjunto_sentencias { 
-    informarMatchLexicoSintactico("SINTAXIS OK");
-}
-        ;
+programa: conjunto_sentencias {informarMatchLexicoSintactico("SINTAXIS OK");}
+    ;
 
-conjunto_sentencias: sentencia {
-    informarMatchLexicoSintactico("\"sentencia\" -> \"conjunto_sentencias\"");
-}
-          | conjunto_sentencias sentencia {
-    informarMatchLexicoSintactico("\"conjunto_sentencias sentencia\" -> \"conjunto_sentencias\"");
-}
-          ;
+conjunto_sentencias: sentencia {informarMatchLexicoSintactico("\"sentencia\" -> \"conjunto_sentencias\"");}
+          | conjunto_sentencias sentencia {informarMatchLexicoSintactico("\"conjunto_sentencias sentencia\" -> \"conjunto_sentencias\"");}
+    ;
 
-sentencia: asignacion {
-    informarMatchLexicoSintactico("\"asignacion\" -> \"sentencia\"");
-}
-         ;
+sentencia: init
+        | asignacion {informarMatchLexicoSintactico("\"asignacion\" -> \"sentencia\"");}
+    ;
 
-asignacion: ID OP_ASIG_VALOR expresion { 
-    informarMatchLexicoSintactico("\"ID OP_ASIG_VALOR expresion\" -> \"asignacion\"");
-}
-          ;
+/* ------------------------------- ASIGNACION ------------------------------- */
+asignacion: ID OP_ASIG_VALOR expresion {informarMatchLexicoSintactico("\"ID OP_ASIG_VALOR expresion\" -> \"asignacion\""); }
+    ;
 
 expresion: CONST_INT { informarMatchLexicoSintactico("\"CONST_INT\" -> \"expresion\""); }
          | CONST_FLOAT { informarMatchLexicoSintactico("\"CONST_FLOAT\" -> \"expresion\""); }
          | CONST_STR { informarMatchLexicoSintactico("\"CONST_STR\" -> \"expresion\""); }
+    ;
+
+/* ---------------------------------- INIT ---------------------------------- */
+
+init: INIT LLA_A declaraciones_var LLA_C {informarMatchLexicoSintactico("\"INIT LLAVE_A declaraciones_var LLAVE_C\" -> \"init\"");}
+    ;
+
+declaraciones_var: declaraciones_var declaracion {informarMatchLexicoSintactico("\"declaraciones_var declaracion\" -> \"declaraciones_var\"");}
+        | declaracion {informarMatchLexicoSintactico("\"declaracion\" -> \"declaraciones_var\"");}
+    ;
+
+declaracion: variables OP_ASIG_TIPO tipo_dato {informarMatchLexicoSintactico("\"variables OP_ASIG_TIPO tipo_dato\" -> \"declaracion\"");}
+    ;
+
+variables: variables COMA ID {informarMatchLexicoSintactico("\"variables COMA ID\" -> \"variables\"");}
+         | ID {informarMatchLexicoSintactico("\"ID\" -> \"variables\"");}
          ;
 
+tipo_dato: INT {informarMatchLexicoSintactico("\"INT\" -> \"tipo_dato\"");}
+         | FLOAT {informarMatchLexicoSintactico("\"FLOAT\" -> \"tipo_dato\"");}
+         | STRING {informarMatchLexicoSintactico("\"STRING\" -> \"tipo_dato\"");}
+         ;
 
 %%
 

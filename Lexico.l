@@ -187,7 +187,7 @@ COMA             ","
 {OP_ASIG_VALOR}	{informarMatchLexico(yytext, "OP_ASIG_VALOR"); return OP_ASIG_VALOR;}
 {OP_ASIG_TIPO}	{informarMatchLexico(yytext, "OP_ASIG_TIPO"); return OP_ASIG_TIPO;}
 
-{COMENTARIO}	{informarMatchLexico(yytext, "COMENTARIO"); return COMENTARIO;}
+{COMENTARIO}	{informarMatchLexico(yytext, "COMENTARIO");}
 
 
 {OP_SUM}		{informarMatchLexico(yytext, "OP_SUM"); return OP_SUM;}
