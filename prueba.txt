@@ -53,3 +53,10 @@ if (a < b)
 {
     variable1 := 0
 }
+
+
+#+ WHILE +#
+while (a < b)
+{
+    variable1 := 0
+}
