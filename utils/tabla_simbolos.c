@@ -157,11 +157,6 @@ int procesarLexemaTablaConstanteString(t_tabla_simbolos* tabla, const char* lexe
         return 0;
     }
 
-    // NOMBRE: Generar uno único usando un contador ya que sino  me queda el valor y nombre de simbolo iguales
-    static int contador_string = 0;
-    char nombre_simbolo_incremental[MAX_LONG_NOMBRE_SIMBOLO];
-    snprintf(nombre_simbolo_incremental, sizeof(nombre_simbolo_incremental), "_CTE_STRING_%d", ++contador_string);
-
     // VALOR: Quedarme solo con el contenido del string
     char valor_sin_comillas[MAX_LONG_VALOR_SIMBOLO];
     int len = strlen(lexema);
@@ -179,7 +174,7 @@ int procesarLexemaTablaConstanteString(t_tabla_simbolos* tabla, const char* lexe
     char valor_simbolo[MAX_LONG_VALOR_SIMBOLO];
     int longitud_simbolo;
     
-    snprintf(nombre_simbolo, sizeof(nombre_simbolo), "%s", nombre_simbolo_incremental);
+    snprintf(nombre_simbolo, sizeof(nombre_simbolo), "_%s", valor_sin_comillas);
     snprintf(tipo_simbolo, sizeof(tipo_simbolo), "%s", TIPO_STRING);
     snprintf(valor_simbolo, sizeof(valor_simbolo), "%s", valor_sin_comillas);
     longitud_simbolo = strlen(valor_sin_comillas);
