@@ -30,3 +30,26 @@ variable1 := variable1 + 500
 variable1 := 34 * 3
 variable1 := variable1 / variable1
 variable1 := (2 + 3) * 5 - (8 / 4)
+
+
+
+#+ IF +#
+if (a < b)
+{
+    variable1 := 0
+}
+
+if (a > b)
+{
+    variable1 := 0
+}
+else
+{
+    variable1 := 0
+}
+
+
+if (a < b)
+{
+    variable1 := 0
+}

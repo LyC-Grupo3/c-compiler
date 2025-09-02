@@ -103,6 +103,8 @@ conjunto_sentencias:    sentencia {informarMatchLexicoSintactico("\"sentencia\" 
 
 sentencia:  init {informarMatchLexicoSintactico("\"init\" -> \"sentencia\"");}
             | asignacion {informarMatchLexicoSintactico("\"asignacion\" -> \"sentencia\"");}
+            | bloque_if bloque_else {informarMatchLexicoSintactico("\"bloque_if bloque_else\" -> \"sentencia\"");}
+            | bloque_if {informarMatchLexicoSintactico("\"bloque_if\" -> \"sentencia\"");}
     ;
 
 /* ------------------------------- ARITHMETIC ------------------------------- */
@@ -129,11 +131,11 @@ asignacion: ID OP_ASIG_VALOR expresion {informarMatchLexicoSintactico("\"ID OP_A
 
 /* ---------------------------------- INIT ---------------------------------- */
 
-init: INIT LLA_A declaraciones_var LLA_C {informarMatchLexicoSintactico("\"INIT LLAVE_A declaraciones_var LLAVE_C\" -> \"init\"");}
+init: INIT LLA_A conjunto_declaraciones LLA_C {informarMatchLexicoSintactico("\"INIT LLAVE_A conjunto_declaraciones LLAVE_C\" -> \"init\"");}
     ;
 
-declaraciones_var:  declaraciones_var declaracion {informarMatchLexicoSintactico("\"declaraciones_var declaracion\" -> \"declaraciones_var\"");}
-                    | declaracion {informarMatchLexicoSintactico("\"declaracion\" -> \"declaraciones_var\"");}
+conjunto_declaraciones:  conjunto_declaraciones declaracion {informarMatchLexicoSintactico("\"conjunto_declaraciones declaracion\" -> \"conjunto_declaraciones\"");}
+                        | declaracion {informarMatchLexicoSintactico("\"declaracion\" -> \"conjunto_declaraciones\"");}
     ;
 
 declaracion: variables OP_ASIG_TIPO tipo_dato {informarMatchLexicoSintactico("\"variables OP_ASIG_TIPO tipo_dato\" -> \"declaracion\"");}
@@ -148,13 +150,40 @@ tipo_dato:  INT {informarMatchLexicoSintactico("\"INT\" -> \"tipo_dato\"");}
             | STRING {informarMatchLexicoSintactico("\"STRING\" -> \"tipo_dato\"");}
     ;
 
-%%
+/* ----------------------------------- IF ----------------------------------- */
+bloque_if: IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C {informarMatchLexicoSintactico("\"IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C\" -> \"bloque_if\"");}
+    ;
 
+condicional:    condicion {informarMatchLexicoSintactico("\"condicion\" -> \"condicional\"");}
+                | condicion operador_logico condicion {informarMatchLexicoSintactico("\"condicion operador_logico condicion\" -> \"condicional\"");}
+                | NOT condicion {informarMatchLexicoSintactico("\"NOT condicion\" -> \"condicional\"");}
+    ;
+
+condicion: expresion comparador_operacion expresion {informarMatchLexicoSintactico("\"expresion comparador_operacion expresion\" -> \"condicion\"");}
+    ;
+
+comparador_operacion:   OP_IGUAL {informarMatchLexicoSintactico("\"OP_IGUAL\" -> \"comparador_operacion\"");}
+                        | OP_DISTINTO {informarMatchLexicoSintactico("\"OP_DISTINTO\" -> \"comparador_operacion\"");}
+                        | OP_MAYOR {informarMatchLexicoSintactico("\"OP_MAYOR\" -> \"comparador_operacion\"");}
+                        | OP_MAYOR_IGUAL {informarMatchLexicoSintactico("\"OP_MAYOR_IGUAL\" -> \"comparador_operacion\"");}
+                        | OP_MENOR {informarMatchLexicoSintactico("\"OP_MENOR\" -> \"comparador_operacion\"");}
+                        | OP_MENOR_IGUAL {informarMatchLexicoSintactico("\"OP_MENOR_IGUAL\" -> \"comparador_operacion\"");}
+    ;
+
+operador_logico: AND {informarMatchLexicoSintactico("\"AND\" -> \"operador_logico\"");}
+                 | OR {informarMatchLexicoSintactico("\"OR\" -> \"operador_logico\"");}
+    ;
+
+/* ---------------------------------- ELSE ---------------------------------- */
+bloque_else: ELSE LLA_A conjunto_sentencias LLA_C {informarMatchLexicoSintactico("\"ELSE LLA_A conjunto_sentencias LLA_C\" -> \"bloque_else\"");}
+    ;
+
+%%
 
 
 /* -------------------------------------------------------------------------- */
 /*                          FUNCIONES PARA EL SINTACTICO                      */
-/* -------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 void informarMatchLexicoSintactico(const char* mensaje) {
     char mensaje_formateado[500];
@@ -169,7 +198,7 @@ void informarMatchLexicoSintactico(const char* mensaje) {
 
 void abrirArchivoSalidaSintactico(const char* nombre_archivo) {
     archivo_salida_sintactico = fopen(nombre_archivo, "w");
-    if (archivo_salida_sintactico == NULL) {
+    if (archivo_salida_sintactico == NULL) {-
         printf("Error: No se pudo abrir el archivo %s para escritura\n", nombre_archivo);
     } else {
         fprintf(archivo_salida_sintactico, "=== ANÁLISIS SINTÁCTICO ===\n");
