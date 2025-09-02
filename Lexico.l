@@ -74,7 +74,7 @@ TRIAN_MAX       "triangleAreaMaximum"
 ID			    {LETRA}({LETRA}|{DIGITO})*
 
 CONST_INT       -?{DIGITO}+
-CONST_FLOAT     -?({DIGITO}*"."{DIGITO}+([eE][+-]?{DIGITO}+)?|{DIGITO}+[eE][+-]?{DIGITO}+)
+CONST_FLOAT     -?({DIGITO}*"."{DIGITO}*([eE][+-]?{DIGITO}+)?|{DIGITO}+[eE][+-]?{DIGITO}+|{DIGITO}+".") 
 CONST_STR       \"[^\n"]*\"
 
 OP_ASIG_VALOR   ":="
