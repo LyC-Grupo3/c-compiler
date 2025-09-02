@@ -154,30 +154,30 @@ COMA             ","
 {TRIAN_MAX}		{informarMatchLexico(yytext, "TRIAN_MAX"); return TRIAN_MAX;}
 
 
-{ID}			{informarMatchLexico(yytext, "ID"); procesarSimbolo(yytext, "ID"); return ID;}
+{ID}			{informarMatchLexico(yytext, "ID"); procesarSimbolo(yytext, TIPO_TOKEN_ID); return ID;}
 
 {CONST_INT}		{
-    informarMatchLexico(yytext, "CONST_INT"); 
+    informarMatchLexico(yytext, TIPO_TOKEN_CONST_INT); 
     if (validarRangoInt(yytext) == 0) {
-        procesarSimbolo(yytext, "CONST_INT");
+        procesarSimbolo(yytext, TIPO_TOKEN_CONST_INT);
     } else {
         informarErrorValidacion("CONST_INT fuera de rango");
     }
     return CONST_INT;
 }
 {CONST_FLOAT}	{
-    informarMatchLexico(yytext, "CONST_FLOAT"); 
+    informarMatchLexico(yytext, TIPO_TOKEN_CONST_FLOAT); 
     if (validarRangoFloat(yytext) == 0) {
-        procesarSimbolo(yytext, "CONST_FLOAT");
+        procesarSimbolo(yytext, TIPO_TOKEN_CONST_FLOAT);
     } else {
         informarErrorValidacion("CONST_FLOAT fuera de rango");
     }
     return CONST_FLOAT;
 }
 {CONST_STR}		{
-    informarMatchLexico(yytext, "CONST_STR"); 
+    informarMatchLexico(yytext, TIPO_TOKEN_CONST_STR); 
     if (validarLongitudString(yytext) == 0) {
-        procesarSimbolo(yytext, "CONST_STR");
+        procesarSimbolo(yytext, TIPO_TOKEN_CONST_STR);
     } else {
         informarErrorValidacion("CONST_STR longitud excedida");
     }

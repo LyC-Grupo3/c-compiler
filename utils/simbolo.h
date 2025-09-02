@@ -7,10 +7,6 @@
 /*                                   DEFINES                                  */
 /* -------------------------------------------------------------------------- */
 
-#define TIPO_FLOAT  "CTE_FLOAT"
-#define TIPO_INT    "CTE_INTEGER"
-#define TIPO_STRING "CTE_STRING"
-
 #define MAX_LONG_NOMBRE_SIMBOLO 100
 #define MAX_LONG_TIPO_SIMBOLO 20
 #define MAX_LONG_VALOR_SIMBOLO 100

@@ -29,7 +29,7 @@ int insertarSimbolo(t_tabla_simbolos* tabla, const t_simbolo* simbolo) {
     return 1;
 }
 
-int existeSimbolo(const t_tabla_simbolos* tabla, const char* nombre) {
+int existeSimboloPorNombre(const t_tabla_simbolos* tabla, const char* nombre) {
     if (tabla == NULL || nombre == NULL) {
         return 0;
     }
@@ -44,146 +44,23 @@ int existeSimbolo(const t_tabla_simbolos* tabla, const char* nombre) {
     return 0;
 }
 
+int existeSimboloPorTipoValor(const t_tabla_simbolos* tabla, const char* tipo_dato, const char* valor) {
+    if (tabla == NULL || valor == NULL) {
+        return 0;
+    }
+
+    for (int i = 0; i < tabla->cantidad; i++) {
+        if (strcmp(tabla->elementos[i].tipoDato, tipo_dato) == 0 && strcmp(tabla->elementos[i].valor, valor) == 0) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
 int tablaSimbolosLlena(const t_tabla_simbolos* tabla) {
     if (tabla == NULL) {
         return 1;
     }
     return tabla->cantidad == MAX_LISTA;
-}
-
-
-
-// HANDLERS SEGUN TIPO LEXEMA
-int procesarLexemaTablaID(t_tabla_simbolos* tabla, const char* lexema) {
-    // 1. Validar parametros
-    if (tabla == NULL || lexema == NULL) {
-        printf("Error: Parámetros NULL en procesarLexemaTablaID\n");
-        return 0;
-    }
-
-    // 2. Formatear el simbolo
-    char nombre_simbolo[MAX_LONG_NOMBRE_SIMBOLO];
-    char tipo_simbolo[MAX_LONG_TIPO_SIMBOLO];
-    char valor_simbolo[MAX_LONG_VALOR_SIMBOLO];
-    int longitud_simbolo;
-
-    snprintf(nombre_simbolo, sizeof(nombre_simbolo), "%s", lexema);
-    snprintf(tipo_simbolo, sizeof(tipo_simbolo), "%s", "");
-    snprintf(valor_simbolo, sizeof(valor_simbolo), "%s", "");
-    longitud_simbolo = 0;
-
-    // 3. Crear simbolo
-    t_simbolo simbolo = crearSimbolo(nombre_simbolo, tipo_simbolo, valor_simbolo, longitud_simbolo);
-
-    // 4. Insertar Simbolo
-    int resultado = insertarSimbolo(tabla, &simbolo);
-    
-    return resultado;
-}
-
-int procesarLexemaTablaConstanteInt(t_tabla_simbolos* tabla, const char* lexema) {
-    // 1. Validar parametros
-    if (tabla == NULL || lexema == NULL) {
-        printf("Error: Parámetros NULL en procesarLexemaTablaConstanteInt\n");
-        return 0;
-    }
-    
-    // 2. Formatear el simbolo
-    char nombre_simbolo[MAX_LONG_NOMBRE_SIMBOLO];
-    char tipo_simbolo[MAX_LONG_TIPO_SIMBOLO];
-    char valor_simbolo[MAX_LONG_VALOR_SIMBOLO];
-    int longitud_simbolo;
-    
-    snprintf(nombre_simbolo, sizeof(nombre_simbolo), "_%s", lexema);
-    snprintf(tipo_simbolo, sizeof(tipo_simbolo), "%s", TIPO_INT);
-    snprintf(valor_simbolo, sizeof(valor_simbolo), "%s", lexema);
-    longitud_simbolo = strlen(lexema);
-    
-    // 3. Crear simbolo
-    t_simbolo simbolo = crearSimbolo(nombre_simbolo, tipo_simbolo, valor_simbolo, longitud_simbolo);
-    
-    // 4. Insertar Simbolo
-    int resultado = insertarSimbolo(tabla, &simbolo);
-    
-    return resultado;
-}
-
-int procesarLexemaTablaConstanteFloat(t_tabla_simbolos* tabla, const char* lexema) {
-    // 1. Validar parametros
-    if (tabla == NULL || lexema == NULL) {
-        printf("Error: Parámetros NULL en procesarLexemaTablaConstanteFloat\n");
-        return 0;
-    }
-    
-    // NOMBRE: Generar un nombre que no sea tal cual el valor ya que puedo tener "." o "-"
-    char valor_normalizado[MAX_LONG_NOMBRE_SIMBOLO];
-    strcpy(valor_normalizado, lexema);
-    
-    // Reemplazar caracteres especiales para hacer un nombre válido
-    for (int i = 0; valor_normalizado[i]; i++) {
-        if (valor_normalizado[i] == '.') {
-            valor_normalizado[i] = '_';
-        }
-        // TODO: revisar si nos va afectar ponerle N
-        else if (valor_normalizado[i] == '-') {
-            valor_normalizado[i] = 'N';
-        }
-    }
-    
-    // 2. Formatear el simbolo
-    char nombre_simbolo[MAX_LONG_NOMBRE_SIMBOLO];
-    char tipo_simbolo[MAX_LONG_TIPO_SIMBOLO];
-    char valor_simbolo[MAX_LONG_VALOR_SIMBOLO];
-    int longitud_simbolo;
-
-    snprintf(nombre_simbolo, sizeof(nombre_simbolo) + 1, "_%s", valor_normalizado);
-    snprintf(tipo_simbolo, sizeof(tipo_simbolo), "%s", TIPO_FLOAT);
-    snprintf(valor_simbolo, sizeof(valor_simbolo), "%s", lexema);
-    longitud_simbolo = strlen(lexema);
-
-    // 3. Crear simbolo
-    t_simbolo simbolo = crearSimbolo(nombre_simbolo, tipo_simbolo, valor_simbolo, longitud_simbolo);
-    
-    // 4. Insertar Simbolo
-    int resultado = insertarSimbolo(tabla, &simbolo);
-    
-    return resultado;
-}
-
-int procesarLexemaTablaConstanteString(t_tabla_simbolos* tabla, const char* lexema) {
-    // 1. Validar parametros
-    if (tabla == NULL || lexema == NULL) {
-        printf("Error: Parámetros NULL en procesarLexemaTablaConstanteString\n");
-        return 0;
-    }
-
-    // VALOR: Quedarme solo con el contenido del string
-    char valor_sin_comillas[MAX_LONG_VALOR_SIMBOLO];
-    int len = strlen(lexema);
-    if (len >= 2 && lexema[0] == '"' && lexema[len-1] == '"') {
-        strncpy(valor_sin_comillas, lexema + 1, len - 2);
-        valor_sin_comillas[len - 2] = '\0';
-    } else {
-        // Para mayra: sirve para la cadena vacia
-        strcpy(valor_sin_comillas, lexema);
-    }
-    
-    // 2. Formatear el simbolo
-    char nombre_simbolo[MAX_LONG_NOMBRE_SIMBOLO];
-    char tipo_simbolo[MAX_LONG_TIPO_SIMBOLO];
-    char valor_simbolo[MAX_LONG_VALOR_SIMBOLO];
-    int longitud_simbolo;
-    
-    snprintf(nombre_simbolo, sizeof(nombre_simbolo), "_%s", valor_sin_comillas);
-    snprintf(tipo_simbolo, sizeof(tipo_simbolo), "%s", TIPO_STRING);
-    snprintf(valor_simbolo, sizeof(valor_simbolo), "%s", valor_sin_comillas);
-    longitud_simbolo = strlen(valor_sin_comillas);
-
-    // 3. Crear simbolo
-    t_simbolo simbolo = crearSimbolo(nombre_simbolo, tipo_simbolo, valor_simbolo, longitud_simbolo);
-
-    // 4. Insertar Simbolo
-    int resultado = insertarSimbolo(tabla, &simbolo);
-    
-    return resultado;
 }

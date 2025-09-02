@@ -31,14 +31,10 @@ void inicializarTablaSimbolos(t_tabla_simbolos* tabla);
 
 int insertarSimbolo(t_tabla_simbolos* tabla, const t_simbolo* simbolo);
 
-int existeSimbolo(const t_tabla_simbolos* tabla, const char* nombre);
-int tablaSimbolosLlena(const t_tabla_simbolos* tabla);
+int existeSimboloPorNombre(const t_tabla_simbolos* tabla, const char* nombre);
+int existeSimboloPorTipoValor(const t_tabla_simbolos* tabla, const char* tipo_dato, const char* valor);
 
-// HANDLERS SEGUN TIPO LEXEMA
-int procesarLexemaTablaID(t_tabla_simbolos* tabla, const char* lexema);
-int procesarLexemaTablaConstanteInt(t_tabla_simbolos* tabla, const char* lexema);
-int procesarLexemaTablaConstanteFloat(t_tabla_simbolos* tabla, const char* lexema);
-int procesarLexemaTablaConstanteString(t_tabla_simbolos* tabla, const char* lexema);
+int tablaSimbolosLlena(const t_tabla_simbolos* tabla);
 
 
 

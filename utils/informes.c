@@ -14,9 +14,9 @@ extern int yylineno;
 /* -------------------------------------------------------------------------- */
 /*                                  FUNCIONES                                 */
 /* -------------------------------------------------------------------------- */
-void informarMatchLexico(char* lexema, char* nombreDelToken) {
+void informarMatchLexico(char* lexema, char* tipo_token) {
     char mensaje[500];
-    sprintf(mensaje, "[LEXICO]       LEXEMA: %-20s - TOKEN: %-15s\n", lexema, nombreDelToken);
+    sprintf(mensaje, "[LEXICO]       LEXEMA: %-20s - TOKEN: %-15s\n", lexema, tipo_token);
     printf("%s", mensaje);
 
     if (archivo_salida_lexico != NULL) {
@@ -52,7 +52,7 @@ void informarErrorValidacion(char* name_token)
 void informarExitoInsertarSimbolo(const char* nombre, const char* lexema, const char* tipo_agregado)
 {
     char mensaje[500];
-    sprintf(mensaje, "[SIMBOLO]      NOMBRE: %-20s - TIPO: %-15s\n", nombre, tipo_agregado);
+    sprintf(mensaje, "[SIMBOLO_INS]  NOMBRE: %-20s - TIPO: %-15s\n", nombre, tipo_agregado);
     printf("%s", mensaje);
     
     if (archivo_salida_lexico != NULL) {
@@ -64,7 +64,7 @@ void informarExitoInsertarSimbolo(const char* nombre, const char* lexema, const 
 void informarDuplicadoSimbolo(const char* nombre)
 {
     char mensaje[500];
-    sprintf(mensaje, "[SIMBOLO]      Warning: El símbolo '%s' ya existe en la tabla de simbolos\n", nombre);
+    sprintf(mensaje, "[SIMBOLO_WAR]  El símbolo '%s' ya existe en la tabla de simbolos\n", nombre);
     printf("%s", mensaje);
     
     if (archivo_salida_lexico != NULL) {

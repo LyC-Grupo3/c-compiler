@@ -7,7 +7,7 @@
 /*                                  FUNCIONES                                 */
 /* -------------------------------------------------------------------------- */
 
-void informarMatchLexico(char* lexema, char* nombreDelToken);
+void informarMatchLexico(char* lexema, char* tipo_token);
 void informarErrorNoMatch(char* lexema);
 void informarErrorValidacion(char* name_token);
 void informarExitoInsertarSimbolo(const char* nombre, const char* lexema, const char* tipo_agregado);
