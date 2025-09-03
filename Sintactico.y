@@ -94,15 +94,15 @@ void cerrarArchivoSalidaLexicoSintactico(void);
 
 %%
 
-programa: conjunto_sentencias {informarMatchLexicoSintactico("SINTAXIS OK");}
+programa: init conjunto_sentencias {informarMatchLexicoSintactico("SINTAXIS OK");}
+            |  conjunto_sentencias {informarMatchLexicoSintactico("SINTAXIS OK");}
     ;
 
 conjunto_sentencias:    sentencia {informarMatchLexicoSintactico("\"sentencia\" -> \"conjunto_sentencias\"");}
                         | conjunto_sentencias sentencia {informarMatchLexicoSintactico("\"conjunto_sentencias sentencia\" -> \"conjunto_sentencias\"");}
     ;
 
-sentencia:  init {informarMatchLexicoSintactico("\"init\" -> \"sentencia\"");}
-            | asignacion {informarMatchLexicoSintactico("\"asignacion\" -> \"sentencia\"");}
+sentencia:   asignacion {informarMatchLexicoSintactico("\"asignacion\" -> \"sentencia\"");}
             | bloque_if bloque_else {informarMatchLexicoSintactico("\"bloque_if bloque_else\" -> \"sentencia\"");}
             | bloque_if {informarMatchLexicoSintactico("\"bloque_if\" -> \"sentencia\"");}
             | bloque_while {informarMatchLexicoSintactico("\"bloque_while\" -> \"sentencia\"");}
