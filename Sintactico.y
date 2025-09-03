@@ -130,6 +130,7 @@ factor:     ID {informarMatchLexicoSintactico("\"ID\" -> \"factor\"");}
 asignacion: ID OP_ASIG_VALOR expresion {informarMatchLexicoSintactico("\"ID OP_ASIG_VALOR expresion\" -> \"asignacion\""); }
             | ID OP_ASIG_VALOR CONST_STR {informarMatchLexicoSintactico("\"ID OP_ASIG_VALOR CONST_STR\" -> \"asignacion\""); }
             | ID OP_ASIG_VALOR funcion_equal_expressions {informarMatchLexicoSintactico("\"ID OP_ASIG_VALOR funcion_equal_expressions\" -> \"asignacion\""); }
+            | ID OP_ASIG_VALOR funcion_triangle_area_maximum {informarMatchLexicoSintactico("\"ID OP_ASIG_VALOR funcion_triangle_area_maximum\" -> \"asignacion\""); }
     ;
 
 /* ---------------------------------- INIT ---------------------------------- */
@@ -200,6 +201,28 @@ funcion_equal_expressions:  EQUAL_EXP PAR_A parametros_equal_expressions PAR_C {
 parametros_equal_expressions:   expresion COMA expresion {informarMatchLexicoSintactico("\"expresion COMA expresion\" -> \"parametros_equal_expressions\"");}
                                 | parametros_equal_expressions COMA expresion {informarMatchLexicoSintactico("\"parametros_equal_expressions COMA expresion\" -> \"parametros_equal_expressions\"");}
     ;
+
+/* ---------------------- FUNCION TRIANGLE AREA MAXIMUM --------------------- */
+funcion_triangle_area_maximum: TRIAN_MAX PAR_A parametros_triangle_area_maximum PAR_C {informarMatchLexicoSintactico("\"TRIAN_MAX PAR_A parametros_triangle_area_maximum PAR_C\" -> \"funcion_triangle_area_maximum\"");}
+    ;
+
+parametros_triangle_area_maximum:  coordenadas_triangulo PUNTO_C coordenadas_triangulo {informarMatchLexicoSintactico("\"COR_A conjunto_puntos COR_C PUNTO_C COR_A conjunto_puntos COR_C\" -> \"parametros_triangle_area\"");}
+    ;
+
+coordenadas_triangulo: COR_A conjunto_puntos_triangulo COR_C {informarMatchLexicoSintactico("\"COR_A conjunto_puntos COR_C\" -> \"coordenadas_triangulo\"");}
+    ;
+
+conjunto_puntos_triangulo: coordenada_triangulo PUNTO_C coordenada_triangulo PUNTO_C coordenada_triangulo {informarMatchLexicoSintactico("\"coordenada_triangulo PUNTO_C coordenada_triangulo PUNTO_C coordenada_triangulo\" -> \"conjunto_puntos_triangle_area\"");}
+    ;
+
+coordenada_triangulo: tipo_parametro_triangle_area COMA tipo_parametro_triangle_area {informarMatchLexicoSintactico("\"tipo_parametro_triangle_area COMA tipo_parametro_triangle_area\" -> \"coordenada_triangulo\"");}
+    ;
+
+tipo_parametro_triangle_area:   CONST_INT {informarMatchLexicoSintactico("\"CONST_INT\" -> \"tipo_parametro_triangle_area\"");}
+                                | CONST_FLOAT {informarMatchLexicoSintactico("\"CONST_FLOAT\" -> \"tipo_parametro_triangle_area\"");} 
+                                | ID {informarMatchLexicoSintactico("\"ID\" -> \"tipo_parametro_triangle_area\"");}
+    ;
+
 
 %%
 

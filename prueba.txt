@@ -1,4 +1,4 @@
-#+ COMENTARIO +#
+#+ Esto es un comentario +#
 
 
 
@@ -12,53 +12,61 @@ init {
 
 #+                                ASSIGMENTS                            +#
 #+ SIN EXP ARIMETICA +#
-a1 := 3.14
-b1 := .123
+a := 1
+b := 1
+c := 2
 
 
-variable1 := 4
+a := 99999.99
+a := 99.
+a := .9999
 
-
-p1 := "hello"
-p2 := "world"
-p3 := "!"
+b := "@sdADaSjfla%dfg"
+b := "asldk  fh sjf"
 
 
 #+ CON EXP ARITMETICA +#
-variable1 := 27 - variable1
-variable1 := variable1 + 500
-variable1 := 34 * 3
-variable1 := variable1 / variable1
-variable1 := (2 + 3) * 5 - (8 / 4)
+x := 27 - c
+x := r + 500
+x := 34 * 3
+x := z / f
 
 
 
 #+ IF +#
-if (a < b)
+if (a > b && c > b)
 {
-    variable1 := 0
+    write("a es mas gr&&e que b y c es mas gr&&e que b")
 }
+
 
 if (a > b)
 {
-    variable1 := 0
+    write("a es mas gr&&e que b")
 }
 else
 {
-    variable1 := 0
+    write("a es mas chico o igual a b")
 }
 
 
-if (a < b)
+if (! a > b)
 {
-    variable1 := 0
+    write("a no es mas gr&&e que b")
+}
+
+
+if (a > b || c > b)
+{
+    write("a es mas gr&&e que b o c es mas gr&&e que b")
 }
 
 
 #+ WHILE +#
-while (a < b)
+while (a > b)
 {
-    variable1 := 0
+    write("a es mas gr&&e que b")
+    a := a + 1
 }
 
 
@@ -76,3 +84,6 @@ write(var1)  #+ var1 es una variable numérica definida previamente +#
 y := equalExpressions(0, -5) 
 y := equalExpressions(0, -5, a + b) 
 y := equalExpressions(a + b, 5, b * 2, 3 - 2, a + b) 
+
+
+areaMax := triangleAreaMaximum( [0,x; 4.0,12; 2.5,3] ; [x,0; 6,0; z,2] )
