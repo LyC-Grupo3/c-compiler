@@ -95,7 +95,6 @@ void cerrarArchivoSalidaLexicoSintactico(void);
 %%
 
 programa: init conjunto_sentencias {informarMatchLexicoSintactico("SINTAXIS OK");}
-            |  conjunto_sentencias {informarMatchLexicoSintactico("SINTAXIS OK");}
     ;
 
 conjunto_sentencias:    sentencia {informarMatchLexicoSintactico("\"sentencia\" -> \"conjunto_sentencias\"");}
