@@ -94,18 +94,20 @@ void cerrarArchivoSalidaLexicoSintactico(void);
 
 %%
 
-programa: conjunto_sentencias {informarMatchLexicoSintactico("SINTAXIS OK");}
+programa: init conjunto_sentencias {informarMatchLexicoSintactico("SINTAXIS OK");}
+            |  conjunto_sentencias {informarMatchLexicoSintactico("SINTAXIS OK");}
     ;
 
 conjunto_sentencias:    sentencia {informarMatchLexicoSintactico("\"sentencia\" -> \"conjunto_sentencias\"");}
                         | conjunto_sentencias sentencia {informarMatchLexicoSintactico("\"conjunto_sentencias sentencia\" -> \"conjunto_sentencias\"");}
     ;
 
-sentencia:  init {informarMatchLexicoSintactico("\"init\" -> \"sentencia\"");}
-            | asignacion {informarMatchLexicoSintactico("\"asignacion\" -> \"sentencia\"");}
+sentencia:   asignacion {informarMatchLexicoSintactico("\"asignacion\" -> \"sentencia\"");}
             | bloque_if bloque_else {informarMatchLexicoSintactico("\"bloque_if bloque_else\" -> \"sentencia\"");}
             | bloque_if {informarMatchLexicoSintactico("\"bloque_if\" -> \"sentencia\"");}
             | bloque_while {informarMatchLexicoSintactico("\"bloque_while\" -> \"sentencia\"");}
+            | funcion_read {informarMatchLexicoSintactico("\"funcion_read\" -> \"sentencia\"");}
+            | funcion_write {informarMatchLexicoSintactico("\"funcion_write\" -> \"sentencia\"");}
     ;
 
 /* ------------------------------- ARITHMETIC ------------------------------- */
@@ -179,9 +181,17 @@ operador_logico: AND {informarMatchLexicoSintactico("\"AND\" -> \"operador_logic
 bloque_else: ELSE LLA_A conjunto_sentencias LLA_C {informarMatchLexicoSintactico("\"ELSE LLA_A conjunto_sentencias LLA_C\" -> \"bloque_else\"");}
     ;
     
-
 /* ---------------------------------- WHILE --------------------------------- */
 bloque_while: WHILE PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C {informarMatchLexicoSintactico("\"WHILE PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C\" -> \"bloque_while\"");}
+    ;
+
+/* ---------------------------------- READ ---------------------------------- */
+funcion_read: READ PAR_A ID PAR_C {informarMatchLexicoSintactico("\"READ PAR_A ID PAR_C\" -> \"funcion_read\"");}
+    ;
+
+/* ---------------------------------- WRITE --------------------------------- */
+funcion_write:  WRITE PAR_A CONST_STR PAR_C {informarMatchLexicoSintactico("\"WRITE PAR_A CTE_STRING PAR_C\" -> \"write\"");}
+        | WRITE PAR_A ID PAR_C {informarMatchLexicoSintactico("\"WRITE PAR_A ID PAR_C\" -> \"write\"");}
     ;
 
 %%
