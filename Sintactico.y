@@ -129,6 +129,7 @@ factor:     ID {informarMatchLexicoSintactico("\"ID\" -> \"factor\"");}
 /* ------------------------------- ASSIGMENTS ------------------------------- */
 asignacion: ID OP_ASIG_VALOR expresion {informarMatchLexicoSintactico("\"ID OP_ASIG_VALOR expresion\" -> \"asignacion\""); }
             | ID OP_ASIG_VALOR CONST_STR {informarMatchLexicoSintactico("\"ID OP_ASIG_VALOR CONST_STR\" -> \"asignacion\""); }
+            | ID OP_ASIG_VALOR funcion_equal_expressions {informarMatchLexicoSintactico("\"ID OP_ASIG_VALOR funcion_equal_expressions\" -> \"asignacion\""); }
     ;
 
 /* ---------------------------------- INIT ---------------------------------- */
@@ -191,6 +192,13 @@ funcion_read: READ PAR_A ID PAR_C {informarMatchLexicoSintactico("\"READ PAR_A I
 /* ---------------------------------- WRITE --------------------------------- */
 funcion_write:  WRITE PAR_A CONST_STR PAR_C {informarMatchLexicoSintactico("\"WRITE PAR_A CTE_STRING PAR_C\" -> \"write\"");}
         | WRITE PAR_A ID PAR_C {informarMatchLexicoSintactico("\"WRITE PAR_A ID PAR_C\" -> \"write\"");}
+    ;
+
+/* ---------------------------- EQUAL EXPRESSIONS --------------------------- */
+funcion_equal_expressions:  EQUAL_EXP PAR_A parametros_equal_expressions PAR_C {informarMatchLexicoSintactico("\"EQUAL_EXP PAR_A parametros_equal_expressions PAR_C\" -> \"funcion_equal_expressions\"");}
+
+parametros_equal_expressions:   expresion COMA expresion {informarMatchLexicoSintactico("\"expresion COMA expresion\" -> \"parametros_equal_expressions\"");}
+                                | parametros_equal_expressions COMA expresion {informarMatchLexicoSintactico("\"parametros_equal_expressions COMA expresion\" -> \"parametros_equal_expressions\"");}
     ;
 
 %%
