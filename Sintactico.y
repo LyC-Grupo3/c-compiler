@@ -32,7 +32,7 @@ int yyerror(const char *s);
 void abrirArchivoSalidaLexico(const char* nombre_archivo);
 void cerrarArchivoSalidaLexico(void);
 
-void informarMatchLexicoSintactico(const char* mensaje);
+void informarMatchLexicoSintactico(const char* mensaje1, const char* mensaje2);
 
 void abrirArchivoSalidaSintactico(const char* nombre_archivo);
 void cerrarArchivoSalidaLexicoSintactico(void);
@@ -94,137 +94,180 @@ void cerrarArchivoSalidaLexicoSintactico(void);
 
 %%
 
-start: programa {informarMatchLexicoSintactico("\"programa\" -> \"start\"");}
+start:
+    programa                                            {informarMatchLexicoSintactico("SINTAXIS OK", "SINTAXIS OK");}
     ;
 
-programa:   init
-            | init conjunto_sentencias {informarMatchLexicoSintactico("SINTAXIS OK");}
+programa:
+     init conjunto_sentencias
+    |init
     ;
 
-conjunto_sentencias:    sentencia {informarMatchLexicoSintactico("\"sentencia\" -> \"conjunto_sentencias\"");}
-                        | conjunto_sentencias sentencia {informarMatchLexicoSintactico("\"conjunto_sentencias sentencia\" -> \"conjunto_sentencias\"");}
+conjunto_sentencias:
+    conjunto_sentencias sentencia 
+    |sentencia
+                         
     ;
 
-sentencia:   asignacion {informarMatchLexicoSintactico("\"asignacion\" -> \"sentencia\"");}
-            | bloque_if bloque_else {informarMatchLexicoSintactico("\"bloque_if bloque_else\" -> \"sentencia\"");}
-            | bloque_if {informarMatchLexicoSintactico("\"bloque_if\" -> \"sentencia\"");}
-            | bloque_while {informarMatchLexicoSintactico("\"bloque_while\" -> \"sentencia\"");}
-            | funcion_read {informarMatchLexicoSintactico("\"funcion_read\" -> \"sentencia\"");}
-            | funcion_write {informarMatchLexicoSintactico("\"funcion_write\" -> \"sentencia\"");}
+sentencia:
+    bloque_if_else
+    | bloque_if
+    | bloque_while
+    | asignacion
+    | funcion_read
+    | funcion_write
     ;
 
 /* ------------------------------- ARITHMETIC ------------------------------- */
-expresion:   expresion OP_SUM termino {informarMatchLexicoSintactico("\"expresion OP_SUM termino\" -> \"expresion\"");}
-            | expresion OP_RES termino {informarMatchLexicoSintactico("\"expresion OP_RES termino\" -> \"expresion\"");}
-            | termino {informarMatchLexicoSintactico("\"termino\" -> \"expresion\"");}
+expresion:
+    expresion OP_SUM termino                            {informarMatchLexicoSintactico("expresion", "expresion OP_SUM termino");}
+    | expresion OP_RES termino                          {informarMatchLexicoSintactico("expresion", "expresion OP_RES termino");}
+    | termino                                           {informarMatchLexicoSintactico("expresion", "termino");}
     ;
 
-termino:    termino OP_MUL factor {informarMatchLexicoSintactico("\"termino OP_MUL factor\" -> \"termino\"");}
-            | termino OP_DIV factor {informarMatchLexicoSintactico("\"termino OP_DIV factor\" -> \"termino\"");}
-            | factor {informarMatchLexicoSintactico("\"factor\" -> \"termino\"");}
+termino:
+    termino OP_MUL factor
+    | termino OP_DIV factor
+    | factor
     ;
 
-factor:     ID {informarMatchLexicoSintactico("\"ID\" -> \"factor\"");}
-            | CONST_INT {informarMatchLexicoSintactico("\"CONST_INT\" -> \"factor\"");}
-            | CONST_FLOAT {informarMatchLexicoSintactico("\"CONST_FLOAT\" -> \"factor\"");}
-            | PAR_A expresion PAR_C {informarMatchLexicoSintactico("\"PAR_A expresion PAR_C\" -> \"factor\"");}
+factor:
+    ID
+    | CONST_INT
+    | CONST_FLOAT
+    | PAR_A expresion PAR_C
     ;
 
 /* ------------------------------- ASSIGMENTS ------------------------------- */
-asignacion: ID OP_ASIG_VALOR expresion {informarMatchLexicoSintactico("\"ID OP_ASIG_VALOR expresion\" -> \"asignacion\""); }
-            | ID OP_ASIG_VALOR CONST_STR {informarMatchLexicoSintactico("\"ID OP_ASIG_VALOR CONST_STR\" -> \"asignacion\""); }
-            | ID OP_ASIG_VALOR funcion_equal_expressions {informarMatchLexicoSintactico("\"ID OP_ASIG_VALOR funcion_equal_expressions\" -> \"asignacion\""); }
-            | ID OP_ASIG_VALOR funcion_triangle_area_maximum {informarMatchLexicoSintactico("\"ID OP_ASIG_VALOR funcion_triangle_area_maximum\" -> \"asignacion\""); }
+asignacion:
+    ID OP_ASIG_VALOR expresion                          {informarMatchLexicoSintactico("asignacion", "ID OP_ASIG_VALOR expresion");}
+    | ID OP_ASIG_VALOR CONST_STR                        {informarMatchLexicoSintactico("asignacion", "ID OP_ASIG_VALOR CONST_STR");}
+    | ID OP_ASIG_VALOR funciones_temas_especiales       {informarMatchLexicoSintactico("asignacion", "ID OP_ASIG_VALOR funciones_temas_especiales");}
     ;
 
 /* ---------------------------------- INIT ---------------------------------- */
 
-init: INIT LLA_A conjunto_declaraciones LLA_C {informarMatchLexicoSintactico("\"INIT LLAVE_A conjunto_declaraciones LLAVE_C\" -> \"init\"");}
+init:                       
+    INIT LLA_A conjunto_declaraciones LLA_C             {informarMatchLexicoSintactico("init", "INIT LLA_A conjunto_declaraciones LLA_C");}
     ;
 
-conjunto_declaraciones:  conjunto_declaraciones declaracion {informarMatchLexicoSintactico("\"conjunto_declaraciones declaracion\" -> \"conjunto_declaraciones\"");}
-                        | declaracion {informarMatchLexicoSintactico("\"declaracion\" -> \"conjunto_declaraciones\"");}
+conjunto_declaraciones:
+    conjunto_declaraciones declaracion
+    | declaracion
     ;
 
-declaracion: variables OP_ASIG_TIPO tipo_dato {informarMatchLexicoSintactico("\"variables OP_ASIG_TIPO tipo_dato\" -> \"declaracion\"");}
+declaracion:
+    conjunto_ids OP_ASIG_TIPO tipo_dato
     ;
 
-variables: variables COMA ID {informarMatchLexicoSintactico("\"variables COMA ID\" -> \"variables\"");}
-            | ID {informarMatchLexicoSintactico("\"ID\" -> \"variables\"");}
+conjunto_ids:
+    conjunto_ids COMA ID
+    | ID
     ;
 
-tipo_dato:  INT {informarMatchLexicoSintactico("\"INT\" -> \"tipo_dato\"");}
-            | FLOAT {informarMatchLexicoSintactico("\"FLOAT\" -> \"tipo_dato\"");}
-            | STRING {informarMatchLexicoSintactico("\"STRING\" -> \"tipo_dato\"");}
+tipo_dato:
+    INT
+    | FLOAT
+    | STRING
     ;
 
 /* ----------------------------------- IF ----------------------------------- */
-bloque_if: IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C {informarMatchLexicoSintactico("\"IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C\" -> \"bloque_if\"");}
+bloque_if:
+    IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C      {informarMatchLexicoSintactico("bloque_if", "IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");}
     ;
 
-condicional:    condicion {informarMatchLexicoSintactico("\"condicion\" -> \"condicional\"");}
-                | condicion operador_logico condicion {informarMatchLexicoSintactico("\"condicion operador_logico condicion\" -> \"condicional\"");}
-                | NOT condicion {informarMatchLexicoSintactico("\"NOT condicion\" -> \"condicional\"");}
+condicional:
+    condicion
+    | condicion operador_logico condicion
+    | NOT condicion
     ;
 
-condicion: expresion comparador_operacion expresion {informarMatchLexicoSintactico("\"expresion comparador_operacion expresion\" -> \"condicion\"");}
+condicion:
+    expresion operador_comparacion expresion
     ;
 
-comparador_operacion:   OP_IGUAL {informarMatchLexicoSintactico("\"OP_IGUAL\" -> \"comparador_operacion\"");}
-                        | OP_DISTINTO {informarMatchLexicoSintactico("\"OP_DISTINTO\" -> \"comparador_operacion\"");}
-                        | OP_MAYOR {informarMatchLexicoSintactico("\"OP_MAYOR\" -> \"comparador_operacion\"");}
-                        | OP_MAYOR_IGUAL {informarMatchLexicoSintactico("\"OP_MAYOR_IGUAL\" -> \"comparador_operacion\"");}
-                        | OP_MENOR {informarMatchLexicoSintactico("\"OP_MENOR\" -> \"comparador_operacion\"");}
-                        | OP_MENOR_IGUAL {informarMatchLexicoSintactico("\"OP_MENOR_IGUAL\" -> \"comparador_operacion\"");}
+operador_comparacion:
+    OP_IGUAL
+    | OP_DISTINTO
+    | OP_MAYOR
+    | OP_MAYOR_IGUAL
+    | OP_MENOR
+    | OP_MENOR_IGUAL
     ;
 
-operador_logico: AND {informarMatchLexicoSintactico("\"AND\" -> \"operador_logico\"");}
-                 | OR {informarMatchLexicoSintactico("\"OR\" -> \"operador_logico\"");}
+operador_logico:
+    AND
+    | OR
     ;
 
 /* ---------------------------------- ELSE ---------------------------------- */
-bloque_else: ELSE LLA_A conjunto_sentencias LLA_C {informarMatchLexicoSintactico("\"ELSE LLA_A conjunto_sentencias LLA_C\" -> \"bloque_else\"");}
+bloque_else:
+    ELSE LLA_A conjunto_sentencias LLA_C                            {informarMatchLexicoSintactico("bloque_else", "ELSE LLA_A conjunto_sentencias LLA_C");}
+    ;
+
+/* --------------------------------- IF ELSE -------------------------------- */
+bloque_if_else:
+    bloque_if bloque_else                                           {informarMatchLexicoSintactico("bloque_if_else", "bloque_if bloque_else");}
     ;
     
 /* ---------------------------------- WHILE --------------------------------- */
-bloque_while: WHILE PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C {informarMatchLexicoSintactico("\"WHILE PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C\" -> \"bloque_while\"");}
+bloque_while:
+    WHILE PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C   {informarMatchLexicoSintactico("bloque_while", "WHILE PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");}
     ;
 
 /* ---------------------------------- READ ---------------------------------- */
-funcion_read: READ PAR_A ID PAR_C {informarMatchLexicoSintactico("\"READ PAR_A ID PAR_C\" -> \"funcion_read\"");}
+funcion_read:
+    READ PAR_A ID PAR_C                                             {informarMatchLexicoSintactico("funcion_read", "READ PAR_A ID PAR_C");}
     ;
 
 /* ---------------------------------- WRITE --------------------------------- */
-funcion_write:  WRITE PAR_A CONST_STR PAR_C {informarMatchLexicoSintactico("\"WRITE PAR_A CTE_STRING PAR_C\" -> \"write\"");}
-        | WRITE PAR_A ID PAR_C {informarMatchLexicoSintactico("\"WRITE PAR_A ID PAR_C\" -> \"write\"");}
+funcion_write:
+    WRITE PAR_A CONST_STR PAR_C                                     {informarMatchLexicoSintactico("funcion_write", "WRITE PAR_A CONST_STR PAR_C");}
+    | WRITE PAR_A ID PAR_C
+    ;
+
+/* ---------------------------- TEMAS ESPECIALES ---------------------------- */
+funciones_temas_especiales:
+    funcion_equal_expressions
+    | funcion_triangle_area_maximum
     ;
 
 /* ---------------------------- EQUAL EXPRESSIONS --------------------------- */
-funcion_equal_expressions:  EQUAL_EXP PAR_A parametros_equal_expressions PAR_C {informarMatchLexicoSintactico("\"EQUAL_EXP PAR_A parametros_equal_expressions PAR_C\" -> \"funcion_equal_expressions\"");}
-
-parametros_equal_expressions:   expresion COMA expresion {informarMatchLexicoSintactico("\"expresion COMA expresion\" -> \"parametros_equal_expressions\"");}
-                                | parametros_equal_expressions COMA expresion {informarMatchLexicoSintactico("\"parametros_equal_expressions COMA expresion\" -> \"parametros_equal_expressions\"");}
+funcion_equal_expressions:
+    EQUAL_EXP PAR_A parametros_equal_expressions PAR_C              {informarMatchLexicoSintactico("funcion_equal_expressions", "EQUAL_EXP PAR_A parametros_equal_expressions PAR_C");}
     ;
+
+parametros_equal_expressions:
+    expresion COMA expresion
+    | parametros_equal_expressions COMA expresion
+    ;
+
 
 /* ---------------------- FUNCION TRIANGLE AREA MAXIMUM --------------------- */
-funcion_triangle_area_maximum: TRIAN_MAX PAR_A parametros_triangle_area_maximum PAR_C {informarMatchLexicoSintactico("\"TRIAN_MAX PAR_A parametros_triangle_area_maximum PAR_C\" -> \"funcion_triangle_area_maximum\"");}
+funcion_triangle_area_maximum:
+    TRIAN_MAX PAR_A parametros_triangle_area_maximum PAR_C          {informarMatchLexicoSintactico("funcion_triangle_area_maximum", "TRIAN_MAX PAR_A parametros_triangle_area_maximum PAR_C");}
     ;
 
-parametros_triangle_area_maximum:  coordenadas_triangulo PUNTO_C coordenadas_triangulo {informarMatchLexicoSintactico("\"COR_A conjunto_puntos COR_C PUNTO_C COR_A conjunto_puntos COR_C\" -> \"parametros_triangle_area\"");}
+parametros_triangle_area_maximum:
+    coordenadas_triangulo PUNTO_C coordenadas_triangulo
     ;
 
-coordenadas_triangulo: COR_A conjunto_puntos_triangulo COR_C {informarMatchLexicoSintactico("\"COR_A conjunto_puntos COR_C\" -> \"coordenadas_triangulo\"");}
+coordenadas_triangulo:
+    COR_A conjunto_puntos_triangulo COR_C
     ;
 
-conjunto_puntos_triangulo: coordenada_triangulo PUNTO_C coordenada_triangulo PUNTO_C coordenada_triangulo {informarMatchLexicoSintactico("\"coordenada_triangulo PUNTO_C coordenada_triangulo PUNTO_C coordenada_triangulo\" -> \"conjunto_puntos_triangle_area\"");}
+conjunto_puntos_triangulo:
+    coordenada_triangulo PUNTO_C coordenada_triangulo PUNTO_C coordenada_triangulo
     ;
 
-coordenada_triangulo: tipo_parametro_triangle_area COMA tipo_parametro_triangle_area {informarMatchLexicoSintactico("\"tipo_parametro_triangle_area COMA tipo_parametro_triangle_area\" -> \"coordenada_triangulo\"");}
+coordenada_triangulo:
+    tipo_parametro_triangle_area COMA tipo_parametro_triangle_area
     ;
 
-tipo_parametro_triangle_area:   CONST_INT {informarMatchLexicoSintactico("\"CONST_INT\" -> \"tipo_parametro_triangle_area\"");}
-                                | CONST_FLOAT {informarMatchLexicoSintactico("\"CONST_FLOAT\" -> \"tipo_parametro_triangle_area\"");} 
-                                | ID {informarMatchLexicoSintactico("\"ID\" -> \"tipo_parametro_triangle_area\"");}
+tipo_parametro_triangle_area:
+    CONST_INT
+    | CONST_FLOAT
+    | ID
     ;
 
 
@@ -235,9 +278,9 @@ tipo_parametro_triangle_area:   CONST_INT {informarMatchLexicoSintactico("\"CONS
 /*                          FUNCIONES PARA EL SINTACTICO                      */
 /* ------------------------------------------------------------------------- */
 
-void informarMatchLexicoSintactico(const char* mensaje) {
+void informarMatchLexicoSintactico(const char* mensaje1, const char* mensaje2) {
     char mensaje_formateado[500];
-    sprintf(mensaje_formateado, "[SINTACTICO]   %s\n", mensaje);
+    sprintf(mensaje_formateado, "[SINTACTICO]   %30s -> %-30s\n", mensaje1, mensaje2);
 
     printf("%s", mensaje_formateado);
     if (archivo_salida_sintactico != NULL) {
