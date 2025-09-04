@@ -1,8 +1,6 @@
 #ifndef VALIDACION_H
 #define VALIDACION_H
 
-
-
 /* -------------------------------------------------------------------------- */
 /*                                   DEFINES                                  */
 /* -------------------------------------------------------------------------- */
@@ -19,10 +17,8 @@
 /*                                  FUNCIONES                                 */
 /* -------------------------------------------------------------------------- */
 
-int validarRangoInt(char*ptr);
-int validarRangoFloat(char*ptr);
-int validarLongitudString(char*ptr);
-
-
+int validarRangoInt(char *ptr);
+int validarRangoFloat(char *ptr);
+int validarLongitudString(char *ptr);
 
 #endif // VALIDACION_H

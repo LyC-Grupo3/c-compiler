@@ -1,9 +1,9 @@
-#ifndef LISTA_H
-#define LISTA_H
-
-
+#ifndef TABLA_SIMBOLOS_H
+#define TABLA_SIMBOLOS_H
 
 #include "simbolo.h"
+#include "informes.h"
+#include "utils.h"
 
 /* -------------------------------------------------------------------------- */
 /*                                   DEFINES                                  */
@@ -11,31 +11,36 @@
 
 #define MAX_LISTA 1000
 
-
 /* -------------------------------------------------------------------------- */
 /*                                 ESTRUCTURAS                                */
 /* -------------------------------------------------------------------------- */
 
-typedef struct {
+typedef struct
+{
     t_simbolo elementos[MAX_LISTA];
     int cantidad;
 } t_tabla_simbolos;
-
 
 /* -------------------------------------------------------------------------- */
 /*                                  FUNCIONES                                 */
 /* -------------------------------------------------------------------------- */
 
 // MANEJO DE TABLA
-void inicializarTablaSimbolos(t_tabla_simbolos* tabla);
+void inicializarTablaSimbolos(t_tabla_simbolos *tabla);
 
-int insertarSimbolo(t_tabla_simbolos* tabla, const t_simbolo* simbolo);
+int insertarSimbolo(t_tabla_simbolos *tabla, const t_simbolo *simbolo);
 
-int existeSimboloPorNombre(const t_tabla_simbolos* tabla, const char* nombre);
-int existeSimboloPorTipoValor(const t_tabla_simbolos* tabla, const char* tipo_dato, const char* valor);
+int existeSimboloPorNombre(const t_tabla_simbolos *tabla, const char *nombre);
+int existeSimboloPorTipoValor(const t_tabla_simbolos *tabla, const char *tipo_dato, const char *valor);
 
-int tablaSimbolosLlena(const t_tabla_simbolos* tabla);
+int tablaSimbolosLlena(const t_tabla_simbolos *tabla);
 
+void procesarSimbolo(const char *lexema, const char *tipo_token);
 
+void crearTablaSimbolos(void);
 
-#endif // LISTA_H
+void crearTablaSimbolos(void);
+
+int exportarTablaSimbolos(const char *nombre_archivo);
+
+#endif // TABLA_SIMBOLOS_H

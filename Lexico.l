@@ -4,15 +4,8 @@
 /* -------------------------------------------------------------------------- */
 
 %{
-#include "./utils/utils.h"
-#include "./utils/informes.h"
-#include "./utils/validacion.h"
 
-#include "y.tab.h"
-
-FILE *archivo_salida_lexico;
-
-t_tabla_simbolos tabla_simbolos;
+#include "./Lexico.h"
 
 %}
 
@@ -164,7 +157,8 @@ COMA             ","
     if (validarRangoInt(yytext) == 0) {
         procesarSimbolo(yytext, TIPO_TOKEN_CONST_INT);
     } else {
-        informarErrorValidacion("CONST_INT fuera de rango");
+        informarErrorValidacion(yytext, TIPO_TOKEN_CONST_INT, "El valor excede el rango permitido", yylineno);
+        exit(1);
     }
     return CONST_INT;
 }
@@ -173,7 +167,8 @@ COMA             ","
     if (validarRangoFloat(yytext) == 0) {
         procesarSimbolo(yytext, TIPO_TOKEN_CONST_FLOAT);
     } else {
-        informarErrorValidacion("CONST_FLOAT fuera de rango");
+        informarErrorValidacion(yytext, TIPO_TOKEN_CONST_FLOAT, "El valor excede el rango permitido", yylineno);
+        exit(1);
     }
     return CONST_FLOAT;
 }
@@ -182,7 +177,8 @@ COMA             ","
     if (validarLongitudString(yytext) == 0) {
         procesarSimbolo(yytext, TIPO_TOKEN_CONST_STR);
     } else {
-        informarErrorValidacion("CONST_STR longitud excedida");
+        informarErrorValidacion(yytext, TIPO_TOKEN_CONST_STR, "La longitud del string excede el maximo permitido", yylineno);
+        exit(1);
     }
     return CONST_STR;
 }
@@ -229,7 +225,10 @@ COMA             ","
 "\r\n"
 
 
-.   { informarErrorNoMatch(yytext); exit(1);} 
+.   { 
+        informarErrorNoMatchLexico(yytext, yylineno); 
+        exit(1);
+    } 
 
 
 %%
