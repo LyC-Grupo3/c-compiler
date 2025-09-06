@@ -1,0 +1,45 @@
+NOMBRE|TIPO|VALOR|LONGITUD
+a1|||0
+b1|||0
+var1|||0
+p1|||0
+p2|||0
+p3|||0
+a2|||0
+b2|||0
+a|||0
+_1|CONST_INT|1|1
+_2|CONST_INT|2|1
+b|||0
+_99999_99|CONST_FLOAT|99999.99|8
+_99_0|CONST_FLOAT|99.0|4
+_0_9999|CONST_FLOAT|0.9999|6
+c|||0
+_CONST_STR_1|CONST_STR|string repetido|15
+_CONST_STR_3|CONST_STR|string diferente|16
+d|||0
+_27|CONST_INT|27|2
+r|||0
+_500|CONST_INT|500|3
+_34|CONST_INT|34|2
+_3|CONST_INT|3|1
+z|||0
+f|||0
+_CONST_STR_4|CONST_STR|a es mas gr&&e que b y c es mas gr&&e que b|43
+_CONST_STR_5|CONST_STR|a es mas gr&&e que b|20
+_CONST_STR_6|CONST_STR|a es mas chico o igual a b|26
+_CONST_STR_9|CONST_STR|a no es mas gr&&e que b|23
+_CONST_STR_10|CONST_STR|a es mas gr&&e que b o c es mas gr&&e que b|43
+_CONST_STR_12|CONST_STR|c es mas gr&&e que d|20
+base|||0
+_CONST_STR_14|CONST_STR|ewr|3
+y|||0
+_0|CONST_INT|0|1
+_n5|CONST_INT|-5|2
+_5|CONST_INT|5|1
+areaMax|||0
+x|||0
+_4_0|CONST_FLOAT|4.0|3
+_12|CONST_INT|12|2
+_2_5|CONST_FLOAT|2.5|3
+_6|CONST_INT|6|1

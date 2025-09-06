@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 
         yyparse();
 
-        exportarTablaSimbolos("test_outputs/tabla_simbolos.txt");
+        exportarTablaSimbolos("symbol-table.txt");
         cerrarArchivoSalidaLexico();
         cerrarArchivoSalidaLexicoSintactico();
     }

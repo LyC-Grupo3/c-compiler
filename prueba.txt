@@ -2,44 +2,73 @@
 
 
 
-#+                                INIT                                  +#
+#+ INIT - Declaración de variables - Declaración del mismo tipo de variable en más de una línea +#
 init {
     a1, b1 : float
-    variable1 : int
+    var1 : int
     p1, p2, p3 : string
+    a2, b2 : float
+    var1: string
 }
+
 
 
 #+                                ASSIGMENTS                            +#
 #+ SIN EXP ARIMETICA +#
+#+ De paso valido simbolo con igual valor int +#
 a := 1
-b := 1
-c := 2
+a := 1
+a := 2
 
 
-a := 99999.99
-a := 99.
-a := .9999
 
-b := "@sdADaSjfla%dfg"
-b := "asldk  fh sjf"
+#+ De paso valido simbolo con igual valor float +#
+#+ Valido que no se inserte dos veces el simbolo id a +#
+b := 99999.99
+b := 99999.99
+b := 99.
+b := 99.0000
+b := .9999
+
+
+
+c := "string repetido"
+c := "string repetido"
+c := "string diferente"
+
 
 
 #+ CON EXP ARITMETICA +#
-x := 27 - c
-x := r + 500
-x := 34 * 3
-x := z / f
+d := 27 - c
+d := r + 500
+d := 34 * 3
+d := z / f
 
 
 
-#+ IF +#
-if (a > b && c > b)
+#+ IF sin ELSE +#
+#+ Condiciones simples +#
+if (a > b)
 {
     write("a es mas gr&&e que b y c es mas gr&&e que b")
 }
 
 
+
+#+ Condiciones compuestas +#
+#+ Condición con AND +#
+if (a > b && c > b)
+{
+    write("a es mas gr&&e que b")
+}
+else
+{
+    write("a es mas chico o igual a b")
+}
+
+
+
+#+ IF con ELSE +#
 if (a > b)
 {
     write("a es mas gr&&e que b")
@@ -50,16 +79,33 @@ else
 }
 
 
+
+#+ Condición con NOT +#
 if (! a > b)
 {
     write("a no es mas gr&&e que b")
 }
 
 
+
+#+ Condición con OR +#
 if (a > b || c > b)
 {
     write("a es mas gr&&e que b o c es mas gr&&e que b")
 }
+
+
+
+#+ IF Anidado +#
+if (a > b)
+{
+    write("a es mas gr&&e que b")
+    if (c > d)
+    {
+        write("c es mas gr&&e que d")
+    }
+}
+
 
 
 #+ WHILE +#
@@ -81,6 +127,8 @@ write("ewr")  #+ "ewr" es una cte string +#
 write(var1)  #+ var1 es una variable numérica definida previamente +#
 
 
+
+#+ FUNCIONES +#
 y := equalExpressions(0, -5) 
 y := equalExpressions(0, -5, a + b) 
 y := equalExpressions(a + b, 5, b * 2, 3 - 2, a + b) 

@@ -1,0 +1,3 @@
+init { a : string }
+
+a := "este_es_un_string_muy_largo_que_excede_los_cincuenta_caracteres_permitidos"
