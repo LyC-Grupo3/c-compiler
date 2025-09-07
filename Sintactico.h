@@ -11,7 +11,7 @@
 FILE *yyin;
 int yylineno;
 char *yytext;
-
+int yyparse(void);
 int yyerror(const char *msg);
 int yylex();
 
