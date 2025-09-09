@@ -19,7 +19,7 @@ void informarMatchLexico(char *lexema, char *tipo_token)
 {
     char mensaje[500];
     sprintf(mensaje, "[LEXICO]       LEXEMA: %-20s - TOKEN: %-15s\n", lexema, tipo_token);
-    printf("%s", mensaje);
+    // printf("%s", mensaje);
 
     if (archivo_salida_lexico != NULL)
     {
@@ -81,7 +81,7 @@ void informarExitoInsertarSimbolo(const char *nombre, const char *lexema, const 
 {
     char mensaje[500];
     sprintf(mensaje, "[SIMBOLO_INS]  NOMBRE: %-20s - TIPO: %-15s\n", nombre, tipo_agregado);
-    printf("%s", mensaje);
+    // printf("%s", mensaje);
 
     if (archivo_salida_lexico != NULL)
     {
@@ -94,7 +94,7 @@ void informarDuplicadoSimbolo(const char *nombre)
 {
     char mensaje[500];
     sprintf(mensaje, "[SIMBOLO_WAR]  El símbolo '%s' ya existe en la tabla de simbolos\n", nombre);
-    printf("%s", mensaje);
+    // printf("%s", mensaje);
 
     if (archivo_salida_lexico != NULL)
     {
