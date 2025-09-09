@@ -1,0 +1,2 @@
+# This file ensures that the test_outputs directory is tracked by Git
+# The directory should always exist for the compiler tests to work properly
