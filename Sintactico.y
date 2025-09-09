@@ -68,23 +68,23 @@ start:
     ;
 
 programa:
-     init conjunto_sentencias
-    |init
+     init conjunto_sentencias                           {informarMatchLexicoSintactico("programa", "init conjunto_sentencias");}
+    |init                                               {informarMatchLexicoSintactico("programa", "init");}
     ;
 
 conjunto_sentencias:
-    conjunto_sentencias sentencia 
-    |sentencia
+    conjunto_sentencias sentencia                       {informarMatchLexicoSintactico("conjunto_sentencias", "conjunto_sentencias sentencia");}
+    |sentencia                                          {informarMatchLexicoSintactico("conjunto_sentencias", "sentencia");}
                          
     ;
 
 sentencia:
-    bloque_if_else
-    | bloque_if
-    | bloque_while
-    | asignacion
-    | funcion_read
-    | funcion_write
+    bloque_if_else                                      {informarMatchLexicoSintactico("sentencia", "bloque_if_else");}
+    | bloque_if                                         {informarMatchLexicoSintactico("sentencia", "bloque_if");}
+    | bloque_while                                      {informarMatchLexicoSintactico("sentencia", "bloque_while");}
+    | asignacion                                        {informarMatchLexicoSintactico("sentencia", "asignacion");}
+    | funcion_read                                      {informarMatchLexicoSintactico("sentencia", "funcion_read");}
+    | funcion_write                                     {informarMatchLexicoSintactico("sentencia", "funcion_write");}
     ;
 
 /* ------------------------------- ARITHMETIC ------------------------------- */
@@ -95,16 +95,16 @@ expresion:
     ;
 
 termino:
-    termino OP_MUL factor
-    | termino OP_DIV factor
-    | factor
+    termino OP_MUL factor                               {informarMatchLexicoSintactico("termino", "termino OP_MUL factor");}
+    | termino OP_DIV factor                             {informarMatchLexicoSintactico("termino", "termino OP_DIV factor");}
+    | factor                                            {informarMatchLexicoSintactico("termino", "factor");}
     ;
 
 factor:
-    ID
-    | CONST_INT
-    | CONST_FLOAT
-    | PAR_A expresion PAR_C
+    ID                                                  {informarMatchLexicoSintactico("factor", "ID");}
+    | CONST_INT                                         {informarMatchLexicoSintactico("factor", "CONST_INT");}
+    | CONST_FLOAT                                       {informarMatchLexicoSintactico("factor", "CONST_FLOAT");}
+    | PAR_A expresion PAR_C                             {informarMatchLexicoSintactico("factor", "PAR_A expresion PAR_C");}
     ;
 
 /* ------------------------------- ASSIGMENTS ------------------------------- */
@@ -121,23 +121,23 @@ init:
     ;
 
 conjunto_declaraciones:
-    conjunto_declaraciones declaracion
-    | declaracion
+    conjunto_declaraciones declaracion                  {informarMatchLexicoSintactico("conjunto_declaraciones", "conjunto_declaraciones declaracion");}
+    | declaracion                                       {informarMatchLexicoSintactico("conjunto_declaraciones", "declaracion");}
     ;
 
 declaracion:
-    conjunto_ids OP_ASIG_TIPO tipo_dato
+    conjunto_ids OP_ASIG_TIPO tipo_dato                 {informarMatchLexicoSintactico("declaracion", "conjunto_ids OP_ASIG_TIPO tipo_dato");}
     ;
 
 conjunto_ids:
-    conjunto_ids COMA ID
-    | ID
+    conjunto_ids COMA ID                                {informarMatchLexicoSintactico("conjunto_ids", "conjunto_ids COMA ID");}
+    | ID                                                {informarMatchLexicoSintactico("conjunto_ids", "ID");}
     ;
 
 tipo_dato:
-    INT
-    | FLOAT
-    | STRING
+    INT                                                 {informarMatchLexicoSintactico("tipo_dato", "INT");}
+    | FLOAT                                             {informarMatchLexicoSintactico("tipo_dato", "FLOAT");}
+    | STRING                                            {informarMatchLexicoSintactico("tipo_dato", "STRING");}
     ;
 
 /* ----------------------------------- IF ----------------------------------- */
@@ -146,27 +146,27 @@ bloque_if:
     ;
 
 condicional:
-    condicion
-    | condicion operador_logico condicion
-    | NOT condicion
+    condicion                                           {informarMatchLexicoSintactico("condicional", "condicion");}
+    | condicion operador_logico condicion               {informarMatchLexicoSintactico("condicional", "condicion operador_logico condicion");}
+    | NOT condicion                                     {informarMatchLexicoSintactico("condicional", "NOT condicion");}
     ;
 
 condicion:
-    expresion operador_comparacion expresion
+    expresion operador_comparacion expresion           {informarMatchLexicoSintactico("condicion", "expresion operador_comparacion expresion");}
     ;
 
 operador_comparacion:
-    OP_IGUAL
-    | OP_DISTINTO
-    | OP_MAYOR
-    | OP_MAYOR_IGUAL
-    | OP_MENOR
-    | OP_MENOR_IGUAL
+    OP_IGUAL                                            {informarMatchLexicoSintactico("operador_comparacion", "OP_IGUAL");}
+    | OP_DISTINTO                                       {informarMatchLexicoSintactico("operador_comparacion", "OP_DISTINTO");}
+    | OP_MAYOR                                          {informarMatchLexicoSintactico("operador_comparacion", "OP_MAYOR");}
+    | OP_MAYOR_IGUAL                                    {informarMatchLexicoSintactico("operador_comparacion", "OP_MAYOR_IGUAL");}
+    | OP_MENOR                                          {informarMatchLexicoSintactico("operador_comparacion", "OP_MENOR");}
+    | OP_MENOR_IGUAL                                    {informarMatchLexicoSintactico("operador_comparacion", "OP_MENOR_IGUAL");}
     ;
 
 operador_logico:
-    AND
-    | OR
+    AND                                                 {informarMatchLexicoSintactico("operador_logico", "AND");}
+    | OR                                                {informarMatchLexicoSintactico("operador_logico", "OR");}
     ;
 
 /* ---------------------------------- ELSE ---------------------------------- */
@@ -192,13 +192,13 @@ funcion_read:
 /* ---------------------------------- WRITE --------------------------------- */
 funcion_write:
     WRITE PAR_A CONST_STR PAR_C                                     {informarMatchLexicoSintactico("funcion_write", "WRITE PAR_A CONST_STR PAR_C");}
-    | WRITE PAR_A ID PAR_C
+    | WRITE PAR_A ID PAR_C                              {informarMatchLexicoSintactico("funcion_write", "WRITE PAR_A ID PAR_C");}
     ;
 
 /* ---------------------------- TEMAS ESPECIALES ---------------------------- */
 funciones_temas_especiales:
-    funcion_equal_expressions
-    | funcion_triangle_area_maximum
+    funcion_equal_expressions                           {informarMatchLexicoSintactico("funciones_temas_especiales", "funcion_equal_expressions");}
+    | funcion_triangle_area_maximum                     {informarMatchLexicoSintactico("funciones_temas_especiales", "funcion_triangle_area_maximum");}
     ;
 
 /* ---------------------------- EQUAL EXPRESSIONS --------------------------- */
@@ -207,8 +207,8 @@ funcion_equal_expressions:
     ;
 
 parametros_equal_expressions:
-    expresion COMA expresion
-    | parametros_equal_expressions COMA expresion
+    expresion COMA expresion                            {informarMatchLexicoSintactico("parametros_equal_expressions", "expresion COMA expresion");}
+    | parametros_equal_expressions COMA expresion       {informarMatchLexicoSintactico("parametros_equal_expressions", "parametros_equal_expressions COMA expresion");}
     ;
 
 
@@ -218,25 +218,25 @@ funcion_triangle_area_maximum:
     ;
 
 parametros_triangle_area_maximum:
-    coordenadas_triangulo PUNTO_C coordenadas_triangulo
+    coordenadas_triangulo PUNTO_C coordenadas_triangulo {informarMatchLexicoSintactico("parametros_triangle_area_maximum", "coordenadas_triangulo PUNTO_C coordenadas_triangulo");}
     ;
 
 coordenadas_triangulo:
-    COR_A conjunto_puntos_triangulo COR_C
+    COR_A conjunto_puntos_triangulo COR_C               {informarMatchLexicoSintactico("coordenadas_triangulo", "COR_A conjunto_puntos_triangulo COR_C");}
     ;
 
 conjunto_puntos_triangulo:
-    coordenada_triangulo PUNTO_C coordenada_triangulo PUNTO_C coordenada_triangulo
+    coordenada_triangulo PUNTO_C coordenada_triangulo PUNTO_C coordenada_triangulo {informarMatchLexicoSintactico("conjunto_puntos_triangulo", "coordenada_triangulo PUNTO_C coordenada_triangulo PUNTO_C coordenada_triangulo");}
     ;
 
 coordenada_triangulo:
-    tipo_parametro_triangle_area COMA tipo_parametro_triangle_area
+    tipo_parametro_triangle_area COMA tipo_parametro_triangle_area {informarMatchLexicoSintactico("coordenada_triangulo", "tipo_parametro_triangle_area COMA tipo_parametro_triangle_area");}
     ;
 
 tipo_parametro_triangle_area:
-    CONST_INT
-    | CONST_FLOAT
-    | ID
+    CONST_INT                                           {informarMatchLexicoSintactico("tipo_parametro_triangle_area", "CONST_INT");}
+    | CONST_FLOAT                                       {informarMatchLexicoSintactico("tipo_parametro_triangle_area", "CONST_FLOAT");}
+    | ID                                                {informarMatchLexicoSintactico("tipo_parametro_triangle_area", "ID");}
     ;
 
 

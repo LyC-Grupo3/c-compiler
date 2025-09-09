@@ -65,7 +65,7 @@ y.tab.h
 compilador
 
 # Test output files
-test_outputs/
+test_outputs/*
 temp/
 lexico_temp.l
 lex.yy.c
