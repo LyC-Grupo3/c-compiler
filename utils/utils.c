@@ -172,7 +172,7 @@ void formatearSimbolo(const char *lexema, const char *tipo_token,
         {
             strcpy(valor_simbolo, lexema);
         }
-        snprintf(nombre_simbolo, MAX_LONG_NOMBRE_SIMBOLO, "_%s_%d", TIPO_TOKEN_CONST_STR, contadorStr);
+        snprintf(nombre_simbolo, MAX_LONG_NOMBRE_SIMBOLO, "_%s", valor_simbolo);
         snprintf(tipo_simbolo, MAX_LONG_TIPO_SIMBOLO, "%s", TIPO_TOKEN_CONST_STR);
         snprintf(longitud_simbolo, MAX_LONG_LONGITUD_SIMBOLO, "%d", (int)strlen(valor_simbolo));
         *tipo_para_informe = TIPO_TOKEN_CONST_STR;
