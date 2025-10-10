@@ -4,6 +4,8 @@
 #include "./utils/archivos.h"
 #include "./utils/utils.h"
 #include "./utils/informes.h"
+#include "./utils/polaca.h"
+#include "./utils/pila.h"
 
 #include "y.tab.h"
 
@@ -14,5 +16,8 @@ char *yytext;
 
 int yyerror(const char *msg);
 int yylex();
+
+void setOperadorComparacionPendientePolaca(char *operador);
+char* getOperadorComparacionPendientePolaca();
 
 #endif // SINTACTICO

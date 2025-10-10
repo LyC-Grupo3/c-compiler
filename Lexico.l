@@ -150,7 +150,7 @@ COMA             ","
 {TRIAN_MAX}		{informarMatchLexico(yytext, "TRIAN_MAX"); return TRIAN_MAX;}
 
 
-{ID}			{informarMatchLexico(yytext, "ID"); procesarSimbolo(yytext, TIPO_TOKEN_ID); return ID;}
+{ID}			{informarMatchLexico(yytext, "ID"); procesarSimbolo(yytext, TIPO_TOKEN_ID); strcpy(yylval.lexema, yytext); return ID;}
 
 {CONST_INT}		{
     informarMatchLexico(yytext, TIPO_TOKEN_CONST_INT); 
@@ -160,6 +160,7 @@ COMA             ","
         informarErrorValidacion(yytext, TIPO_TOKEN_CONST_INT, "El valor excede el rango permitido", yylineno);
         exit(1);
     }
+    strcpy(yylval.lexema, yytext);
     return CONST_INT;
 }
 {CONST_FLOAT}	{
@@ -170,6 +171,7 @@ COMA             ","
         informarErrorValidacion(yytext, TIPO_TOKEN_CONST_FLOAT, "El valor excede el rango permitido", yylineno);
         exit(1);
     }
+    strcpy(yylval.lexema, yytext);
     return CONST_FLOAT;
 }
 {CONST_STR}		{
@@ -180,6 +182,7 @@ COMA             ","
         informarErrorValidacion(yytext, TIPO_TOKEN_CONST_STR, "La longitud del string excede el maximo permitido", yylineno);
         exit(1);
     }
+    strcpy(yylval.lexema, yytext);
     return CONST_STR;
 }
 

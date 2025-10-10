@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "sintactico.h": "c",
+        "polaca.h": "c",
+        "*.gitignore": "c",
+        "tabla_simbolos.h": "c",
+        "informes.h": "c",
+        "stdio.h": "c"
+    }
+}

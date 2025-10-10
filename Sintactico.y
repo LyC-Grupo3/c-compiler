@@ -8,8 +8,9 @@
 
 %}
 
-
-
+%union {
+    char lexema[100];
+}
 
 /* -------------------------------------------------------------------------- */
 /*                              SECCION DE TOKENS                             */
@@ -31,10 +32,10 @@
 %token EQUAL_EXP TRIAN_MAX
 
 /* --------------------------------- BASICOS -------------------------------- */
-%token ID
+%token <lexema> ID
 
 /* -------------------------------- CONSTANTES ------------------------------- */
-%token CONST_INT CONST_FLOAT CONST_STR
+%token <lexema> CONST_INT CONST_FLOAT CONST_STR
 
 /* ---------------------------- OPERADORES ASIGNACION ----------------------- */
 %token OP_ASIG_VALOR OP_ASIG_TIPO
@@ -89,29 +90,61 @@ sentencia:
 
 /* ------------------------------- ARITHMETIC ------------------------------- */
 expresion:
-    expresion OP_SUM termino                            {informarMatchLexicoSintactico("expresion", "expresion OP_SUM termino");}
-    | expresion OP_RES termino                          {informarMatchLexicoSintactico("expresion", "expresion OP_RES termino");}
+    expresion OP_SUM termino                            {
+                                                            informarMatchLexicoSintactico("expresion", "expresion OP_SUM termino");
+                                                            insertarEnPolaca("+");
+                                                        }
+    | expresion OP_RES termino                          {
+                                                            informarMatchLexicoSintactico("expresion", "expresion OP_RES termino");
+                                                            insertarEnPolaca("-");
+                                                        }
     | termino                                           {informarMatchLexicoSintactico("expresion", "termino");}
     ;
 
 termino:
-    termino OP_MUL factor                               {informarMatchLexicoSintactico("termino", "termino OP_MUL factor");}
-    | termino OP_DIV factor                             {informarMatchLexicoSintactico("termino", "termino OP_DIV factor");}
+    termino OP_MUL factor                               {
+                                                            informarMatchLexicoSintactico("termino", "termino OP_MUL factor");
+                                                            insertarEnPolaca("*");
+                                                        }
+    | termino OP_DIV factor                             {
+                                                            informarMatchLexicoSintactico("termino", "termino OP_DIV factor");
+                                                            insertarEnPolaca("/");
+                                                        }
     | factor                                            {informarMatchLexicoSintactico("termino", "factor");}
     ;
 
 factor:
-    ID                                                  {informarMatchLexicoSintactico("factor", "ID");}
-    | CONST_INT                                         {informarMatchLexicoSintactico("factor", "CONST_INT");}
-    | CONST_FLOAT                                       {informarMatchLexicoSintactico("factor", "CONST_FLOAT");}
+    ID                                                  {
+                                                            informarMatchLexicoSintactico("factor", "ID");
+                                                            insertarEnPolaca($1);
+                                                        }
+    | CONST_INT                                         {
+                                                            informarMatchLexicoSintactico("factor", "CONST_INT");
+                                                            insertarEnPolaca($1);
+                                                        }
+    | CONST_FLOAT                                       {
+                                                            informarMatchLexicoSintactico("factor", "CONST_FLOAT");
+                                                            insertarEnPolaca($1);
+                                                        }
     | PAR_A expresion PAR_C                             {informarMatchLexicoSintactico("factor", "PAR_A expresion PAR_C");}
     ;
 
 /* ------------------------------- ASSIGMENTS ------------------------------- */
 asignacion:
-    ID OP_ASIG_VALOR expresion                          {informarMatchLexicoSintactico("asignacion", "ID OP_ASIG_VALOR expresion");}
-    | ID OP_ASIG_VALOR CONST_STR                        {informarMatchLexicoSintactico("asignacion", "ID OP_ASIG_VALOR CONST_STR");}
-    | ID OP_ASIG_VALOR funciones_temas_especiales       {informarMatchLexicoSintactico("asignacion", "ID OP_ASIG_VALOR funciones_temas_especiales");}
+    ID OP_ASIG_VALOR expresion                          {
+                                                            informarMatchLexicoSintactico("asignacion", "ID OP_ASIG_VALOR expresion");
+                                                            insertarEnPolaca($1);
+                                                            insertarEnPolaca(":=");
+                                                        }
+    | ID OP_ASIG_VALOR CONST_STR                        {
+                                                            informarMatchLexicoSintactico("asignacion", "ID OP_ASIG_VALOR CONST_STR");
+                                                            insertarEnPolaca($3);
+                                                            insertarEnPolaca($1);
+                                                            insertarEnPolaca(":=");
+                                                        }
+    | ID OP_ASIG_VALOR funciones_temas_especiales       {
+                                                            informarMatchLexicoSintactico("asignacion", "ID OP_ASIG_VALOR funciones_temas_especiales");
+                                                        }
     ;
 
 /* ---------------------------------- INIT ---------------------------------- */
@@ -142,7 +175,14 @@ tipo_dato:
 
 /* ----------------------------------- IF ----------------------------------- */
 bloque_if:
-    IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C      {informarMatchLexicoSintactico("bloque_if", "IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");}
+    IF PAR_A condicional PAR_C LLA_A conjunto_sentencias    {
+                                                                char* indicePolacaChar = desapilar();
+                                                                int indicePolacaApilado = atoi(indicePolacaChar);
+                                                                char* indiceActualPolaca = getIndiceActualPolaca();
+
+                                                                insertarEnPolacaIndice(indiceActualPolaca, indicePolacaApilado);
+                                                            }
+                                                            LLA_C      {informarMatchLexicoSintactico("bloque_if", "IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");}
     ;
 
 condicional:
@@ -152,16 +192,40 @@ condicional:
     ;
 
 condicion:
-    expresion operador_comparacion expresion           {informarMatchLexicoSintactico("condicion", "expresion operador_comparacion expresion");}
+    expresion operador_comparacion expresion           {
+                                                            informarMatchLexicoSintactico("condicion", "expresion operador_comparacion expresion");
+                                                            insertarEnPolaca(VALOR_POLACA_COMPARADOR);
+                                                            insertarEnPolaca(getOperadorComparacionPendientePolaca());
+                                                            apilar(getIndiceActualPolaca());
+                                                            avanzarPolaca();
+                                                        }
     ;
 
 operador_comparacion:
-    OP_IGUAL                                            {informarMatchLexicoSintactico("operador_comparacion", "OP_IGUAL");}
-    | OP_DISTINTO                                       {informarMatchLexicoSintactico("operador_comparacion", "OP_DISTINTO");}
-    | OP_MAYOR                                          {informarMatchLexicoSintactico("operador_comparacion", "OP_MAYOR");}
-    | OP_MAYOR_IGUAL                                    {informarMatchLexicoSintactico("operador_comparacion", "OP_MAYOR_IGUAL");}
-    | OP_MENOR                                          {informarMatchLexicoSintactico("operador_comparacion", "OP_MENOR");}
-    | OP_MENOR_IGUAL                                    {informarMatchLexicoSintactico("operador_comparacion", "OP_MENOR_IGUAL");}
+    OP_IGUAL                                            {
+                                                            informarMatchLexicoSintactico("operador_comparacion", "OP_IGUAL");
+                                                            setOperadorComparacionPendientePolaca(VALOR_POLACA_OP_IGUAL);
+                                                        }
+    | OP_DISTINTO                                       {
+                                                            informarMatchLexicoSintactico("operador_comparacion", "OP_DISTINTO");
+                                                            setOperadorComparacionPendientePolaca(VALOR_POLACA_OP_DISTINTO);
+                                                        }
+    | OP_MAYOR                                          {
+                                                            informarMatchLexicoSintactico("operador_comparacion", "OP_MAYOR");
+                                                            setOperadorComparacionPendientePolaca(VALOR_POLACA_OP_MAYOR);
+                                                        }
+    | OP_MAYOR_IGUAL                                    {
+                                                            informarMatchLexicoSintactico("operador_comparacion", "OP_MAYOR_IGUAL");
+                                                            setOperadorComparacionPendientePolaca(VALOR_POLACA_OP_MAYOR_IGUAL);
+                                                        }
+    | OP_MENOR                                          {
+                                                            informarMatchLexicoSintactico("operador_comparacion", "OP_MENOR");
+                                                            setOperadorComparacionPendientePolaca(VALOR_POLACA_OP_MENOR);
+                                                        }
+    | OP_MENOR_IGUAL                                    {
+                                                            informarMatchLexicoSintactico("operador_comparacion", "OP_MENOR_IGUAL");
+                                                            setOperadorComparacionPendientePolaca(VALOR_POLACA_OP_MENOR_IGUAL);
+                                                        }
     ;
 
 operador_logico:
