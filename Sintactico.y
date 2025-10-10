@@ -179,30 +179,21 @@ seleccion_con_else:
                 {
                     // Sentencia de Selección con else - Fin del bloque verdadero
                     insertarEnPolaca("BI");
+
                     // 1. Desapilar X (tope de la pila)
-                    char* indicePolacaChar = desapilar();
-                    int nroCeldaDesapilada = atoi(indicePolacaChar);
                     // 2. Escribir en la celda X, el nº de celda actual + 1
-                    char* nroCeldaActual = getIndiceActualPolaca();
-                    char nroCeldaActualMasUno[12];
-                    snprintf(nroCeldaActualMasUno, 12, "%d", atoi(nroCeldaActual) + 1);
-                    insertarEnPolacaIndice(nroCeldaDesapilada, nroCeldaActualMasUno);
+                    desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno();
                     // 3. Apilar el nº de celda actual
-                    apilar(nroCeldaActual);
-                    avanzarPolaca();
+                    apilarNroCeldaActualYAvanzarPolaca();
                 }
                 bloque_else                               
                                 {
                                     informarMatchLexicoSintactico("seleccion_con_else", "bloque_if bloque_else");
                                     // Sentencia de Selección con else - Fin del bloque falso
                                     // 1. Desapilar X (tope de la pila)
-                                    char* indicePolacaChar = desapilar();
-                                    int nroCeldaDesapilada = atoi(indicePolacaChar);
                                     // 2. Escribir en la celda X, el nº de celda actual + 1
-                                    char* nroCeldaActual = getIndiceActualPolaca();
-                                    char nroCeldaActualMasUno[12];
-                                    snprintf(nroCeldaActualMasUno, 12, "%d", atoi(nroCeldaActual));
-                                    insertarEnPolacaIndice(nroCeldaDesapilada, nroCeldaActualMasUno);
+                                    // TODO: Preguntar al profesor porque en realidad no es mas uno
+                                    desapilarNroCeldaYEscribirEnEllaNroCeldaActual();
                                 }
     ;
 
@@ -212,11 +203,8 @@ seleccion_sin_else:
                     informarMatchLexicoSintactico("seleccion_sin_else", "bloque_if");
                     // Sentencia de Selección (sin else) - Fin del bloque verdadero
                     // 1. Desapilar X (tope de la pila)
-                    char* indicePolacaChar = desapilar();
-                    int nroCeldaDesapilada = atoi(indicePolacaChar);
                     // 2. Escribir en la celda X, el nº de celda actual
-                    char* nroCeldaActual = getIndiceActualPolaca();
-                    insertarEnPolacaIndice(nroCeldaDesapilada, nroCeldaActual);
+                    desapilarNroCeldaYEscribirEnEllaNroCeldaActual();
                 }
     ;
 
@@ -227,9 +215,7 @@ bloque_if:
                             // Sentencia de Selección con else - Fin de Condición
                             // Sentencia de Selección (sin else) - Fin de Condición
                             // 1. Apilar el nº de celda actual
-                            char* nroCeldaActual = getIndiceActualPolaca();
-                            apilar(nroCeldaActual);
-                            avanzarPolaca();
+                            apilarNroCeldaActualYAvanzarPolaca();
                         }
                         PAR_C LLA_A conjunto_sentencias LLA_C      { informarMatchLexicoSintactico("bloque_if", "IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");}
     ;
@@ -294,8 +280,7 @@ iteracion_while:
         {
             // Sentencias de Iteración (while) - Comienzo
             // 1. Apilar el nº celda actual
-            char* nroCeldaActual = getIndiceActualPolaca();
-            apilar(nroCeldaActual);
+            apilarNroCeldaActualPolaca();
 
             insertarEnPolaca("ET");
         }
@@ -303,33 +288,20 @@ iteracion_while:
                             {                      
                                 // Sentencias de Iteración (while) - Fin de la Condición
                                 // 1. Apilar el nº celda actual
-                                char* nroCeldaActual = getIndiceActualPolaca();
-                                apilar(nroCeldaActual);
-
-                                avanzarPolaca();
+                                apilarNroCeldaActualYAvanzarPolaca();
                             }
                             PAR_C LLA_A conjunto_sentencias LLA_C   
                                                                     {
                                                                         informarMatchLexicoSintactico("iteracion_while", "WHILE PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");
-
                                                                         // Sentencias de Iteración (while) - Fin del ciclo
                                                                         insertarEnPolaca("BI");
-
                                                                         // 1. Desapilar Z (tope de la pila)
-                                                                        char* indicePolacaChar = desapilar();
-                                                                        int nroCeldaDesapilada = atoi(indicePolacaChar);
-                                                                        
                                                                         // 2. Escribir en la celda Z, el nº de celda actual + 1
-                                                                        char* nroCeldaActual = getIndiceActualPolaca();
-                                                                        char nroCeldaActualMasUno[12];
-                                                                        snprintf(nroCeldaActualMasUno, 12, "%d", atoi(nroCeldaActual) + 1);
-                                                                        insertarEnPolacaIndice(nroCeldaDesapilada, nroCeldaActualMasUno);
+                                                                        desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno();
 
                                                                         // 3. Desapilar Z (tope de la pila)
-                                                                        indicePolacaChar = desapilar();
-
-                                                                        // 4. Escribir Z en la celda actual
-                                                                        insertarEnPolaca(indicePolacaChar);
+                                                                        // 4. Escribir en la celda Z, el nº de celda actual 
+                                                                        desapilarNroCeldaYEscribirloEnCeldaActualPolaca();
                                                                     }
     ;
 

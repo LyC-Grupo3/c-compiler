@@ -50,3 +50,53 @@ char *getOperadorComparacionPendientePolaca()
 {
     return (char *)operadorComparacionPendientePolaca;
 }
+
+/* -------------------------------------------------------------------------- */
+/*                   FUNCIONES AUXILIARES PARA BACKPATCHING                   */
+/* -------------------------------------------------------------------------- */
+
+void apilarNroCeldaActualPolaca()
+{
+    char *nroCeldaActual = getIndiceActualPolaca();
+    apilar(nroCeldaActual);
+}
+
+void apilarNroCeldaActualYAvanzarPolaca()
+{
+    apilarNroCeldaActualPolaca();
+    avanzarPolaca();
+}
+
+int desapilarNroCeldaYEscribirEnEllaNroCeldaActual()
+{
+    char *indicePolacaChar = desapilar();
+    int nroCeldaDesapilada = atoi(indicePolacaChar);
+
+    char *nroCeldaActual = getIndiceActualPolaca();
+    insertarEnPolacaIndice(nroCeldaDesapilada, nroCeldaActual);
+
+    return nroCeldaDesapilada;
+}
+
+int desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno()
+{
+    char *indicePolacaChar = desapilar();
+    int nroCeldaDesapilada = atoi(indicePolacaChar);
+
+    char *nroCeldaActual = getIndiceActualPolaca();
+    char nroCeldaActualMasUno[12];
+    snprintf(nroCeldaActualMasUno, 12, "%d", atoi(nroCeldaActual) + 1);
+    insertarEnPolacaIndice(nroCeldaDesapilada, nroCeldaActualMasUno);
+
+    return nroCeldaDesapilada;
+}
+
+int desapilarNroCeldaYEscribirloEnCeldaActualPolaca()
+{
+    char *indicePolacaChar = desapilar();
+    int nroCeldaDesapilada = atoi(indicePolacaChar);
+
+    insertarEnPolaca(indicePolacaChar);
+
+    return nroCeldaDesapilada;
+}

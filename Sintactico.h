@@ -18,6 +18,12 @@ int yyerror(const char *msg);
 int yylex();
 
 void setOperadorComparacionPendientePolaca(char *operador);
-char* getOperadorComparacionPendientePolaca();
+char *getOperadorComparacionPendientePolaca();
+
+void apilarNroCeldaActualPolaca();
+void apilarNroCeldaActualYAvanzarPolaca();
+int desapilarNroCeldaYEscribirEnEllaNroCeldaActual();
+int desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno();
+int desapilarNroCeldaYEscribirloEnCeldaActualPolaca();
 
 #endif // SINTACTICO
