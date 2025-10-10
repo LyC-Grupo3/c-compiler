@@ -127,6 +127,7 @@ factor:
                                                             insertarEnPolaca($1);
                                                         }
     | PAR_A expresion PAR_C                             {informarMatchLexicoSintactico("factor", "PAR_A expresion PAR_C");}
+    | funciones_temas_especiales                        {informarMatchLexicoSintactico("sentencia", "funciones_temas_especiales");}
     ;
 
 /* ------------------------------- ASSIGMENTS ------------------------------- */
@@ -141,9 +142,6 @@ asignacion:
                                                             insertarEnPolaca($3);
                                                             insertarEnPolaca($1);
                                                             insertarEnPolaca(":=");
-                                                        }
-    | ID OP_ASIG_VALOR funciones_temas_especiales       {
-                                                            informarMatchLexicoSintactico("asignacion", "ID OP_ASIG_VALOR funciones_temas_especiales");
                                                         }
     ;
 
