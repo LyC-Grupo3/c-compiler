@@ -335,13 +335,25 @@ iteracion_while:
 
 /* ---------------------------------- READ ---------------------------------- */
 funcion_read:
-    READ PAR_A ID PAR_C                                             {informarMatchLexicoSintactico("funcion_read", "READ PAR_A ID PAR_C");}
+    READ PAR_A ID PAR_C                                 {
+                                                            informarMatchLexicoSintactico("funcion_read", "READ PAR_A ID PAR_C");
+                                                            insertarEnPolaca($3);
+                                                            insertarEnPolaca("READ");
+                                                        }
     ;
 
 /* ---------------------------------- WRITE --------------------------------- */
 funcion_write:
-    WRITE PAR_A CONST_STR PAR_C                                     {informarMatchLexicoSintactico("funcion_write", "WRITE PAR_A CONST_STR PAR_C");}
-    | WRITE PAR_A ID PAR_C                              {informarMatchLexicoSintactico("funcion_write", "WRITE PAR_A ID PAR_C");}
+    WRITE PAR_A CONST_STR PAR_C                         {
+                                                            informarMatchLexicoSintactico("funcion_write", "WRITE PAR_A CONST_STR PAR_C");
+                                                            insertarEnPolaca($3);
+                                                            insertarEnPolaca("WRITE");
+                                                        }
+    | WRITE PAR_A ID PAR_C                              {
+                                                            informarMatchLexicoSintactico("funcion_write", "WRITE PAR_A ID PAR_C");
+                                                            insertarEnPolaca($3);
+                                                            insertarEnPolaca("WRITE");
+                                                        }
     ;
 
 /* ---------------------------- TEMAS ESPECIALES ---------------------------- */
