@@ -4,25 +4,31 @@
 
 #include "./pila.h"
 
-t_pila *pila;
-
 extern FILE *archivoDebugPolaca;
 
-void inicializarPila()
+t_pila *crearPila()
 {
-    pila = (t_pila *)malloc(sizeof(t_pila));
+    t_pila *nuevaPila = (t_pila *)malloc(sizeof(t_pila));
 
-    if (pila == NULL)
+    if (nuevaPila == NULL)
     {
         fprintf(stderr, "Error: No se pudo asignar memoria para Pila\n");
         exit(1);
     }
 
-    pila->tope = NULL;
+    nuevaPila->tope = NULL;
+    
+    return nuevaPila;
 }
 
-int apilar(const char *elemento)
+int apilar(t_pila *pila, const char *elemento)
 {
+    if (pila == NULL)
+    {
+        fprintf(stderr, "Error: Pila NULL\n");
+        return 0;
+    }
+    
     if (elemento == NULL)
     {
         fprintf(stderr, "Error: Elemento NULL\n");
@@ -46,12 +52,12 @@ int apilar(const char *elemento)
     // Debug
     char debugMsg[100];
     snprintf(debugMsg, 100, "apilar(\"%s\")", elemento);
-    registrarEstadoPila(debugMsg);
+    registrarEstadoPila(pila, debugMsg);
 
     return 1;
 }
 
-char *desapilar()
+char *desapilar(t_pila *pila)
 {
     if (pila == NULL || pila->tope == NULL)
     {
@@ -72,12 +78,12 @@ char *desapilar()
     // Debug
     char debugMsg[100];
     snprintf(debugMsg, 100, "desapilar() -> \"%s\"", contenidoDesapilado);
-    registrarEstadoPila(debugMsg);
+    registrarEstadoPila(pila, debugMsg);
 
     return contenidoDesapilado;
 }
 
-void eliminarPila()
+void eliminarPila(t_pila *pila)
 {
     if (pila == NULL)
     {
@@ -101,7 +107,7 @@ void eliminarPila()
 /*                           FUNCIONES DE DEBUG                               */
 /* -------------------------------------------------------------------------- */
 
-void registrarEstadoPila(const char *operacion)
+void registrarEstadoPila(t_pila *pila, const char *operacion)
 {
     if (archivoDebugPolaca == NULL || pila == NULL)
     {

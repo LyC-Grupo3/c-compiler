@@ -6,6 +6,8 @@
 
 #include "./Sintactico.h"
 
+extern t_pila *pilaBase;
+
 %}
 
 %union {
@@ -180,9 +182,9 @@ seleccion_con_else:
 
                     // 1. Desapilar X (tope de la pila)
                     // 2. Escribir en la celda X, el nº de celda actual + 1
-                    desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno();
+                    desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno(pilaBase);
                     // 3. Apilar el nº de celda actual
-                    apilarNroCeldaActualYAvanzarPolaca();
+                    apilarNroCeldaActualYAvanzarPolaca(pilaBase);
                 }
                 bloque_else                               
                                 {
@@ -191,7 +193,7 @@ seleccion_con_else:
                                     // 1. Desapilar X (tope de la pila)
                                     // 2. Escribir en la celda X, el nº de celda actual + 1
                                     // TODO: Preguntar al profesor porque en realidad no es mas uno
-                                    desapilarNroCeldaYEscribirEnEllaNroCeldaActual();
+                                    desapilarNroCeldaYEscribirEnEllaNroCeldaActual(pilaBase);
                                 }
     ;
 
@@ -202,7 +204,7 @@ seleccion_sin_else:
                     // Sentencia de Selección (sin else) - Fin del bloque verdadero
                     // 1. Desapilar X (tope de la pila)
                     // 2. Escribir en la celda X, el nº de celda actual
-                    desapilarNroCeldaYEscribirEnEllaNroCeldaActual();
+                    desapilarNroCeldaYEscribirEnEllaNroCeldaActual(pilaBase);
                 }
     ;
 
@@ -213,7 +215,7 @@ bloque_if:
                             // Sentencia de Selección con else - Fin de Condición
                             // Sentencia de Selección (sin else) - Fin de Condición
                             // 1. Apilar el nº de celda actual
-                            apilarNroCeldaActualYAvanzarPolaca();
+                            apilarNroCeldaActualYAvanzarPolaca(pilaBase);
                         }
                         PAR_C LLA_A conjunto_sentencias LLA_C      { informarMatchLexicoSintactico("bloque_if", "IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");}
     ;
@@ -278,7 +280,7 @@ iteracion_while:
         {
             // Sentencias de Iteración (while) - Comienzo
             // 1. Apilar el nº celda actual
-            apilarNroCeldaActualPolaca();
+            apilarNroCeldaActualPolaca(pilaBase);
 
             insertarEnPolaca("ET");
         }
@@ -286,7 +288,7 @@ iteracion_while:
                             {                      
                                 // Sentencias de Iteración (while) - Fin de la Condición
                                 // 1. Apilar el nº celda actual
-                                apilarNroCeldaActualYAvanzarPolaca();
+                                apilarNroCeldaActualYAvanzarPolaca(pilaBase);
                             }
                             PAR_C LLA_A conjunto_sentencias LLA_C   
                                                                     {
@@ -295,11 +297,11 @@ iteracion_while:
                                                                         insertarEnPolaca("BI");
                                                                         // 1. Desapilar Z (tope de la pila)
                                                                         // 2. Escribir en la celda Z, el nº de celda actual + 1
-                                                                        desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno();
+                                                                        desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno(pilaBase);
 
                                                                         // 3. Desapilar Z (tope de la pila)
                                                                         // 4. Escribir en la celda Z, el nº de celda actual 
-                                                                        desapilarNroCeldaYEscribirloEnCeldaActualPolaca();
+                                                                        desapilarNroCeldaYEscribirloEnCeldaActualPolaca(pilaBase);
                                                                     }
     ;
 

@@ -20,10 +20,10 @@ int yylex();
 void setOperadorComparacionPendientePolaca(char *operador);
 char *getOperadorComparacionPendientePolaca();
 
-void apilarNroCeldaActualPolaca();
-void apilarNroCeldaActualYAvanzarPolaca();
-int desapilarNroCeldaYEscribirEnEllaNroCeldaActual();
-int desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno();
-int desapilarNroCeldaYEscribirloEnCeldaActualPolaca();
+void apilarNroCeldaActualPolaca(t_pila *pila);
+void apilarNroCeldaActualYAvanzarPolaca(t_pila *pila);
+int desapilarNroCeldaYEscribirEnEllaNroCeldaActual(t_pila *pila);
+int desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno(t_pila *pila);
+int desapilarNroCeldaYEscribirloEnCeldaActualPolaca(t_pila *pila);
 
 #endif // SINTACTICO

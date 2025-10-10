@@ -26,13 +26,13 @@ typedef struct
 /*                                  FUNCIONES                                 */
 /* -------------------------------------------------------------------------- */
 
-void inicializarPila();
+t_pila *crearPila();
 
-int apilar(const char *elemento);
-char *desapilar(void);
+int apilar(t_pila *pila, const char *elemento);
+char *desapilar(t_pila *pila);
 
-void registrarEstadoPila(const char *operacion);
+void registrarEstadoPila(t_pila *pila, const char *operacion);
 
-void eliminarPila(void);
+void eliminarPila(t_pila *pila);
 
 #endif // PILA_H
