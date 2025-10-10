@@ -187,33 +187,86 @@ void imprimirEstadoPolacaHorizontal(t_nodo_polaca *inicio, FILE *archivo)
 {
     t_nodo_polaca *actual;
 
-    // Primera fila
+    int contador = 0;
     actual = inicio;
+    while (actual != NULL)
+    {
+        contador++;
+        actual = actual->siguiente;
+    }
+
+    int *anchos = (int *)malloc((contador + 1) * sizeof(int));
+
+    actual = inicio;
+    int i = 0;
     while (actual != NULL)
     {
         int anchoContenido = strlen(actual->contenido) + 4;
 
         char bufferIndice[20];
         snprintf(bufferIndice, 20, "%d", actual->indice);
+        int anchoIndice = strlen(bufferIndice) + 4;
+
+        anchos[i] = (anchoIndice > anchoContenido) ? anchoIndice : anchoContenido;
+
+        actual = actual->siguiente;
+        i++;
+    }
+
+    char bufferIndiceActual[20];
+    snprintf(bufferIndiceActual, 20, "%d", polaca->contador);
+    int anchoIndiceActual = strlen(bufferIndiceActual) + 4;
+    anchos[contador] = anchoIndiceActual;
+
+    // Primera fila: Índices
+    actual = inicio;
+    i = 0;
+    while (actual != NULL)
+    {
+        char bufferIndice[20];
+        snprintf(bufferIndice, 20, "%d", actual->indice);
         int longitudIndice = strlen(bufferIndice);
 
-        int espacioDisponible = anchoContenido - 2;
+        int espacioDisponible = anchos[i] - 2; // -2 por los corchetes
         int espaciosIzq = (espacioDisponible - longitudIndice) / 2;
         int espaciosDer = espacioDisponible - longitudIndice - espaciosIzq;
 
         fprintf(archivo, "[%*s%d%*s] ", espaciosIzq, "", actual->indice, espaciosDer, "");
         actual = actual->siguiente;
+        i++;
     }
+
+    // Imprimir el índice actual donde estoy parado
+    int longitudIndiceActual = strlen(bufferIndiceActual);
+    int espacioDisponibleActual = anchos[contador] - 2;
+    int espaciosIzqActual = (espacioDisponibleActual - longitudIndiceActual) / 2;
+    int espaciosDerActual = espacioDisponibleActual - longitudIndiceActual - espaciosIzqActual;
+    fprintf(archivo, "[%*s%d%*s] ", espaciosIzqActual, "", polaca->contador, espaciosDerActual, "");
+
     fprintf(archivo, "\n");
-    
-    // Segunda fila
+
+    // Segunda fila: Contenidos
     actual = inicio;
+    i = 0;
     while (actual != NULL)
     {
-        fprintf(archivo, "[ %s ] ", actual->contenido);
+        int longitudContenido = strlen(actual->contenido);
+        int espacioDisponible = anchos[i] - 2; // -2 por los corchetes
+        int espaciosIzq = (espacioDisponible - longitudContenido) / 2;
+        int espaciosDer = espacioDisponible - longitudContenido - espaciosIzq;
+
+        fprintf(archivo, "[%*s%s%*s] ", espaciosIzq, "", actual->contenido, espaciosDer, "");
         actual = actual->siguiente;
+        i++;
     }
+
+    // Imprimir el "nodo actual" vacío
+    int espacioDisponibleVacio = anchos[contador] - 2;
+    fprintf(archivo, "[%*s] ", espacioDisponibleVacio, "");
+
     fprintf(archivo, "\n");
+
+    free(anchos);
 }
 
 void imprimirEstadoPolacaVertical(t_nodo_polaca *inicio, FILE *archivo)
