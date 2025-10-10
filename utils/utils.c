@@ -9,7 +9,7 @@
 // Función interna para formatear símbolos según su tipo
 void formatearSimbolo(const char *lexema, const char *tipo_token,
                       char *nombre_simbolo, char *tipo_simbolo,
-                      char *valor_simbolo, int *longitud_simbolo,
+                      char *valor_simbolo, char *longitud_simbolo,
                       const char **tipo_para_informe)
 {
 
@@ -18,7 +18,7 @@ void formatearSimbolo(const char *lexema, const char *tipo_token,
         snprintf(nombre_simbolo, MAX_LONG_NOMBRE_SIMBOLO, "%s", lexema);
         snprintf(tipo_simbolo, MAX_LONG_TIPO_SIMBOLO, "%s", "");
         snprintf(valor_simbolo, MAX_LONG_VALOR_SIMBOLO, "%s", "");
-        *longitud_simbolo = 0;
+        snprintf(longitud_simbolo, MAX_LONG_LONGITUD_SIMBOLO, "%s", "");
         *tipo_para_informe = TIPO_TOKEN_ID;
     }
     else if (strcmp(tipo_token, TIPO_TOKEN_CONST_INT) == 0)
@@ -38,7 +38,7 @@ void formatearSimbolo(const char *lexema, const char *tipo_token,
         snprintf(nombre_simbolo, MAX_LONG_NOMBRE_SIMBOLO, "_%s", nombre_normalizado);
         snprintf(tipo_simbolo, MAX_LONG_TIPO_SIMBOLO, "%s", TIPO_TOKEN_CONST_INT);
         snprintf(valor_simbolo, MAX_LONG_VALOR_SIMBOLO, "%s", lexema);
-        *longitud_simbolo = strlen(lexema);
+        snprintf(longitud_simbolo, MAX_LONG_LONGITUD_SIMBOLO, "%s", "");
         *tipo_para_informe = TIPO_TOKEN_CONST_INT;
     }
     else if (strcmp(tipo_token, TIPO_TOKEN_CONST_FLOAT) == 0)
@@ -152,7 +152,7 @@ void formatearSimbolo(const char *lexema, const char *tipo_token,
         snprintf(nombre_simbolo, MAX_LONG_NOMBRE_SIMBOLO, "_%.*s", MAX_LONG_NOMBRE_SIMBOLO - 2, nombre_normalizado);
         snprintf(tipo_simbolo, MAX_LONG_TIPO_SIMBOLO, "%s", TIPO_TOKEN_CONST_FLOAT);
         snprintf(valor_simbolo, MAX_LONG_VALOR_SIMBOLO, "%s", valor_normalizado);
-        *longitud_simbolo = strlen(valor_normalizado);
+        snprintf(longitud_simbolo, MAX_LONG_LONGITUD_SIMBOLO, "%s", "");
         *tipo_para_informe = TIPO_TOKEN_CONST_FLOAT;
     }
     else if (strcmp(tipo_token, TIPO_TOKEN_CONST_STR) == 0)
@@ -172,9 +172,9 @@ void formatearSimbolo(const char *lexema, const char *tipo_token,
         {
             strcpy(valor_simbolo, lexema);
         }
-        snprintf(nombre_simbolo, MAX_LONG_NOMBRE_SIMBOLO, "_%s_%d", TIPO_TOKEN_CONST_STR, contadorStr);
+        snprintf(nombre_simbolo, MAX_LONG_NOMBRE_SIMBOLO, "_%s", valor_simbolo);
         snprintf(tipo_simbolo, MAX_LONG_TIPO_SIMBOLO, "%s", TIPO_TOKEN_CONST_STR);
-        *longitud_simbolo = strlen(valor_simbolo);
+        snprintf(longitud_simbolo, MAX_LONG_LONGITUD_SIMBOLO, "%d", (int)strlen(valor_simbolo));
         *tipo_para_informe = TIPO_TOKEN_CONST_STR;
     }
 }

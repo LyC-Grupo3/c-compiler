@@ -87,11 +87,11 @@ void procesarSimbolo(const char *lexema, const char *tipo_token)
     char nombre_simbolo[MAX_LONG_NOMBRE_SIMBOLO];
     char tipo_simbolo[MAX_LONG_TIPO_SIMBOLO];
     char valor_simbolo[MAX_LONG_VALOR_SIMBOLO];
-    int longitud_simbolo;
+    char longitud_simbolo[MAX_LONG_LONGITUD_SIMBOLO];
     const char *tipo_para_informe = "";
 
     formatearSimbolo(lexema, tipo_token, nombre_simbolo, tipo_simbolo,
-                     valor_simbolo, &longitud_simbolo, &tipo_para_informe);
+                     valor_simbolo, longitud_simbolo, &tipo_para_informe);
 
     // 2. Verificar si ya existe
     if (strcmp(tipo_token, TIPO_TOKEN_ID) == 0)
@@ -160,7 +160,7 @@ int exportarTablaSimbolos(const char *nombre_archivo)
     for (int i = 0; i < tabla_simbolos.cantidad; i++)
     {
         t_simbolo *simbolo = &(tabla_simbolos.elementos[i]);
-        fprintf(archivo, "%s|%s|%s|%d\n",
+        fprintf(archivo, "%s|%s|%s|%s\n",
                 simbolo->nombre,
                 simbolo->tipoDato,
                 simbolo->valor,

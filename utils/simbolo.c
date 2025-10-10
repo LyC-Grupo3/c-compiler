@@ -6,7 +6,7 @@
 /* -------------------------------------------------------------------------- */
 /*                                  FUNCIONES                                 */
 /* -------------------------------------------------------------------------- */
-t_simbolo crearSimbolo(const char *nombre, const char *tipoDato, const char *valor, int longitud)
+t_simbolo crearSimbolo(const char *nombre, const char *tipoDato, const char *valor, const char *longitud)
 {
     t_simbolo simbolo;
 
@@ -31,7 +31,11 @@ t_simbolo crearSimbolo(const char *nombre, const char *tipoDato, const char *val
         simbolo.valor[MAX_LONG_VALOR_SIMBOLO - 1] = '\0';
     }
 
-    simbolo.longitud = longitud;
+    if (longitud != NULL)
+    {
+        strncpy(simbolo.longitud, longitud, MAX_LONG_LONGITUD_SIMBOLO - 1);
+        simbolo.longitud[MAX_LONG_LONGITUD_SIMBOLO - 1] = '\0';
+    }
 
     return simbolo;
 }

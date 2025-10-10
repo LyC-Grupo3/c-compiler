@@ -22,7 +22,7 @@
 
 void formatearSimbolo(const char *lexema, const char *tipo_token,
                       char *nombre_simbolo, char *tipo_simbolo,
-                      char *valor_simbolo, int *longitud_simbolo,
+                      char *valor_simbolo, char *longitud_simbolo,
                       const char **tipo_para_informe);
 
 #endif // UTILS_Hs
