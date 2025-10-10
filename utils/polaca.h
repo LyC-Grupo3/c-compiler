@@ -41,7 +41,7 @@ typedef struct
 void inicializarPolaca();
 
 int insertarEnPolaca(const char *elemento);
-int insertarEnPolacaIndice(const char *elemento, int indice);
+int insertarEnPolacaIndice(int indice, const char *elemento);
 void avanzarPolaca(void);
 
 void exportarPolaca(const char *nombreArchivo);

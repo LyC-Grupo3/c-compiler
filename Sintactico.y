@@ -80,8 +80,8 @@ conjunto_sentencias:
     ;
 
 sentencia:
-    bloque_if_else                                      {informarMatchLexicoSintactico("sentencia", "bloque_if_else");}
-    | bloque_if                                         {informarMatchLexicoSintactico("sentencia", "bloque_if");}
+    seleccion_con_else                                  {informarMatchLexicoSintactico("sentencia", "seleccion_con_else");}
+    | seleccion_sin_else                                {informarMatchLexicoSintactico("sentencia", "seleccion_sin_else");}
     | bloque_while                                      {informarMatchLexicoSintactico("sentencia", "bloque_while");}
     | asignacion                                        {informarMatchLexicoSintactico("sentencia", "asignacion");}
     | funcion_read                                      {informarMatchLexicoSintactico("sentencia", "funcion_read");}
@@ -174,26 +174,71 @@ tipo_dato:
     ;
 
 /* ----------------------------------- IF ----------------------------------- */
-bloque_if:
-    IF PAR_A condicional PAR_C LLA_A conjunto_sentencias    {
-                                                                char* indicePolacaChar = desapilar();
-                                                                int indicePolacaApilado = atoi(indicePolacaChar);
-                                                                char* indiceActualPolaca = getIndiceActualPolaca();
+seleccion_con_else:
+    bloque_if 
+                {
+                    // Sentencia de Selección con else - Fin del bloque verdadero
+                    insertarEnPolaca("BI");
+                    // 1. Desapilar X (tope de la pila)
+                    char* indicePolacaChar = desapilar();
+                    int nroCeldaDesapilada = atoi(indicePolacaChar);
+                    // 2. Escribir en la celda X, el nº de celda actual + 1
+                    char* nroCeldaActual = getIndiceActualPolaca();
+                    char nroCeldaActualMasUno[12];
+                    snprintf(nroCeldaActualMasUno, 12, "%d", atoi(nroCeldaActual) + 1);
+                    insertarEnPolacaIndice(nroCeldaDesapilada, nroCeldaActualMasUno);
+                    // 3. Apilar el nº de celda actual
+                    apilar(nroCeldaActual);
+                    avanzarPolaca();
+                }
+                bloque_else                               
+                                {
+                                    informarMatchLexicoSintactico("seleccion_con_else", "bloque_if bloque_else");
+                                    // Sentencia de Selección con else - Fin del bloque falso
+                                    // 1. Desapilar X (tope de la pila)
+                                    char* indicePolacaChar = desapilar();
+                                    int nroCeldaDesapilada = atoi(indicePolacaChar);
+                                    // 2. Escribir en la celda X, el nº de celda actual + 1
+                                    char* nroCeldaActual = getIndiceActualPolaca();
+                                    char nroCeldaActualMasUno[12];
+                                    snprintf(nroCeldaActualMasUno, 12, "%d", atoi(nroCeldaActual));
+                                    insertarEnPolacaIndice(nroCeldaDesapilada, nroCeldaActualMasUno);
+                                }
+    ;
 
-                                                                insertarEnPolacaIndice(indiceActualPolaca, indicePolacaApilado);
-                                                            }
-                                                            LLA_C      {informarMatchLexicoSintactico("bloque_if", "IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");}
+seleccion_sin_else:
+    bloque_if   
+                {
+                    informarMatchLexicoSintactico("seleccion_sin_else", "bloque_if");
+                    // Sentencia de Selección (sin else) - Fin del bloque verdadero
+                    // 1. Desapilar X (tope de la pila)
+                    char* indicePolacaChar = desapilar();
+                    int nroCeldaDesapilada = atoi(indicePolacaChar);
+                    // 2. Escribir en la celda X, el nº de celda actual
+                    char* nroCeldaActual = getIndiceActualPolaca();
+                    insertarEnPolacaIndice(nroCeldaDesapilada, nroCeldaActual);
+                }
+    ;
+
+
+bloque_if:
+    IF PAR_A condicional 
+                        {
+                            // Sentencia de Selección con else - Fin de Condición
+                            // Sentencia de Selección (sin else) - Fin de Condición
+                            // 1. Apilar el nº de celda actual
+                            char* nroCeldaActual = getIndiceActualPolaca();
+                            apilar(nroCeldaActual);
+                            avanzarPolaca();
+                        }
+                        PAR_C LLA_A conjunto_sentencias LLA_C      { informarMatchLexicoSintactico("bloque_if", "IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");}
     ;
 
 /* ---------------------------------- ELSE ---------------------------------- */
 bloque_else:
-    ELSE LLA_A conjunto_sentencias LLA_C                            {informarMatchLexicoSintactico("bloque_else", "ELSE LLA_A conjunto_sentencias LLA_C");}
+    ELSE LLA_A conjunto_sentencias LLA_C    {informarMatchLexicoSintactico("bloque_else", "ELSE LLA_A conjunto_sentencias LLA_C");}
     ;
 
-/* --------------------------------- IF ELSE -------------------------------- */
-bloque_if_else:
-    bloque_if bloque_else                                           {informarMatchLexicoSintactico("bloque_if_else", "bloque_if bloque_else");}
-    ;
 
 condicional:
     condicion                                           {informarMatchLexicoSintactico("condicional", "condicion");}
@@ -208,8 +253,6 @@ condicion:
                                                             informarMatchLexicoSintactico("condicion", "expresion operador_comparacion expresion");
                                                             insertarEnPolaca(VALOR_POLACA_COMPARADOR);
                                                             insertarEnPolaca(getOperadorComparacionPendientePolaca());
-                                                            apilar(getIndiceActualPolaca());
-                                                            avanzarPolaca();
                                                         }
     ;
 

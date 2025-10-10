@@ -64,7 +64,7 @@ int insertarEnPolaca(const char *elemento)
 }
 
 
-int insertarEnPolacaIndice(const char *elemento, int indice)
+int insertarEnPolacaIndice(int indice, const char *elemento)
 {
     if (elemento == NULL)
     {
