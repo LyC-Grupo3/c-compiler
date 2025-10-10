@@ -185,11 +185,23 @@ bloque_if:
                                                             LLA_C      {informarMatchLexicoSintactico("bloque_if", "IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");}
     ;
 
+/* ---------------------------------- ELSE ---------------------------------- */
+bloque_else:
+    ELSE LLA_A conjunto_sentencias LLA_C                            {informarMatchLexicoSintactico("bloque_else", "ELSE LLA_A conjunto_sentencias LLA_C");}
+    ;
+
+/* --------------------------------- IF ELSE -------------------------------- */
+bloque_if_else:
+    bloque_if bloque_else                                           {informarMatchLexicoSintactico("bloque_if_else", "bloque_if bloque_else");}
+    ;
+
 condicional:
     condicion                                           {informarMatchLexicoSintactico("condicional", "condicion");}
     | condicion operador_logico condicion               {informarMatchLexicoSintactico("condicional", "condicion operador_logico condicion");}
     | NOT condicion                                     {informarMatchLexicoSintactico("condicional", "NOT condicion");}
     ;
+
+
 
 condicion:
     expresion operador_comparacion expresion           {
@@ -231,16 +243,6 @@ operador_comparacion:
 operador_logico:
     AND                                                 {informarMatchLexicoSintactico("operador_logico", "AND");}
     | OR                                                {informarMatchLexicoSintactico("operador_logico", "OR");}
-    ;
-
-/* ---------------------------------- ELSE ---------------------------------- */
-bloque_else:
-    ELSE LLA_A conjunto_sentencias LLA_C                            {informarMatchLexicoSintactico("bloque_else", "ELSE LLA_A conjunto_sentencias LLA_C");}
-    ;
-
-/* --------------------------------- IF ELSE -------------------------------- */
-bloque_if_else:
-    bloque_if bloque_else                                           {informarMatchLexicoSintactico("bloque_if_else", "bloque_if bloque_else");}
     ;
     
 /* ---------------------------------- WHILE --------------------------------- */
