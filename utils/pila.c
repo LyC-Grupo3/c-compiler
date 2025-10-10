@@ -6,9 +6,8 @@
 
 t_pila *pila;
 
-/**
- * Inicializa la pila
- */
+extern FILE *archivoDebugPolaca;
+
 void inicializarPila()
 {
     pila = (t_pila *)malloc(sizeof(t_pila));
@@ -22,11 +21,6 @@ void inicializarPila()
     pila->tope = NULL;
 }
 
-/**
- * Apila un elemento en el tope de la pila
- * @param elemento String a apilar
- * @return 1 si fue exitoso, 0 si falló
- */
 int apilar(const char *elemento)
 {
     if (elemento == NULL)
@@ -35,7 +29,6 @@ int apilar(const char *elemento)
         return 0;
     }
 
-    // Crear nuevo nodo
     t_nodo_pila *nuevoNodo = (t_nodo_pila *)malloc(sizeof(t_nodo_pila));
 
     if (nuevoNodo == NULL)
@@ -44,22 +37,20 @@ int apilar(const char *elemento)
         return 0;
     }
 
-    // Copiar el contenido (limitado al tamaño máximo)
     strncpy(nuevoNodo->contenido, elemento, TAM_CONTENIDO_PILA - 1);
-    nuevoNodo->contenido[TAM_CONTENIDO_PILA - 1] = '\0'; // Asegurar terminación
+    nuevoNodo->contenido[TAM_CONTENIDO_PILA - 1] = '\0';
 
-    // Insertar al inicio (tope de la pila)
     nuevoNodo->siguiente = pila->tope;
     pila->tope = nuevoNodo;
+
+    // Debug
+    char debugMsg[100];
+    snprintf(debugMsg, 100, "apilar(\"%s\")", elemento);
+    registrarEstadoPila(debugMsg);
 
     return 1;
 }
 
-/**
- * Desapila el elemento del tope de la pila
- * @return Puntero al contenido del elemento desapilado, NULL si la pila está vacía
- * NOTA: El contenido retornado es estático, se sobrescribe en cada llamada
- */
 char *desapilar()
 {
     if (pila == NULL || pila->tope == NULL)
@@ -68,27 +59,24 @@ char *desapilar()
         return NULL;
     }
 
-    // Buffer estático para retornar el contenido
     static char contenidoDesapilado[TAM_CONTENIDO_PILA];
 
-    // Guardar referencia al nodo a eliminar
     t_nodo_pila *nodoAEliminar = pila->tope;
 
-    // Copiar el contenido antes de eliminar
     strcpy(contenidoDesapilado, nodoAEliminar->contenido);
 
-    // Actualizar el tope
     pila->tope = pila->tope->siguiente;
 
-    // Liberar el nodo
     free(nodoAEliminar);
+
+    // Debug
+    char debugMsg[100];
+    snprintf(debugMsg, 100, "desapilar() -> \"%s\"", contenidoDesapilado);
+    registrarEstadoPila(debugMsg);
 
     return contenidoDesapilado;
 }
 
-/**
- * Elimina la pila y libera toda la memoria utilizada
- */
 void eliminarPila()
 {
     if (pila == NULL)
@@ -99,7 +87,6 @@ void eliminarPila()
     t_nodo_pila *actual = pila->tope;
     t_nodo_pila *siguiente;
 
-    // Recorrer y liberar todos los nodos
     while (actual != NULL)
     {
         siguiente = actual->siguiente;
@@ -107,6 +94,43 @@ void eliminarPila()
         actual = siguiente;
     }
 
-    // Liberar la estructura principal
     free(pila);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                           FUNCIONES DE DEBUG                               */
+/* -------------------------------------------------------------------------- */
+
+void registrarEstadoPila(const char *operacion)
+{
+    if (archivoDebugPolaca == NULL || pila == NULL)
+    {
+        return;
+    }
+
+    fprintf(archivoDebugPolaca, "%s (tope->fondo)\n", operacion);
+
+    t_nodo_pila *actual = pila->tope;
+
+    if (actual == NULL)
+    {
+        fprintf(archivoDebugPolaca, "(vacía)");
+    }
+    else
+    {
+        fprintf(archivoDebugPolaca, "  [");
+        while (actual != NULL)
+        {
+            fprintf(archivoDebugPolaca, "%s", actual->contenido);
+            if (actual->siguiente != NULL)
+            {
+                fprintf(archivoDebugPolaca, " | ");
+            }
+            actual = actual->siguiente;
+        }
+        fprintf(archivoDebugPolaca, "]");
+    }
+
+    fprintf(archivoDebugPolaca, "\n");
+    fflush(archivoDebugPolaca);
 }

@@ -37,7 +37,6 @@ int insertarEnPolaca(const char *elemento)
         return 0;
     }
 
-    // Asignar el índice actual
     nuevoNodo->indice = polaca->contador;
     polaca->contador++;
 
@@ -60,9 +59,13 @@ int insertarEnPolaca(const char *elemento)
         temp->siguiente = nuevoNodo;
     }
 
+    // Debug
+    char debugMsg[100];
+    snprintf(debugMsg, 100, "insertarEnPolaca(\"%s\") -> índice %d", elemento, nuevoNodo->indice);
+    registrarEstadoPolaca(debugMsg);
+
     return 1;
 }
-
 
 int insertarEnPolacaIndice(int indice, const char *elemento)
 {
@@ -78,27 +81,28 @@ int insertarEnPolacaIndice(int indice, const char *elemento)
         return 0;
     }
 
-    // Buscar el nodo con el índice especificado
     t_nodo_polaca *actual = polaca->inicio;
-    
+
     while (actual != NULL)
     {
         if (actual->indice == indice)
         {
-            // Reemplazar el contenido del nodo encontrado
             strncpy(actual->contenido, elemento, TAM_CONTENIDO - 1);
             actual->contenido[TAM_CONTENIDO - 1] = '\0';
-            
+
+            // Debug
+            char debugMsg[100];
+            snprintf(debugMsg, 100, "insertarEnPolacaIndice(%d, \"%s\") -> actualizado", indice, elemento);
+            registrarEstadoPolaca(debugMsg);
+
             return 1;
         }
         actual = actual->siguiente;
     }
 
-    // Si no se encontró el índice
     fprintf(stderr, "Error: No se encontró el índice %d en la polaca\n", indice);
     return 0;
 }
-
 
 void avanzarPolaca()
 {
@@ -122,15 +126,8 @@ void exportarPolaca(const char *nombreArchivo)
 
     fprintf(archivo, "=== CÓDIGO INTERMEDIO - NOTACIÓN POLACA INVERSA ===\n\n");
 
-    t_nodo_polaca *actual = polaca->inicio;
-
-    while (actual != NULL)
-    {
-        fprintf(archivo, "[%3d] %s\n", actual->indice, actual->contenido);
-        actual = actual->siguiente;
-    }
-
-    fprintf(archivo, "\n=== Total de instrucciones: %d ===\n", polaca->contador);
+    // imprimirEstadoPolacaVertical(polaca->inicio, archivo);
+    imprimirEstadoPolacaHorizontal(polaca->inicio, archivo);
 
     fclose(archivo);
 }
@@ -155,13 +152,112 @@ void eliminarPolaca()
     free(polaca);
 }
 
-char* getIndiceActualPolaca()
+char *getIndiceActualPolaca()
 {
-    char *indiceStr = (char *)malloc(12 * sizeof(char)); // Suficiente para un entero
+    char *indiceStr = (char *)malloc(12 * sizeof(char));
 
     if (indiceStr != NULL)
     {
         snprintf(indiceStr, 12, "%d", polaca->contador);
     }
     return indiceStr;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                           FUNCIONES DE DEBUG                               */
+/* -------------------------------------------------------------------------- */
+
+FILE *archivoDebugPolaca = NULL;
+static int contadorOperaciones = 0;
+
+void inicializarDebugPolaca(const char *nombreArchivo)
+{
+    archivoDebugPolaca = fopen(nombreArchivo, "w");
+    if (archivoDebugPolaca == NULL)
+    {
+        fprintf(stderr, "Error: No se pudo crear el archivo de debug %s\n", nombreArchivo);
+        return;
+    }
+
+    fprintf(archivoDebugPolaca, "=== DEBUG DE POLACA Y PILA ===\n\n");
+    contadorOperaciones = 0;
+}
+
+void imprimirEstadoPolacaHorizontal(t_nodo_polaca *inicio, FILE *archivo)
+{
+    t_nodo_polaca *actual;
+
+    // Primera fila
+    actual = inicio;
+    while (actual != NULL)
+    {
+        int anchoContenido = strlen(actual->contenido) + 4;
+
+        char bufferIndice[20];
+        snprintf(bufferIndice, 20, "%d", actual->indice);
+        int longitudIndice = strlen(bufferIndice);
+
+        int espacioDisponible = anchoContenido - 2;
+        int espaciosIzq = (espacioDisponible - longitudIndice) / 2;
+        int espaciosDer = espacioDisponible - longitudIndice - espaciosIzq;
+
+        fprintf(archivo, "[%*s%d%*s] ", espaciosIzq, "", actual->indice, espaciosDer, "");
+        actual = actual->siguiente;
+    }
+    fprintf(archivo, "\n");
+    
+    // Segunda fila
+    actual = inicio;
+    while (actual != NULL)
+    {
+        fprintf(archivo, "[ %s ] ", actual->contenido);
+        actual = actual->siguiente;
+    }
+    fprintf(archivo, "\n");
+}
+
+void imprimirEstadoPolacaVertical(t_nodo_polaca *inicio, FILE *archivo)
+{
+    t_nodo_polaca *actual = inicio;
+
+    while (actual != NULL)
+    {
+        fprintf(archivo, "[%3d] %s\n", actual->indice, actual->contenido);
+        actual = actual->siguiente;
+    }
+}
+
+void registrarEstadoPolaca(const char *operacion)
+{
+    if (archivoDebugPolaca == NULL || polaca == NULL)
+    {
+        return;
+    }
+
+    fprintf(archivoDebugPolaca, "%s\n", operacion);
+
+    t_nodo_polaca *actual = polaca->inicio;
+
+    if (actual == NULL)
+    {
+        fprintf(archivoDebugPolaca, "  POLACA: (vacía)\n");
+    }
+    else
+    {
+        imprimirEstadoPolacaHorizontal(actual, archivoDebugPolaca);
+        // imprimirEstadoPolacaVertical(actual, archivoDebugPolaca);
+    }
+
+    fprintf(archivoDebugPolaca, "\n");
+    fflush(archivoDebugPolaca);
+}
+
+void cerrarDebugPolaca()
+{
+    if (archivoDebugPolaca != NULL)
+    {
+        fprintf(archivoDebugPolaca, "=== FIN DEL DEBUG  ===\n");
+        fclose(archivoDebugPolaca);
+        archivoDebugPolaca = NULL;
+    }
 }

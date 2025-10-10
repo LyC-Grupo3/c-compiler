@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
     {
         inicializarPolaca();
         inicializarPila();
+        inicializarDebugPolaca("test_outputs/debug_polaca.txt");
 
         crearTablaSimbolos();
         abrirArchivoSalidaLexico("test_outputs/output_lexico.txt");
@@ -23,6 +24,7 @@ int main(int argc, char *argv[])
         exportarPolaca("test_outputs/polaca.txt");
         exportarTablaSimbolos("symbol-table.txt");
 
+        cerrarDebugPolaca();
         eliminarPolaca();
         eliminarPila();
         cerrarArchivoSalidaLexico();

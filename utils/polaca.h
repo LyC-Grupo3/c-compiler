@@ -7,14 +7,14 @@
 
 #define TAM_CONTENIDO 50
 
-#define VALOR_POLACA_COMPARADOR         "CMP"
+#define VALOR_POLACA_COMPARADOR "CMP"
 
-#define VALOR_POLACA_OP_IGUAL           "BNE"
-#define VALOR_POLACA_OP_DISTINTO        "BEQ"
-#define VALOR_POLACA_OP_MAYOR           "BLE"
-#define VALOR_POLACA_OP_MAYOR_IGUAL     "BLT"
-#define VALOR_POLACA_OP_MENOR           "BGE"
-#define VALOR_POLACA_OP_MENOR_IGUAL     "BGT"
+#define VALOR_POLACA_OP_IGUAL "BNE"
+#define VALOR_POLACA_OP_DISTINTO "BEQ"
+#define VALOR_POLACA_OP_MAYOR "BLE"
+#define VALOR_POLACA_OP_MAYOR_IGUAL "BLT"
+#define VALOR_POLACA_OP_MENOR "BGE"
+#define VALOR_POLACA_OP_MENOR_IGUAL "BGT"
 
 /* -------------------------------------------------------------------------- */
 /*                                 ESTRUCTURAS                                */
@@ -47,6 +47,12 @@ void avanzarPolaca(void);
 void exportarPolaca(const char *nombreArchivo);
 void eliminarPolaca(void);
 
-char* getIndiceActualPolaca();
+void inicializarDebugPolaca(const char *nombreArchivo);
+void imprimirEstadoPolacaHorizontal(t_nodo_polaca *inicio, FILE *archivo);
+void imprimirEstadoPolacaVertical(t_nodo_polaca *inicio, FILE *archivo);
+void registrarEstadoPolaca(const char *operacion);
+void cerrarDebugPolaca(void);
+
+char *getIndiceActualPolaca();
 
 #endif // POLACA_H

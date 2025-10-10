@@ -31,6 +31,8 @@ void inicializarPila();
 int apilar(const char *elemento);
 char *desapilar(void);
 
+void registrarEstadoPila(const char *operacion);
+
 void eliminarPila(void);
 
 #endif // PILA_H
