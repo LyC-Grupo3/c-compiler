@@ -82,7 +82,7 @@ conjunto_sentencias:
 sentencia:
     seleccion_con_else                                  {informarMatchLexicoSintactico("sentencia", "seleccion_con_else");}
     | seleccion_sin_else                                {informarMatchLexicoSintactico("sentencia", "seleccion_sin_else");}
-    | bloque_while                                      {informarMatchLexicoSintactico("sentencia", "bloque_while");}
+    | iteracion_while                                      {informarMatchLexicoSintactico("sentencia", "iteracion_while");}
     | asignacion                                        {informarMatchLexicoSintactico("sentencia", "asignacion");}
     | funcion_read                                      {informarMatchLexicoSintactico("sentencia", "funcion_read");}
     | funcion_write                                     {informarMatchLexicoSintactico("sentencia", "funcion_write");}
@@ -289,8 +289,48 @@ operador_logico:
     ;
     
 /* ---------------------------------- WHILE --------------------------------- */
-bloque_while:
-    WHILE PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C   {informarMatchLexicoSintactico("bloque_while", "WHILE PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");}
+iteracion_while:
+    WHILE 
+        {
+            // Sentencias de Iteración (while) - Comienzo
+            // 1. Apilar el nº celda actual
+            char* nroCeldaActual = getIndiceActualPolaca();
+            apilar(nroCeldaActual);
+
+            insertarEnPolaca("ET");
+        }
+        PAR_A condicional 
+                            {                      
+                                // Sentencias de Iteración (while) - Fin de la Condición
+                                // 1. Apilar el nº celda actual
+                                char* nroCeldaActual = getIndiceActualPolaca();
+                                apilar(nroCeldaActual);
+
+                                avanzarPolaca();
+                            }
+                            PAR_C LLA_A conjunto_sentencias LLA_C   
+                                                                    {
+                                                                        informarMatchLexicoSintactico("iteracion_while", "WHILE PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");
+
+                                                                        // Sentencias de Iteración (while) - Fin del ciclo
+                                                                        insertarEnPolaca("BI");
+
+                                                                        // 1. Desapilar Z (tope de la pila)
+                                                                        char* indicePolacaChar = desapilar();
+                                                                        int nroCeldaDesapilada = atoi(indicePolacaChar);
+                                                                        
+                                                                        // 2. Escribir en la celda Z, el nº de celda actual + 1
+                                                                        char* nroCeldaActual = getIndiceActualPolaca();
+                                                                        char nroCeldaActualMasUno[12];
+                                                                        snprintf(nroCeldaActualMasUno, 12, "%d", atoi(nroCeldaActual) + 1);
+                                                                        insertarEnPolacaIndice(nroCeldaDesapilada, nroCeldaActualMasUno);
+
+                                                                        // 3. Desapilar Z (tope de la pila)
+                                                                        indicePolacaChar = desapilar();
+
+                                                                        // 4. Escribir Z en la celda actual
+                                                                        insertarEnPolaca(indicePolacaChar);
+                                                                    }
     ;
 
 /* ---------------------------------- READ ---------------------------------- */
