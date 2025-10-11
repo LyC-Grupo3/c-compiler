@@ -17,7 +17,7 @@ t_pila *crearPila()
     }
 
     nuevaPila->tope = NULL;
-    
+
     return nuevaPila;
 }
 
@@ -28,7 +28,7 @@ int apilar(t_pila *pila, const char *elemento)
         fprintf(stderr, "Error: Pila NULL\n");
         return 0;
     }
-    
+
     if (elemento == NULL)
     {
         fprintf(stderr, "Error: Elemento NULL\n");
@@ -108,6 +108,16 @@ int pilaVacia(t_pila *pila)
     return (pila == NULL || pila->tope == NULL);
 }
 
+char *verTope(t_pila *pila)
+{
+    if (pila == NULL || pila->tope == NULL)
+    {
+        return NULL;
+    }
+
+    return pila->tope->contenido;
+}
+
 /* -------------------------------------------------------------------------- */
 /*                           FUNCIONES DE DEBUG                               */
 /* -------------------------------------------------------------------------- */
@@ -145,7 +155,6 @@ void registrarEstadoPila(t_pila *pila, const char *operacion)
     fprintf(archivoDebugPolaca, "\n");
     fflush(archivoDebugPolaca);
 }
-
 
 void imprimirContenidoPila(t_pila *pila)
 {

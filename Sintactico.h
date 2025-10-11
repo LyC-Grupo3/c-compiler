@@ -23,4 +23,7 @@ char *yytext;
 int yyerror(const char *msg);
 int yylex();
 
+void setearNroCeldaActualPolacaAuxInicioTrueSoloParaOR();
+void desapilarNroCeldaYEscribirEnEllaNroCeldaAuxInicioTrueOR(t_pila *pila);
+
 #endif // SINTACTICO

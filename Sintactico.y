@@ -8,6 +8,14 @@
 
 extern t_pila *pilaBase;
 
+extern void apilarNroCeldaActualPolaca(t_pila *pila);
+extern void apilarNroCeldaActualYAvanzarPolaca(t_pila *pila);
+extern int desapilarNroCeldaYEscribirEnEllaNroCeldaActual(t_pila *pila);
+extern int desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno(t_pila *pila);
+extern int desapilarNroCeldaYEscribirloEnCeldaActualPolaca(t_pila *pila);
+
+extern void insertarEnPolacaNroCeldaActualMasTres();
+
 %}
 
 %union {
@@ -235,7 +243,31 @@ seleccion_sin_else:
     bloque_if   
                 {
                     informarMatchLexicoSintactico("seleccion_sin_else", "bloque_if");
-                    generarCodigoFinBloqueVerdaderoIfSinElse();
+                        
+                    if(esCondicionalConDosExpresiones() == 1)
+                    {
+                        char operadorLogicoActual[TAM_CONTENIDO_PILA];
+                        strcpy(operadorLogicoActual, getOperadorLogicoActual());
+
+                        // PARA EL AND
+                        if(strcmp(operadorLogicoActual, "AND") == 0)
+                        {
+                            desapilarNroCeldaYEscribirEnEllaNroCeldaActual(pilaBase);
+                            desapilarNroCeldaYEscribirEnEllaNroCeldaActual(pilaBase);
+                        }
+                        // PARA EL OR
+                        else
+                        {   
+                            desapilarNroCeldaYEscribirEnEllaNroCeldaActual(pilaBase);
+                            desapilarNroCeldaYEscribirEnEllaNroCeldaAuxInicioTrueOR(pilaBase);
+                        }
+                    }
+                    else
+                    {
+                        generarCodigoFinBloqueVerdaderoIfSinElse();
+                    }
+
+                    reiniciarPilaOperadoresLogicosUtilizados();
                 }
     ;
 
@@ -243,7 +275,21 @@ seleccion_sin_else:
 bloque_if:
     IF PAR_A condicional 
                         {
-                            generarCodigoFinCondicionIf();
+                            if(esCondicionalConDosExpresiones() == 1)
+                            {
+                                char operadorLogicoActual[TAM_CONTENIDO_PILA];
+                                strcpy(operadorLogicoActual, getOperadorLogicoActual());
+
+                                // Si es un OR tengo que guardar el inicio de la parte TRUE
+                                if(strcmp(operadorLogicoActual, "OR") == 0)
+                                {
+                                    setearNroCeldaActualPolacaAuxInicioTrueSoloParaOR();
+                                }
+                            }
+                            else
+                            {
+                                generarCodigoFinCondicionIf();
+                            }
                         }
                         PAR_C LLA_A conjunto_sentencias LLA_C      { informarMatchLexicoSintactico("bloque_if", "IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");}
     ;
@@ -257,16 +303,33 @@ bloque_else:
 condicional:
     condicion                                           {
                                                             informarMatchLexicoSintactico("condicional", "condicion");
+                                                        }
+    | condicion operador_logico { 
+                                    char operadorLogicoActual[TAM_CONTENIDO_PILA];
+                                    strcpy(operadorLogicoActual, getOperadorLogicoActual());
 
-                                                            apilarOperadorLogicoUtilizado("");
-                                                        }
-    | condicion operador_logico condicion               {
-                                                            informarMatchLexicoSintactico("condicional", "condicion operador_logico condicion");
-                                                        }
+                                    // PARA EL AND
+                                    if(strcmp(operadorLogicoActual, "AND") == 0)
+                                    {
+                                        apilarNroCeldaActualYAvanzarPolaca(pilaBase);
+                                    }
+                                    // PARA EL OR
+                                    else
+                                    {
+                                        insertarEnPolacaNroCeldaActualMasTres();
+                                        insertarEnPolaca("BI");
+                                        apilarNroCeldaActualYAvanzarPolaca(pilaBase);
+                                    }
+                                }
+                                condicion               
+                                                                                            {
+                                                                                                informarMatchLexicoSintactico("condicional", "condicion operador_logico condicion");
+
+                                                                                                // SIRVE PARA EL AND y OR
+                                                                                                apilarNroCeldaActualYAvanzarPolaca(pilaBase);
+                                                                                            }
     | NOT { setNegacionPendienteOperadorComparacion(1); } condicion      {
                                                             informarMatchLexicoSintactico("condicional", "NOT condicion");
-
-                                                            apilarOperadorLogicoUtilizado("");
 
                                                             setNegacionPendienteOperadorComparacion(0);
                                                         }
@@ -277,7 +340,7 @@ condicional:
 condicion:
     expresion operador_comparacion expresion           {
                                                             informarMatchLexicoSintactico("condicion", "expresion operador_comparacion expresion");
-                                                            
+
                                                             validarTipoDatoExpresionesAlComparar();
 
                                                             insertarEnPolaca(VALOR_POLACA_COMPARADOR);

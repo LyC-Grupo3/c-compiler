@@ -39,4 +39,6 @@ int pilaVacia(t_pila *pila);
 
 void imprimirContenidoPila(t_pila *pila);
 
+char *verTope(t_pila *pila);
+
 #endif // PILA_H

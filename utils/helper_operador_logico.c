@@ -22,4 +22,36 @@ void limpiarCondicionalHelper()
 void apilarOperadorLogicoUtilizado(const char *operadorLogico)
 {
     apilar(pilaOperadoresLogicosUtilizados, operadorLogico);
+    imprimirContenidoPila(pilaOperadoresLogicosUtilizados);
+}
+
+char* getOperadorLogicoActual()
+{
+    return verTope(pilaOperadoresLogicosUtilizados);
+}
+
+
+int esCondicionalConDosExpresiones()
+{
+    // 1 - si esta vacia
+    // 0 - si tiene algo
+
+    // Si esta vacia es condicion simple
+    if(pilaVacia(pilaOperadoresLogicosUtilizados))
+    {
+        return 0;
+    }
+    // Si no esta vacia es condicion con dos expresiones
+    else
+    {
+        return 1;
+    }
+}
+
+void reiniciarPilaOperadoresLogicosUtilizados()
+{
+    if(pilaVacia(pilaOperadoresLogicosUtilizados) == 0)
+    {
+        desapilar(pilaOperadoresLogicosUtilizados);
+    }
 }

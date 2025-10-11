@@ -56,6 +56,12 @@ void generarCodigoFinBloqueElse()
     desapilarNroCeldaYEscribirEnEllaNroCeldaActual(pilaBase);
 }
 
+void generarCodigoFinCondicionIfCOMPUESTO()
+{
+    
+}
+
+
 /* -------------------------------------------------------------------------- */
 /*                      FUNCIONES PARA WHILE (ITERACIÓN)                      */
 /* -------------------------------------------------------------------------- */

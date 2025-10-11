@@ -2,6 +2,8 @@
 
 t_pila *pilaBase;
 
+char nroCeldaActualPolacaAuxInicioTrueSoloParaOR[5000]; 
+
 int main(int argc, char *argv[])
 {
     if ((yyin = fopen(argv[1], "rt")) == NULL)
@@ -99,4 +101,35 @@ int desapilarNroCeldaYEscribirloEnCeldaActualPolaca(t_pila *pila)
     insertarEnPolaca(indicePolacaChar);
 
     return nroCeldaDesapilada;
+}
+
+
+
+
+void insertarEnPolacaNroCeldaActualMasTres()
+{
+    char *nroCeldaActual = getIndiceActualPolaca();
+    char nroCeldaActualMasDos[12];
+    snprintf(nroCeldaActualMasDos, 12, "%d", atoi(nroCeldaActual) + 3);
+    insertarEnPolaca(nroCeldaActualMasDos);
+}
+
+
+void setearNroCeldaActualPolacaAuxInicioTrueSoloParaOR()
+{
+    strcpy(nroCeldaActualPolacaAuxInicioTrueSoloParaOR, getIndiceActualPolaca());
+}
+
+
+void desapilarNroCeldaYEscribirEnEllaNroCeldaAuxInicioTrueOR(t_pila *pila)
+{
+    char indicePolacaChar[TAM_CONTENIDO_PILA];
+    strcpy(indicePolacaChar, desapilar(pila));
+    int nroCeldaDesapilada = atoi(indicePolacaChar);
+
+    printf("INDICE DONDE GRABAR INICIO OR: %s\n", indicePolacaChar);
+    printf("INDICE INICIO OR: %s\n", nroCeldaActualPolacaAuxInicioTrueSoloParaOR);
+
+    insertarEnPolacaIndice(nroCeldaDesapilada, nroCeldaActualPolacaAuxInicioTrueSoloParaOR);
+
 }

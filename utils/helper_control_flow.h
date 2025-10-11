@@ -13,6 +13,9 @@ void generarCodigoFinBloqueVerdaderoIfConElse();
 void generarCodigoFinBloqueVerdaderoIfSinElse();
 void generarCodigoFinBloqueElse();
 
+// Para compuesto
+void generarCodigoFinCondicionIfCOMPUESTO();
+
 // WHILE - Funciones para iteración
 void generarCodigoInicioWhile();
 void generarCodigoFinCondicionWhile();
