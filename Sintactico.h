@@ -6,6 +6,7 @@
 #include "./utils/informes.h"
 #include "./utils/polaca.h"
 #include "./utils/pila.h"
+#include "./utils/helper_triangle.h"
 
 #include "y.tab.h"
 

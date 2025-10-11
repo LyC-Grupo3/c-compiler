@@ -347,7 +347,10 @@ parametros_equal_expressions:
 
 /* ---------------------- FUNCION TRIANGLE AREA MAXIMUM --------------------- */
 funcion_triangle_area_maximum:
-    TRIAN_MAX PAR_A parametros_triangle_area_maximum PAR_C          {informarMatchLexicoSintactico("funcion_triangle_area_maximum", "TRIAN_MAX PAR_A parametros_triangle_area_maximum PAR_C");}
+    TRIAN_MAX PAR_A parametros_triangle_area_maximum PAR_C          {
+                                                                        informarMatchLexicoSintactico("funcion_triangle_area_maximum", "TRIAN_MAX PAR_A parametros_triangle_area_maximum PAR_C");
+                                                                        generarPolacaTriangleAreaMaximun();
+                                                                    }
     ;
 
 parametros_triangle_area_maximum:
@@ -355,7 +358,14 @@ parametros_triangle_area_maximum:
     ;
 
 coordenadas_triangulo:
-    COR_A conjunto_puntos_triangulo COR_C               {informarMatchLexicoSintactico("coordenadas_triangulo", "COR_A conjunto_puntos_triangulo COR_C");}
+    COR_A 
+        {
+            iniciarTriangulo();
+        }
+        conjunto_puntos_triangulo COR_C                             {
+                                                                        informarMatchLexicoSintactico("coordenadas_triangulo", "COR_A conjunto_puntos_triangulo COR_C");
+                                                                        generarPolacaCalculoAreaTriangulo();
+                                                                    }
     ;
 
 conjunto_puntos_triangulo:
@@ -367,9 +377,18 @@ coordenada_triangulo:
     ;
 
 tipo_parametro_triangle_area:
-    CONST_INT                                           {informarMatchLexicoSintactico("tipo_parametro_triangle_area", "CONST_INT");}
-    | CONST_FLOAT                                       {informarMatchLexicoSintactico("tipo_parametro_triangle_area", "CONST_FLOAT");}
-    | ID                                                {informarMatchLexicoSintactico("tipo_parametro_triangle_area", "ID");}
+    CONST_INT                                           {
+                                                            informarMatchLexicoSintactico("tipo_parametro_triangle_area", "CONST_INT");
+                                                            apilarCoordenadaTriangulo($1);
+                                                        }
+    | CONST_FLOAT                                       {
+                                                            informarMatchLexicoSintactico("tipo_parametro_triangle_area", "CONST_FLOAT");
+                                                            apilarCoordenadaTriangulo($1);
+                                                        }
+    | ID                                                {
+                                                            informarMatchLexicoSintactico("tipo_parametro_triangle_area", "ID");
+                                                            apilarCoordenadaTriangulo($1);
+                                                        }
     ;
 
 

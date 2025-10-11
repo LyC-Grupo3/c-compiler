@@ -5,6 +5,7 @@
         "*.gitignore": "c",
         "tabla_simbolos.h": "c",
         "informes.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "string.h": "c"
     }
 }
