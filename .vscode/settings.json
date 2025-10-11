@@ -9,6 +9,10 @@
         "string.h": "c",
         "helper_triangle.h": "c",
         "helper_init_variables.h": "c",
-        "pila.h": "c"
+        "pila.h": "c",
+        "helper_tipos_datos.h": "c",
+        "stdlib.h": "c",
+        "simbolo.h": "c",
+        "helper_operador_comparacion.h": "c"
     }
 }

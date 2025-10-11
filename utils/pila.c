@@ -145,3 +145,33 @@ void registrarEstadoPila(t_pila *pila, const char *operacion)
     fprintf(archivoDebugPolaca, "\n");
     fflush(archivoDebugPolaca);
 }
+
+
+void imprimirContenidoPila(t_pila *pila)
+{
+    if (pila == NULL)
+    {
+        printf("Pila NULL\n");
+        return;
+    }
+
+    t_nodo_pila *actual = pila->tope;
+
+    if (actual == NULL)
+    {
+        printf("Pila vacía\n");
+        return;
+    }
+
+    printf("Contenido de la pila (tope->fondo): [");
+    while (actual != NULL)
+    {
+        printf("%s", actual->contenido);
+        if (actual->siguiente != NULL)
+        {
+            printf(" | ");
+        }
+        actual = actual->siguiente;
+    }
+    printf("]\n");
+}

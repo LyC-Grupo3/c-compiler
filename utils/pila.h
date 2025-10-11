@@ -37,4 +37,6 @@ void eliminarPila(t_pila *pila);
 
 int pilaVacia(t_pila *pila);
 
+void imprimirContenidoPila(t_pila *pila);
+
 #endif // PILA_H

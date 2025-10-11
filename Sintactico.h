@@ -9,6 +9,9 @@
 #include "./utils/helper_triangle.h"
 #include "./utils/helper_control_flow.h"
 #include "./utils/helper_init_variables.h"
+#include "./utils/helper_tipos_datos.h"
+#include "./utils/helper_operador_comparacion.h"
+#include "./utils/helper_operador_logico.h"
 
 #include "y.tab.h"
 
@@ -19,14 +22,5 @@ char *yytext;
 
 int yyerror(const char *msg);
 int yylex();
-
-void setOperadorComparacionPendientePolaca(char *operador);
-char *getOperadorComparacionPendientePolaca();
-
-void apilarNroCeldaActualPolaca(t_pila *pila);
-void apilarNroCeldaActualYAvanzarPolaca(t_pila *pila);
-int desapilarNroCeldaYEscribirEnEllaNroCeldaActual(t_pila *pila);
-int desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno(t_pila *pila);
-int desapilarNroCeldaYEscribirloEnCeldaActualPolaca(t_pila *pila);
 
 #endif // SINTACTICO

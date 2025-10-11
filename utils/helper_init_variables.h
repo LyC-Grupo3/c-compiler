@@ -8,7 +8,6 @@
 /*                         FUNCIONES INIT VARIABLES                           */
 /* -------------------------------------------------------------------------- */
 
-
 void inicializarInitVariablesHelper();
 void limpiarInitVariablesHelper();
 
@@ -16,5 +15,6 @@ void apilarIDVariableDeclarada(const char *id);
 void setTipoDatoEnTSParaVariablesDeclaradas();
 void setTipoDatoDeclaracionVariableActual(const char *tipoDato);
 
+t_simbolo *buscarSimboloIDEnTablaSimbolo(const char *nombre);
 
 #endif // HELPER_INIT_VARIABLES

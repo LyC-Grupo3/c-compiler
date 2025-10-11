@@ -1,6 +1,5 @@
 #include "./Sintactico.h"
 
-char operadorComparacionPendientePolaca[50];
 t_pila *pilaBase;
 
 int main(int argc, char *argv[])
@@ -16,6 +15,8 @@ int main(int argc, char *argv[])
         pilaBase = crearPila();
         inicializarTriangleHelper();
         inicializarInitVariablesHelper();
+        inicializarTiposDatosHelper();
+        inicializarCondicionalHelper();
         inicializarDebugPolaca("test_outputs/debug_polaca.txt");
 
         crearTablaSimbolos();
@@ -32,6 +33,8 @@ int main(int argc, char *argv[])
         eliminarPila(pilaBase);
         limpiarTriangleHelper();
         limpiarInitVariablesHelper();
+        limpiarTiposDatosHelper();
+        limpiarCondicionalHelper();
         cerrarArchivoSalidaLexico();
         cerrarArchivoSalidaLexicoSintactico();
     }
@@ -43,17 +46,6 @@ int yyerror(const char *msg)
 {
     informarErrorSintactico(msg, yytext, yylineno);
     exit(1);
-}
-
-void setOperadorComparacionPendientePolaca(char *operador)
-{
-    strncpy(operadorComparacionPendientePolaca, operador, sizeof(operadorComparacionPendientePolaca) - 1);
-    operadorComparacionPendientePolaca[sizeof(operadorComparacionPendientePolaca) - 1] = '\0';
-}
-
-char *getOperadorComparacionPendientePolaca()
-{
-    return (char *)operadorComparacionPendientePolaca;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -74,7 +66,8 @@ void apilarNroCeldaActualYAvanzarPolaca(t_pila *pila)
 
 int desapilarNroCeldaYEscribirEnEllaNroCeldaActual(t_pila *pila)
 {
-    char *indicePolacaChar = desapilar(pila);
+    char indicePolacaChar[TAM_CONTENIDO_PILA];
+    strcpy(indicePolacaChar, desapilar(pila));
     int nroCeldaDesapilada = atoi(indicePolacaChar);
 
     char *nroCeldaActual = getIndiceActualPolaca();
@@ -85,7 +78,8 @@ int desapilarNroCeldaYEscribirEnEllaNroCeldaActual(t_pila *pila)
 
 int desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno(t_pila *pila)
 {
-    char *indicePolacaChar = desapilar(pila);
+    char indicePolacaChar[TAM_CONTENIDO_PILA];
+    strcpy(indicePolacaChar, desapilar(pila));
     int nroCeldaDesapilada = atoi(indicePolacaChar);
 
     char *nroCeldaActual = getIndiceActualPolaca();
@@ -98,7 +92,8 @@ int desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno(t_pila *pila)
 
 int desapilarNroCeldaYEscribirloEnCeldaActualPolaca(t_pila *pila)
 {
-    char *indicePolacaChar = desapilar(pila);
+    char indicePolacaChar[TAM_CONTENIDO_PILA];
+    strcpy(indicePolacaChar, desapilar(pila));
     int nroCeldaDesapilada = atoi(indicePolacaChar);
 
     insertarEnPolaca(indicePolacaChar);
