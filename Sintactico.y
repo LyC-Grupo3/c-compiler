@@ -177,23 +177,12 @@ tipo_dato:
 seleccion_con_else:
     bloque_if 
                 {
-                    // Sentencia de Selección con else - Fin del bloque verdadero
-                    insertarEnPolaca("BI");
-
-                    // 1. Desapilar X (tope de la pila)
-                    // 2. Escribir en la celda X, el nº de celda actual + 1
-                    desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno(pilaBase);
-                    // 3. Apilar el nº de celda actual
-                    apilarNroCeldaActualYAvanzarPolaca(pilaBase);
+                    generarCodigoFinBloqueVerdaderoIfConElse();
                 }
                 bloque_else                               
                                 {
                                     informarMatchLexicoSintactico("seleccion_con_else", "bloque_if bloque_else");
-                                    // Sentencia de Selección con else - Fin del bloque falso
-                                    // 1. Desapilar X (tope de la pila)
-                                    // 2. Escribir en la celda X, el nº de celda actual + 1
-                                    // TODO: Preguntar al profesor porque en realidad no es mas uno
-                                    desapilarNroCeldaYEscribirEnEllaNroCeldaActual(pilaBase);
+                                    generarCodigoFinBloqueElse();
                                 }
     ;
 
@@ -201,10 +190,7 @@ seleccion_sin_else:
     bloque_if   
                 {
                     informarMatchLexicoSintactico("seleccion_sin_else", "bloque_if");
-                    // Sentencia de Selección (sin else) - Fin del bloque verdadero
-                    // 1. Desapilar X (tope de la pila)
-                    // 2. Escribir en la celda X, el nº de celda actual
-                    desapilarNroCeldaYEscribirEnEllaNroCeldaActual(pilaBase);
+                    generarCodigoFinBloqueVerdaderoIfSinElse();
                 }
     ;
 
@@ -212,10 +198,7 @@ seleccion_sin_else:
 bloque_if:
     IF PAR_A condicional 
                         {
-                            // Sentencia de Selección con else - Fin de Condición
-                            // Sentencia de Selección (sin else) - Fin de Condición
-                            // 1. Apilar el nº de celda actual
-                            apilarNroCeldaActualYAvanzarPolaca(pilaBase);
+                            generarCodigoFinCondicionIf();
                         }
                         PAR_C LLA_A conjunto_sentencias LLA_C      { informarMatchLexicoSintactico("bloque_if", "IF PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");}
     ;
@@ -278,30 +261,16 @@ operador_logico:
 iteracion_while:
     WHILE 
         {
-            // Sentencias de Iteración (while) - Comienzo
-            // 1. Apilar el nº celda actual
-            apilarNroCeldaActualPolaca(pilaBase);
-
-            insertarEnPolaca("ET");
+            generarCodigoInicioWhile();
         }
         PAR_A condicional 
                             {                      
-                                // Sentencias de Iteración (while) - Fin de la Condición
-                                // 1. Apilar el nº celda actual
-                                apilarNroCeldaActualYAvanzarPolaca(pilaBase);
+                                generarCodigoFinCondicionWhile();
                             }
                             PAR_C LLA_A conjunto_sentencias LLA_C   
                                                                     {
                                                                         informarMatchLexicoSintactico("iteracion_while", "WHILE PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");
-                                                                        // Sentencias de Iteración (while) - Fin del ciclo
-                                                                        insertarEnPolaca("BI");
-                                                                        // 1. Desapilar Z (tope de la pila)
-                                                                        // 2. Escribir en la celda Z, el nº de celda actual + 1
-                                                                        desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno(pilaBase);
-
-                                                                        // 3. Desapilar Z (tope de la pila)
-                                                                        // 4. Escribir en la celda Z, el nº de celda actual 
-                                                                        desapilarNroCeldaYEscribirloEnCeldaActualPolaca(pilaBase);
+                                                                        generarCodigoFinWhile();
                                                                     }
     ;
 
