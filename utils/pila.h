@@ -35,4 +35,6 @@ void registrarEstadoPila(t_pila *pila, const char *operacion);
 
 void eliminarPila(t_pila *pila);
 
+int pilaVacia(t_pila *pila);
+
 #endif // PILA_H

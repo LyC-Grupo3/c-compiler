@@ -8,6 +8,7 @@
 #include "./utils/pila.h"
 #include "./utils/helper_triangle.h"
 #include "./utils/helper_control_flow.h"
+#include "./utils/helper_init_variables.h"
 
 #include "y.tab.h"
 

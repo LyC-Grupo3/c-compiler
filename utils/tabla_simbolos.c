@@ -171,3 +171,16 @@ int exportarTablaSimbolos(const char *nombre_archivo)
 
     return 1;
 }
+
+// Auxiliares para init_variables
+t_simbolo* buscarSimboloPorNombre(const char *nombre)
+{
+    for (int i = 0; i < tabla_simbolos.cantidad; i++)
+    {
+        if (strcmp(tabla_simbolos.elementos[i].nombre, nombre) == 0)
+        {
+            return &tabla_simbolos.elementos[i];
+        }
+    }
+    return NULL;
+}

@@ -103,6 +103,11 @@ void eliminarPila(t_pila *pila)
     free(pila);
 }
 
+int pilaVacia(t_pila *pila)
+{
+    return (pila == NULL || pila->tope == NULL);
+}
+
 /* -------------------------------------------------------------------------- */
 /*                           FUNCIONES DE DEBUG                               */
 /* -------------------------------------------------------------------------- */

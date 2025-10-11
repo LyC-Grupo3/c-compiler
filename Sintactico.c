@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
         inicializarPolaca();
         pilaBase = crearPila();
         inicializarTriangleHelper();
+        inicializarInitVariablesHelper();
         inicializarDebugPolaca("test_outputs/debug_polaca.txt");
 
         crearTablaSimbolos();
@@ -30,6 +31,7 @@ int main(int argc, char *argv[])
         eliminarPolaca();
         eliminarPila(pilaBase);
         limpiarTriangleHelper();
+        limpiarInitVariablesHelper();
         cerrarArchivoSalidaLexico();
         cerrarArchivoSalidaLexicoSintactico();
     }

@@ -159,18 +159,36 @@ conjunto_declaraciones:
     ;
 
 declaracion:
-    conjunto_ids OP_ASIG_TIPO tipo_dato                 {informarMatchLexicoSintactico("declaracion", "conjunto_ids OP_ASIG_TIPO tipo_dato");}
+    conjunto_ids OP_ASIG_TIPO tipo_dato                 {
+                                                            informarMatchLexicoSintactico("declaracion", "conjunto_ids OP_ASIG_TIPO tipo_dato");
+                                                            setTipoDatoEnTSParaVariablesDeclaradas();
+                                                        }
     ;
 
 conjunto_ids:
-    conjunto_ids COMA ID                                {informarMatchLexicoSintactico("conjunto_ids", "conjunto_ids COMA ID");}
-    | ID                                                {informarMatchLexicoSintactico("conjunto_ids", "ID");}
+    conjunto_ids COMA ID                                {
+                                                            informarMatchLexicoSintactico("conjunto_ids", "conjunto_ids COMA ID");
+                                                            apilarIDVariableDeclarada($3);
+                                                        }
+    | ID                                                {
+                                                            informarMatchLexicoSintactico("conjunto_ids", "ID");
+                                                            apilarIDVariableDeclarada($1);
+                                                        }
     ;
 
 tipo_dato:
-    INT                                                 {informarMatchLexicoSintactico("tipo_dato", "INT");}
-    | FLOAT                                             {informarMatchLexicoSintactico("tipo_dato", "FLOAT");}
-    | STRING                                            {informarMatchLexicoSintactico("tipo_dato", "STRING");}
+    INT                                                 {
+                                                            informarMatchLexicoSintactico("tipo_dato", "INT");
+                                                            setTipoDatoDeclaracionVariableActual("INT");
+                                                        }
+    | FLOAT                                             {
+                                                            informarMatchLexicoSintactico("tipo_dato", "FLOAT");
+                                                            setTipoDatoDeclaracionVariableActual("FLOAT");
+                                                        }
+    | STRING                                            {
+                                                            informarMatchLexicoSintactico("tipo_dato", "STRING");
+                                                            setTipoDatoDeclaracionVariableActual("STRING");
+                                                        }
     ;
 
 /* ----------------------------------- IF ----------------------------------- */

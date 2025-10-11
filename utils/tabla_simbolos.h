@@ -43,4 +43,6 @@ void crearTablaSimbolos(void);
 
 int exportarTablaSimbolos(const char *nombre_archivo);
 
+t_simbolo* buscarSimboloPorNombre(const char *nombre);
+
 #endif // TABLA_SIMBOLOS_H
