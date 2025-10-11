@@ -179,15 +179,15 @@ conjunto_ids:
 tipo_dato:
     INT                                                 {
                                                             informarMatchLexicoSintactico("tipo_dato", "INT");
-                                                            setTipoDatoDeclaracionVariableActual("INT");
+                                                            setTipoDatoDeclaracionVariableActual(TIPO_TOKEN_CONST_INT);
                                                         }
     | FLOAT                                             {
                                                             informarMatchLexicoSintactico("tipo_dato", "FLOAT");
-                                                            setTipoDatoDeclaracionVariableActual("FLOAT");
+                                                            setTipoDatoDeclaracionVariableActual(TIPO_TOKEN_CONST_FLOAT);
                                                         }
     | STRING                                            {
                                                             informarMatchLexicoSintactico("tipo_dato", "STRING");
-                                                            setTipoDatoDeclaracionVariableActual("STRING");
+                                                            setTipoDatoDeclaracionVariableActual(TIPO_TOKEN_CONST_STR);
                                                         }
     ;
 
