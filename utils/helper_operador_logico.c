@@ -22,7 +22,6 @@ void limpiarCondicionalHelper()
 void apilarOperadorLogicoUtilizado(const char *operadorLogico)
 {
     apilar(pilaOperadoresLogicosUtilizados, operadorLogico);
-    imprimirContenidoPila(pilaOperadoresLogicosUtilizados);
 }
 
 char* getOperadorLogicoActual()

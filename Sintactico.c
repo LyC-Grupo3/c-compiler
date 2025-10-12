@@ -127,9 +127,6 @@ void desapilarNroCeldaYEscribirEnEllaNroCeldaAuxInicioTrueOR(t_pila *pila)
     strcpy(indicePolacaChar, desapilar(pila));
     int nroCeldaDesapilada = atoi(indicePolacaChar);
 
-    printf("INDICE DONDE GRABAR INICIO OR: %s\n", indicePolacaChar);
-    printf("INDICE INICIO OR: %s\n", nroCeldaActualPolacaAuxInicioTrueSoloParaOR);
-
     insertarEnPolacaIndice(nroCeldaDesapilada, nroCeldaActualPolacaAuxInicioTrueSoloParaOR);
 
 }
