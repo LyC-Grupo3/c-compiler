@@ -93,7 +93,7 @@ conjunto_sentencias:
 sentencia:
     seleccion_con_else                                  {informarMatchLexicoSintactico("sentencia", "seleccion_con_else");}
     | seleccion_sin_else                                {informarMatchLexicoSintactico("sentencia", "seleccion_sin_else");}
-    | iteracion_while                                      {informarMatchLexicoSintactico("sentencia", "iteracion_while");}
+    | iteracion_while                                   {informarMatchLexicoSintactico("sentencia", "iteracion_while");}
     | asignacion                                        {informarMatchLexicoSintactico("sentencia", "asignacion");}
     | funcion_read                                      {informarMatchLexicoSintactico("sentencia", "funcion_read");}
     | funcion_write                                     {informarMatchLexicoSintactico("sentencia", "funcion_write");}
@@ -198,6 +198,7 @@ conjunto_declaraciones:
 declaracion:
     conjunto_ids OP_ASIG_TIPO tipo_dato                 {
                                                             informarMatchLexicoSintactico("declaracion", "conjunto_ids OP_ASIG_TIPO tipo_dato");
+
                                                             setTipoDatoEnTSParaVariablesDeclaradas();
                                                         }
     ;
@@ -205,10 +206,12 @@ declaracion:
 conjunto_ids:
     conjunto_ids COMA ID                                {
                                                             informarMatchLexicoSintactico("conjunto_ids", "conjunto_ids COMA ID");
+
                                                             apilarIDVariableDeclarada($3);
                                                         }
     | ID                                                {
                                                             informarMatchLexicoSintactico("conjunto_ids", "ID");
+
                                                             apilarIDVariableDeclarada($1);
                                                         }
     ;
@@ -216,14 +219,17 @@ conjunto_ids:
 tipo_dato:
     INT                                                 {
                                                             informarMatchLexicoSintactico("tipo_dato", "INT");
+
                                                             setTipoDatoDeclaracionVariableActual(TIPO_TOKEN_CONST_INT);
                                                         }
     | FLOAT                                             {
                                                             informarMatchLexicoSintactico("tipo_dato", "FLOAT");
+
                                                             setTipoDatoDeclaracionVariableActual(TIPO_TOKEN_CONST_FLOAT);
                                                         }
     | STRING                                            {
                                                             informarMatchLexicoSintactico("tipo_dato", "STRING");
+
                                                             setTipoDatoDeclaracionVariableActual(TIPO_TOKEN_CONST_STR);
                                                         }
     ;
@@ -342,7 +348,7 @@ bloque_if:
 
 /* ---------------------------------- ELSE ---------------------------------- */
 bloque_else:
-    ELSE LLA_A conjunto_sentencias LLA_C    {informarMatchLexicoSintactico("bloque_else", "ELSE LLA_A conjunto_sentencias LLA_C");}
+    ELSE LLA_A conjunto_sentencias LLA_C                {informarMatchLexicoSintactico("bloque_else", "ELSE LLA_A conjunto_sentencias LLA_C");}
     ;
 
 
@@ -374,11 +380,11 @@ condicional:
                                                                                                 // SIRVE PARA EL AND y OR
                                                                                                 apilarNroCeldaActualYAvanzarPolaca(pilaBase);
                                                                                             }
-    | NOT { setNegacionPendienteOperadorComparacion(1); } condicion      {
-                                                            informarMatchLexicoSintactico("condicional", "NOT condicion");
+    | NOT { setNegacionPendienteOperadorComparacion(1); } condicion    {
+                                                                            informarMatchLexicoSintactico("condicional", "NOT condicion");
 
-                                                            setNegacionPendienteOperadorComparacion(0);
-                                                        }
+                                                                            setNegacionPendienteOperadorComparacion(0);
+                                                                        }
     ;
 
 
@@ -402,26 +408,32 @@ condicion:
 operador_comparacion:
     OP_IGUAL                                            {
                                                             informarMatchLexicoSintactico("operador_comparacion", "OP_IGUAL");
+
                                                             setOperadorComparacionPendienteActual(VALOR_POLACA_OP_IGUAL);
                                                         }
     | OP_DISTINTO                                       {
                                                             informarMatchLexicoSintactico("operador_comparacion", "OP_DISTINTO");
+
                                                             setOperadorComparacionPendienteActual(VALOR_POLACA_OP_DISTINTO);
                                                         }
     | OP_MAYOR                                          {
                                                             informarMatchLexicoSintactico("operador_comparacion", "OP_MAYOR");
+
                                                             setOperadorComparacionPendienteActual(VALOR_POLACA_OP_MAYOR);
                                                         }
     | OP_MAYOR_IGUAL                                    {
                                                             informarMatchLexicoSintactico("operador_comparacion", "OP_MAYOR_IGUAL");
+
                                                             setOperadorComparacionPendienteActual(VALOR_POLACA_OP_MAYOR_IGUAL);
                                                         }
     | OP_MENOR                                          {
                                                             informarMatchLexicoSintactico("operador_comparacion", "OP_MENOR");
+
                                                             setOperadorComparacionPendienteActual(VALOR_POLACA_OP_MENOR);
                                                         }
     | OP_MENOR_IGUAL                                    {
                                                             informarMatchLexicoSintactico("operador_comparacion", "OP_MENOR_IGUAL");
+
                                                             setOperadorComparacionPendienteActual(VALOR_POLACA_OP_MENOR_IGUAL);
                                                         }
     ;
@@ -452,6 +464,7 @@ iteracion_while:
                             PAR_C LLA_A conjunto_sentencias LLA_C   
                                                                     {
                                                                         informarMatchLexicoSintactico("iteracion_while", "WHILE PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");
+
                                                                         generarCodigoFinWhile();
                                                                     }
     ;
@@ -460,6 +473,7 @@ iteracion_while:
 funcion_read:
     READ PAR_A ID PAR_C                                 {
                                                             informarMatchLexicoSintactico("funcion_read", "READ PAR_A ID PAR_C");
+
                                                             insertarEnPolaca($3);
                                                             insertarEnPolaca("READ");
                                                         }
@@ -469,11 +483,13 @@ funcion_read:
 funcion_write:
     WRITE PAR_A CONST_STR PAR_C                         {
                                                             informarMatchLexicoSintactico("funcion_write", "WRITE PAR_A CONST_STR PAR_C");
+
                                                             insertarEnPolaca($3);
                                                             insertarEnPolaca("WRITE");
                                                         }
     | WRITE PAR_A ID PAR_C                              {
                                                             informarMatchLexicoSintactico("funcion_write", "WRITE PAR_A ID PAR_C");
+
                                                             insertarEnPolaca($3);
                                                             insertarEnPolaca("WRITE");
                                                         }
@@ -481,8 +497,8 @@ funcion_write:
 
 /* ---------------------------- TEMAS ESPECIALES ---------------------------- */
 funciones_temas_especiales:
-    funcion_equal_expressions                           {informarMatchLexicoSintactico("funciones_temas_especiales", "funcion_equal_expressions");}
-    | funcion_triangle_area_maximum                     {informarMatchLexicoSintactico("funciones_temas_especiales", "funcion_triangle_area_maximum");}
+    funcion_equal_expressions                                       {informarMatchLexicoSintactico("funciones_temas_especiales", "funcion_equal_expressions");}
+    | funcion_triangle_area_maximum                                 {informarMatchLexicoSintactico("funciones_temas_especiales", "funcion_triangle_area_maximum");}
     ;
 
 /* ---------------------------- EQUAL EXPRESSIONS --------------------------- */
@@ -491,8 +507,8 @@ funcion_equal_expressions:
     ;
 
 parametros_equal_expressions:
-    expresion COMA expresion                            {informarMatchLexicoSintactico("parametros_equal_expressions", "expresion COMA expresion");}
-    | parametros_equal_expressions COMA expresion       {informarMatchLexicoSintactico("parametros_equal_expressions", "parametros_equal_expressions COMA expresion");}
+    expresion COMA expresion                                        {informarMatchLexicoSintactico("parametros_equal_expressions", "expresion COMA expresion");}
+    | parametros_equal_expressions COMA expresion                   {informarMatchLexicoSintactico("parametros_equal_expressions", "parametros_equal_expressions COMA expresion");}
     ;
 
 
@@ -505,7 +521,7 @@ funcion_triangle_area_maximum:
     ;
 
 parametros_triangle_area_maximum:
-    coordenadas_triangulo PUNTO_C coordenadas_triangulo {informarMatchLexicoSintactico("parametros_triangle_area_maximum", "coordenadas_triangulo PUNTO_C coordenadas_triangulo");}
+    coordenadas_triangulo PUNTO_C coordenadas_triangulo             {informarMatchLexicoSintactico("parametros_triangle_area_maximum", "coordenadas_triangulo PUNTO_C coordenadas_triangulo");}
     ;
 
 coordenadas_triangulo:
@@ -515,6 +531,7 @@ coordenadas_triangulo:
         }
         conjunto_puntos_triangulo COR_C                             {
                                                                         informarMatchLexicoSintactico("coordenadas_triangulo", "COR_A conjunto_puntos_triangulo COR_C");
+
                                                                         generarPolacaCalculoAreaTriangulo();
                                                                     }
     ;
@@ -524,20 +541,23 @@ conjunto_puntos_triangulo:
     ;
 
 coordenada_triangulo:
-    tipo_parametro_triangle_area COMA tipo_parametro_triangle_area {informarMatchLexicoSintactico("coordenada_triangulo", "tipo_parametro_triangle_area COMA tipo_parametro_triangle_area");}
+    tipo_parametro_triangle_area COMA tipo_parametro_triangle_area                  {informarMatchLexicoSintactico("coordenada_triangulo", "tipo_parametro_triangle_area COMA tipo_parametro_triangle_area");}
     ;
 
 tipo_parametro_triangle_area:
     CONST_INT                                           {
                                                             informarMatchLexicoSintactico("tipo_parametro_triangle_area", "CONST_INT");
+
                                                             apilarCoordenadaTriangulo($1);
                                                         }
     | CONST_FLOAT                                       {
                                                             informarMatchLexicoSintactico("tipo_parametro_triangle_area", "CONST_FLOAT");
+
                                                             apilarCoordenadaTriangulo($1);
                                                         }
     | ID                                                {
                                                             informarMatchLexicoSintactico("tipo_parametro_triangle_area", "ID");
+                                                            
                                                             apilarCoordenadaTriangulo($1);
                                                         }
     ;

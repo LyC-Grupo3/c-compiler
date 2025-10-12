@@ -14,11 +14,13 @@ int main(int argc, char *argv[])
     else
     {
         inicializarPolaca();
+
         pilaBase = crearPila();
         inicializarTriangleHelper();
         inicializarInitVariablesHelper();
         inicializarTiposDatosHelper();
         inicializarCondicionalHelper();
+        
         inicializarDebugPolaca("test_outputs/debug_polaca.txt");
 
         crearTablaSimbolos();
@@ -32,11 +34,13 @@ int main(int argc, char *argv[])
 
         cerrarDebugPolaca();
         eliminarPolaca();
+
         eliminarPila(pilaBase);
         limpiarTriangleHelper();
         limpiarInitVariablesHelper();
         limpiarTiposDatosHelper();
         limpiarCondicionalHelper();
+
         cerrarArchivoSalidaLexico();
         cerrarArchivoSalidaLexicoSintactico();
     }
