@@ -234,7 +234,7 @@ seleccion_con_else:
                 {
                     if(esCondicionalConDosExpresiones() == 1)
                     {
-                        // PARA EL AND SIRVIO - NO PROBE CON OR
+                        // SIRVE PARA EL AND y OR
                         insertarEnPolaca("BI");
                         apilarNroCeldaActualYAvanzarPolaca(pilaBase);
                     }
@@ -249,14 +249,34 @@ seleccion_con_else:
                                     
                                     if(esCondicionalConDosExpresiones() == 1)
                                     {
-                                        // PARA EL AND SIRVIO - NO PROBE CON OR
-                                        int nroCeldaDesapilado = desapilarNroCeldaYEscribirEnEllaNroCeldaActual(pilaBase);
-                                        char nroCeldaDesapiladoMasUno[TAM_CONTENIDO_PILA];
+                                        char operadorLogicoActual[TAM_CONTENIDO_PILA];
+                                        strcpy(operadorLogicoActual, getOperadorLogicoActual());
 
-                                        sprintf(nroCeldaDesapiladoMasUno, "%d", nroCeldaDesapilado + 1);
+                                        // PARA EL AND
+                                        if(strcmp(operadorLogicoActual, "AND") == 0)
+                                        {
+                                            int nroCeldaDesapilado = desapilarNroCeldaYEscribirEnEllaNroCeldaActual(pilaBase);
+                                            char nroCeldaDesapiladoMasUno[TAM_CONTENIDO_PILA];
 
-                                        desapilarNroCeldaYEscribirEnEllaValor(pilaBase, nroCeldaDesapiladoMasUno);
-                                        desapilarNroCeldaYEscribirEnEllaValor(pilaBase, nroCeldaDesapiladoMasUno);
+                                            sprintf(nroCeldaDesapiladoMasUno, "%d", nroCeldaDesapilado + 1);
+
+                                            desapilarNroCeldaYEscribirEnEllaValor(pilaBase, nroCeldaDesapiladoMasUno);
+
+                                            desapilarNroCeldaYEscribirEnEllaValor(pilaBase, nroCeldaDesapiladoMasUno);
+                                        }
+                                        // PARA EL OR
+                                        else
+                                        {
+                                            int nroCeldaDesapilado = desapilarNroCeldaYEscribirEnEllaNroCeldaActual(pilaBase);
+                                            char nroCeldaDesapiladoMasUno[TAM_CONTENIDO_PILA];
+
+                                            sprintf(nroCeldaDesapiladoMasUno, "%d", nroCeldaDesapilado + 1);
+
+                                            desapilarNroCeldaYEscribirEnEllaValor(pilaBase, nroCeldaDesapiladoMasUno);
+
+                                            desapilarNroCeldaYEscribirEnEllaNroCeldaAuxInicioTrueOR(pilaBase);
+                                        }
+
                                     }
                                     else
                                     {
