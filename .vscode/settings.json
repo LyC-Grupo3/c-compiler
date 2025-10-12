@@ -15,6 +15,7 @@
         "simbolo.h": "c",
         "helper_operador_comparacion.h": "c",
         "archivos.h": "c",
-        "helper_control_flow.h": "c"
+        "helper_control_flow.h": "c",
+        "utils.h": "c"
     }
 }

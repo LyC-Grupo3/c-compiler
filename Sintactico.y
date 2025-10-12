@@ -16,6 +16,8 @@ extern int desapilarNroCeldaYEscribirloEnCeldaActualPolaca(t_pila *pila);
 
 extern void insertarEnPolacaNroCeldaActualMasTres();
 
+extern void desapilarNroCeldaYEscribirEnEllaValor(t_pila *pila, const char *valor);
+
 %}
 
 %union {
@@ -230,12 +232,36 @@ tipo_dato:
 seleccion_con_else:
     bloque_if 
                 {
-                    generarCodigoFinBloqueVerdaderoIfConElse();
+                    if(esCondicionalConDosExpresiones() == 1)
+                    {
+                        // PARA EL AND SIRVIO - NO PROBE CON OR
+                        insertarEnPolaca("BI");
+                        apilarNroCeldaActualYAvanzarPolaca(pilaBase);
+                    }
+                    else
+                    {
+                        generarCodigoFinBloqueVerdaderoIfConElse();
+                    }
                 }
                 bloque_else                               
                                 {
                                     informarMatchLexicoSintactico("seleccion_con_else", "bloque_if bloque_else");
-                                    generarCodigoFinBloqueElse();
+                                    
+                                    if(esCondicionalConDosExpresiones() == 1)
+                                    {
+                                        // PARA EL AND SIRVIO - NO PROBE CON OR
+                                        int nroCeldaDesapilado = desapilarNroCeldaYEscribirEnEllaNroCeldaActual(pilaBase);
+                                        char nroCeldaDesapiladoMasUno[TAM_CONTENIDO_PILA];
+
+                                        sprintf(nroCeldaDesapiladoMasUno, "%d", nroCeldaDesapilado + 1);
+
+                                        desapilarNroCeldaYEscribirEnEllaValor(pilaBase, nroCeldaDesapiladoMasUno);
+                                        desapilarNroCeldaYEscribirEnEllaValor(pilaBase, nroCeldaDesapiladoMasUno);
+                                    }
+                                    else
+                                    {
+                                        generarCodigoFinBloqueElse();
+                                    }
                                 }
     ;
 

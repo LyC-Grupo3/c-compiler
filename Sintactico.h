@@ -1,6 +1,7 @@
 #ifndef SINTACTICO
 #define SINTACTICO
 
+#include <stdio.h>
 #include "./utils/archivos.h"
 #include "./utils/utils.h"
 #include "./utils/informes.h"

@@ -133,3 +133,12 @@ void desapilarNroCeldaYEscribirEnEllaNroCeldaAuxInicioTrueOR(t_pila *pila)
     insertarEnPolacaIndice(nroCeldaDesapilada, nroCeldaActualPolacaAuxInicioTrueSoloParaOR);
 
 }
+
+void desapilarNroCeldaYEscribirEnEllaValor(t_pila *pila, const char *valor)
+{
+    char indicePolacaChar[TAM_CONTENIDO_PILA];
+    strcpy(indicePolacaChar, desapilar(pila));
+    int nroCeldaDesapilada = atoi(indicePolacaChar);
+
+    insertarEnPolacaIndice(nroCeldaDesapilada, valor);
+}
