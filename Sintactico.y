@@ -558,6 +558,7 @@ funcion_equal_expressions:
     EQUAL_EXP PAR_A parametros_equal_expressions PAR_C              {
                                                                         informarMatchLexicoSintactico("funcion_equal_expressions", "EQUAL_EXP PAR_A parametros_equal_expressions PAR_C");
                                                                         generarCodigoEqualExpressions_2();
+                                                                        apilarTipoDatoUtilizado(TIPO_TOKEN_CONST_INT);
                                                                     }
     ;
 
@@ -582,6 +583,7 @@ funcion_triangle_area_maximum:
     TRIAN_MAX PAR_A parametros_triangle_area_maximum PAR_C          {
                                                                         informarMatchLexicoSintactico("funcion_triangle_area_maximum", "TRIAN_MAX PAR_A parametros_triangle_area_maximum PAR_C");
                                                                         generarPolacaTriangleAreaMaximun();
+                                                                        apilarTipoDatoUtilizado(TIPO_TOKEN_CONST_FLOAT);
                                                                     }
     ;
 
