@@ -557,7 +557,7 @@ funciones_temas_especiales:
 funcion_equal_expressions:
     EQUAL_EXP PAR_A parametros_equal_expressions PAR_C              {
                                                                         informarMatchLexicoSintactico("funcion_equal_expressions", "EQUAL_EXP PAR_A parametros_equal_expressions PAR_C");
-                                                                        generarCodigoEqualExpressions_1();
+                                                                        generarCodigoEqualExpressions_2();
                                                                     }
     ;
 

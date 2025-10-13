@@ -30,9 +30,17 @@ void liberarListaExpresiones();
 void procesarExpresionCompleta();
 
 /**
- * @brief Genera el código en la polaca para evaluar equalExpressions
- * Compara todas las expresiones y asigna resultado a @equal (0 o 1)
+ * @brief Genera el código en la polaca para evaluar equalExpressions (Versión 1)
+ * Compara todas las expresiones usando variables @exp0, @exp1, @exp2, etc.
+ * Resultado en @equal (0 o 1)
  */
 void generarCodigoEqualExpressions_1();
+
+/**
+ * @brief Genera el código en la polaca para evaluar equalExpressions (Versión 2)
+ * Solo usa dos variables: @expActual y @expAux
+ * Resultado en @equal (0 o 1)
+ */
+void generarCodigoEqualExpressions_2();
 
 #endif // HELPER_EQUAL_EXPRESSIONS_H
