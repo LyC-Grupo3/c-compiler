@@ -288,6 +288,8 @@ seleccion_con_else:
                                     {
                                         generarCodigoFinBloqueElse();
                                     }
+
+                                    reiniciarPilaOperadoresLogicosUtilizados();
                                 }
     ;
 
@@ -510,6 +512,8 @@ iteracion_while:
                                                                         {
                                                                             generarCodigoFinWhile();
                                                                         }
+
+                                                                        reiniciarPilaOperadoresLogicosUtilizados();
                                                                     }
     ;
 
