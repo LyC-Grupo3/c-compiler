@@ -455,17 +455,61 @@ operador_logico:
 iteracion_while:
     WHILE 
         {
+            // SIRVE PARA CONDICION SIMPEL Y COMPUESTA (AND Y OR)
+            // SERIA DONDE ESTA LA ETIQUETA ET Y SABER A DONDE VOLVER CUANDO SE TIENE QUE REPETIR EL WHILE
             generarCodigoInicioWhile();
         }
         PAR_A condicional 
                             {                      
-                                generarCodigoFinCondicionWhile();
+                                // SIRVE EL WHILE SIMPLE Y SERIA PARA GUARDAR EL FIN DE LA CONDICION QUE TIENE QUE SALTAR A LA PARTE DE ABAJO DEL WHILE OSEA NO EJECUTARLO
+                                if(esCondicionalConDosExpresiones() == 1)
+                                {
+                                    char operadorLogicoActual[TAM_CONTENIDO_PILA];
+                                    strcpy(operadorLogicoActual, getOperadorLogicoActual());
+
+                                    // Si es un OR tengo que guardar el inicio de la parte TRUE
+                                    if(strcmp(operadorLogicoActual, "OR") == 0)
+                                    {
+                                        setearNroCeldaActualPolacaAuxInicioTrueSoloParaOR();
+                                    }
+
+                                    // AND NO NECESITA HACER NADA
+                                }
+                                else
+                                {
+                                    generarCodigoFinCondicionWhile();
+                                }
                             }
                             PAR_C LLA_A conjunto_sentencias LLA_C   
                                                                     {
                                                                         informarMatchLexicoSintactico("iteracion_while", "WHILE PAR_A condicional PAR_C LLA_A conjunto_sentencias LLA_C");
 
-                                                                        generarCodigoFinWhile();
+                                                                        if(esCondicionalConDosExpresiones() == 1)
+                                                                        {
+                                                                            char operadorLogicoActual[TAM_CONTENIDO_PILA];
+                                                                            strcpy(operadorLogicoActual, getOperadorLogicoActual());
+ 
+                                                                            // PARA EL AND
+                                                                            if(strcmp(operadorLogicoActual, "AND") == 0)
+                                                                            {
+                                                                                insertarEnPolaca("BI");
+                                                                                desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno(pilaBase);
+                                                                                desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno(pilaBase);
+                                                                                desapilarNroCeldaYEscribirloEnCeldaActualPolaca(pilaBase);
+                                                                            }
+                                                                            // PARA EL OR
+                                                                            else
+                                                                            {   
+                                                                                insertarEnPolaca("BI");
+                                                                                desapilarNroCeldaYEscribirEnEllaNroCeldaActualMasUno(pilaBase);
+                                                                                desapilarNroCeldaYEscribirEnEllaNroCeldaAuxInicioTrueOR(pilaBase);
+                                                                                desapilarNroCeldaYEscribirloEnCeldaActualPolaca(pilaBase);
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            generarCodigoFinWhile();
+                                                                        }
                                                                     }
     ;
 
