@@ -357,6 +357,8 @@ bloque_else:
 condicional:
     condicion                                           {
                                                             informarMatchLexicoSintactico("condicional", "condicion");
+
+                                                            apilarOperadorLogicoUtilizado("");
                                                         }
     | condicion operador_logico { 
                                     char operadorLogicoActual[TAM_CONTENIDO_PILA];
@@ -386,6 +388,8 @@ condicional:
                                                                             informarMatchLexicoSintactico("condicional", "NOT condicion");
 
                                                                             setNegacionPendienteOperadorComparacion(0);
+
+                                                                            apilarOperadorLogicoUtilizado("");
                                                                         }
     ;
 

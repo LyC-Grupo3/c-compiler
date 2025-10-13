@@ -36,7 +36,7 @@ int esCondicionalConDosExpresiones()
     // 0 - si tiene algo
 
     // Si esta vacia es condicion simple
-    if(pilaVacia(pilaOperadoresLogicosUtilizados))
+    if(pilaVacia(pilaOperadoresLogicosUtilizados) || strcmp(verTope(pilaOperadoresLogicosUtilizados), "") == 0)
     {
         return 0;
     }
