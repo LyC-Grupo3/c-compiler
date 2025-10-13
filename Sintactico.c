@@ -32,6 +32,15 @@ int main(int argc, char *argv[])
         exportarPolaca("test_outputs/polaca.txt");
         exportarTablaSimbolos("symbol-table.txt");
 
+        // Exportar lista de expresiones si existe
+        t_lista_expresiones *listaExp = obtenerListaExpresiones();
+        if (listaExp != NULL && !listaExpresionesVacia(listaExp))
+        {
+            printf("\n=== EXPRESIONES EXTRAÍDAS PARA EQUAL_EXPRESSIONS ===\n");
+            imprimirListaExpresiones(listaExp);
+            printf("\n");
+        }
+
         cerrarDebugPolaca();
         eliminarPolaca();
 
@@ -40,6 +49,7 @@ int main(int argc, char *argv[])
         limpiarInitVariablesHelper();
         limpiarTiposDatosHelper();
         limpiarCondicionalHelper();
+        liberarListaExpresiones();
 
         cerrarArchivoSalidaLexico();
         cerrarArchivoSalidaLexicoSintactico();

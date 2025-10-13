@@ -559,8 +559,18 @@ funcion_equal_expressions:
     ;
 
 parametros_equal_expressions:
-    expresion COMA expresion                                        {informarMatchLexicoSintactico("parametros_equal_expressions", "expresion COMA expresion");}
-    | parametros_equal_expressions COMA expresion                   {informarMatchLexicoSintactico("parametros_equal_expressions", "parametros_equal_expressions COMA expresion");}
+    { insertarEnPolaca("INICIO_EXP"); }
+    expresion   { 
+                    procesarExpresionCompleta(); 
+                } 
+                                                COMA  
+                                                { insertarEnPolaca("INICIO_EXP"); } 
+                                                expresion { 
+                                                             informarMatchLexicoSintactico("parametros_equal_expressions", "expresion COMA expresion");
+
+                                                              procesarExpresionCompleta();
+                                                          }
+    | parametros_equal_expressions COMA { insertarEnPolaca("INICIO_EXP"); } expresion { procesarExpresionCompleta(); }  {informarMatchLexicoSintactico("parametros_equal_expressions", "parametros_equal_expressions COMA expresion");}
     ;
 
 
