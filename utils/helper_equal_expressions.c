@@ -174,6 +174,125 @@ void liberarListaExpresiones()
 }
 
 /**
+ * @brief Genera código en la polaca para comparar todas las expresiones
+ * y determinar si hay dos iguales
+ * Resultado se guarda en @equal (1 si hay iguales, 0 si no)
+ */
+void generarCodigoEqualExpressions_1()
+{
+    if (listaExpresionesGlobal == NULL || listaExpresionesGlobal->cantidad < 2)
+    {
+        fprintf(stderr, "Error: Se necesitan al menos 2 expresiones para equalExpressions\n");
+        // Por defecto, asignar 0 (no hay iguales)
+        insertarEnPolaca("0");
+        insertarEnPolaca("@equal");
+        insertarEnPolaca(":=");
+        return;
+    }
+
+    int cantidadExpresiones = listaExpresionesGlobal->cantidad;
+    
+    printf("[DEBUG] Generando código para comparar %d expresiones\n", cantidadExpresiones);
+
+    // Paso 1: Evaluar todas las expresiones y guardarlas en variables temporales
+    for (int i = 0; i < cantidadExpresiones; i++)
+    {
+        const char *exp = obtenerExpresion(listaExpresionesGlobal, i);
+        if (exp != NULL)
+        {
+            // Dividir la expresión en tokens y agregarlos a la polaca
+            char expCopia[TAM_CONTENIDO_PILA];
+            strncpy(expCopia, exp, TAM_CONTENIDO_PILA - 1);
+            expCopia[TAM_CONTENIDO_PILA - 1] = '\0';
+            
+            // Tokenizar la expresión (separada por espacios)
+            char *token = strtok(expCopia, " ");
+            while (token != NULL)
+            {
+                insertarEnPolaca(token);
+                token = strtok(NULL, " ");
+            }
+            
+            // Guardar resultado en variable temporal
+            char varTemp[20];
+            snprintf(varTemp, 20, "@exp%d", i);
+            insertarEnPolaca(varTemp);
+            insertarEnPolaca(":=");
+        }
+    }
+
+    // Paso 2: Comparar todas las expresiones entre sí
+    // Guardamos los índices de los saltos BEQ para actualizarlos después
+    int saltosBEQ[100]; // Array para guardar índices de saltos cuando son iguales
+    int numSaltos = 0;
+    
+    for (int i = 0; i < cantidadExpresiones - 1; i++)
+    {
+        for (int j = i + 1; j < cantidadExpresiones; j++)
+        {
+            // Comparar @expi con @expj
+            char varTemp1[20], varTemp2[20];
+            snprintf(varTemp1, 20, "@exp%d", i);
+            snprintf(varTemp2, 20, "@exp%d", j);
+            
+            insertarEnPolaca(varTemp1);
+            insertarEnPolaca(varTemp2);
+            insertarEnPolaca("CMP");
+            
+            // BEQ = Branch if Equal - si son iguales, salta a poner @equal=1
+            insertarEnPolaca("BEQ");
+            
+            // Guardar el índice actual para actualizar después
+            char *indiceActual = getIndiceActualPolaca();
+            saltosBEQ[numSaltos++] = atoi(indiceActual);
+            avanzarPolaca(); // Reservar espacio para el número de salto
+        }
+    }
+    
+    // Paso 3: Si llegamos aquí, no hay expresiones iguales
+    insertarEnPolaca("0");
+    insertarEnPolaca("@equal");
+    insertarEnPolaca(":=");
+    
+    // Saltar al final (después de @equal=1)
+    insertarEnPolaca("BI");
+    char *indiceSaltoFinal = getIndiceActualPolaca();
+    int idxSaltoFinal = atoi(indiceSaltoFinal);
+    avanzarPolaca();
+    
+    // Paso 4: Etiqueta para cuando SÍ son iguales
+    char *indiceIguales = getIndiceActualPolaca();
+    int idxIguales = atoi(indiceIguales);
+    
+    insertarEnPolaca("1");
+    insertarEnPolaca("@equal");
+    insertarEnPolaca(":=");
+    
+    // Paso 5: Etiqueta final
+    char *indiceFinal = getIndiceActualPolaca();
+    int idxFinal = atoi(indiceFinal);
+    
+    // Paso 6: Actualizar todos los saltos
+    // Actualizar los BEQ para que salten a la etiqueta de iguales
+    for (int i = 0; i < numSaltos; i++)
+    {
+        char valorSalto[20];
+        snprintf(valorSalto, 20, "%d", idxIguales);
+        insertarEnPolacaIndice(saltosBEQ[i], valorSalto);
+    }
+    
+    // Actualizar el BI para que salte al final
+    char valorSaltoFinal[20];
+    snprintf(valorSaltoFinal, 20, "%d", idxFinal);
+    insertarEnPolacaIndice(idxSaltoFinal, valorSaltoFinal);
+    
+    // Paso 7: Insertar @equal como valor de retorno de la función
+    insertarEnPolaca("@equal");
+    
+    printf("[DEBUG] Código equalExpressions generado con %d comparaciones\n", numSaltos);
+}
+
+/**
  * @brief Procesa una expresión cuando se completa en el parser
  * Extrae desde el último INICIO_EXP hasta el final, guarda en lista y elimina de polaca
  */
