@@ -33,13 +33,13 @@ int main(int argc, char *argv[])
         exportarTablaSimbolos("symbol-table.txt");
 
         // Exportar lista de expresiones si existe
-        t_lista_expresiones *listaExp = obtenerListaExpresiones();
-        if (listaExp != NULL && !listaExpresionesVacia(listaExp))
-        {
-            printf("\n=== EXPRESIONES EXTRAÍDAS PARA EQUAL_EXPRESSIONS ===\n");
-            imprimirListaExpresiones(listaExp);
-            printf("\n");
-        }
+        // t_lista_expresiones *listaExp = obtenerListaExpresiones();
+        // if (listaExp != NULL && !listaExpresionesVacia(listaExp))
+        // {
+        //     printf("\n=== EXPRESIONES EXTRAÍDAS PARA EQUAL_EXPRESSIONS ===\n");
+        //     imprimirListaExpresiones(listaExp);
+        //     printf("\n");
+        // }
 
         cerrarDebugPolaca();
         eliminarPolaca();

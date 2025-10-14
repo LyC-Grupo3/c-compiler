@@ -3,18 +3,11 @@
 #include <string.h>
 
 #include "./helper_equal_expressions.h"
-#include "./polaca.h"
 
-// Declaración externa de la polaca (definida en polaca.c)
 extern t_polaca *polaca;
 
-// Lista global de expresiones para equalExpressions
 static t_lista_expresiones *listaExpresionesGlobal = NULL;
 
-/**
- * @brief Busca hacia atrás el último nodo con INICIO_EXP en la polaca
- * @return Puntero al nodo con INICIO_EXP o NULL si no se encuentra
- */
 static t_nodo_polaca *buscarUltimoInicioExp()
 {
     if (polaca == NULL || polaca->inicio == NULL)
@@ -38,12 +31,6 @@ static t_nodo_polaca *buscarUltimoInicioExp()
     return ultimoInicioExp;
 }
 
-/**
- * @brief Extrae y construye una expresión desde INICIO_EXP hasta el final de la polaca
- * @param nodoInicio Nodo donde está INICIO_EXP
- * @param expresion Buffer donde se guardará la expresión
- * @param tamBuffer Tamaño del buffer
- */
 static void extraerExpresionDesdeInicio(t_nodo_polaca *nodoInicio, char *expresion, int tamBuffer)
 {
     if (nodoInicio == NULL || expresion == NULL)
@@ -83,10 +70,6 @@ static void extraerExpresionDesdeInicio(t_nodo_polaca *nodoInicio, char *expresi
     }
 }
 
-/**
- * @brief Elimina nodos desde un nodo específico hasta el final de la polaca
- * @param nodoInicio Nodo desde donde empezar a eliminar (inclusive)
- */
 static void eliminarDesdeNodoHastaFinal(t_nodo_polaca *nodoInicio)
 {
     if (polaca == NULL || nodoInicio == NULL)
@@ -134,9 +117,6 @@ static void eliminarDesdeNodoHastaFinal(t_nodo_polaca *nodoInicio)
     }
 }
 
-/**
- * @brief Inicializa la lista global de expresiones
- */
 void inicializarListaExpresiones()
 {
     if (listaExpresionesGlobal != NULL)
@@ -152,18 +132,11 @@ void inicializarListaExpresiones()
     }
 }
 
-/**
- * @brief Obtiene la lista global de expresiones
- * @return Puntero a la lista global
- */
 t_lista_expresiones *obtenerListaExpresiones()
 {
     return listaExpresionesGlobal;
 }
 
-/**
- * @brief Libera la lista global de expresiones
- */
 void liberarListaExpresiones()
 {
     if (listaExpresionesGlobal != NULL)
@@ -173,11 +146,6 @@ void liberarListaExpresiones()
     }
 }
 
-/**
- * @brief Genera código en la polaca para comparar todas las expresiones
- * y determinar si hay dos iguales
- * Resultado se guarda en @equal (1 si hay iguales, 0 si no)
- */
 void generarCodigoEqualExpressions_1()
 {
     if (listaExpresionesGlobal == NULL || listaExpresionesGlobal->cantidad < 2)
@@ -191,8 +159,6 @@ void generarCodigoEqualExpressions_1()
     }
 
     int cantidadExpresiones = listaExpresionesGlobal->cantidad;
-    
-    printf("[DEBUG] Generando código para comparar %d expresiones\n", cantidadExpresiones);
 
     // Paso 1: Evaluar todas las expresiones y guardarlas en variables temporales
     for (int i = 0; i < cantidadExpresiones; i++)
@@ -204,7 +170,7 @@ void generarCodigoEqualExpressions_1()
             char expCopia[TAM_CONTENIDO_PILA];
             strncpy(expCopia, exp, TAM_CONTENIDO_PILA - 1);
             expCopia[TAM_CONTENIDO_PILA - 1] = '\0';
-            
+
             // Tokenizar la expresión (separada por espacios)
             char *token = strtok(expCopia, " ");
             while (token != NULL)
@@ -212,7 +178,7 @@ void generarCodigoEqualExpressions_1()
                 insertarEnPolaca(token);
                 token = strtok(NULL, " ");
             }
-            
+
             // Guardar resultado en variable temporal
             char varTemp[20];
             snprintf(varTemp, 20, "@exp%d", i);
@@ -225,7 +191,7 @@ void generarCodigoEqualExpressions_1()
     // Guardamos los índices de los saltos BEQ para actualizarlos después
     int saltosBEQ[100]; // Array para guardar índices de saltos cuando son iguales
     int numSaltos = 0;
-    
+
     for (int i = 0; i < cantidadExpresiones - 1; i++)
     {
         for (int j = i + 1; j < cantidadExpresiones; j++)
@@ -234,44 +200,44 @@ void generarCodigoEqualExpressions_1()
             char varTemp1[20], varTemp2[20];
             snprintf(varTemp1, 20, "@exp%d", i);
             snprintf(varTemp2, 20, "@exp%d", j);
-            
+
             insertarEnPolaca(varTemp1);
             insertarEnPolaca(varTemp2);
             insertarEnPolaca("CMP");
-            
+
             // BEQ = Branch if Equal - si son iguales, salta a poner @equal=1
             insertarEnPolaca("BEQ");
-            
+
             // Guardar el índice actual para actualizar después
             char *indiceActual = getIndiceActualPolaca();
             saltosBEQ[numSaltos++] = atoi(indiceActual);
             avanzarPolaca(); // Reservar espacio para el número de salto
         }
     }
-    
+
     // Paso 3: Si llegamos aquí, no hay expresiones iguales
     insertarEnPolaca("0");
     insertarEnPolaca("@equal");
     insertarEnPolaca(":=");
-    
+
     // Saltar al final (después de @equal=1)
     insertarEnPolaca("BI");
     char *indiceSaltoFinal = getIndiceActualPolaca();
     int idxSaltoFinal = atoi(indiceSaltoFinal);
     avanzarPolaca();
-    
+
     // Paso 4: Etiqueta para cuando SÍ son iguales
     char *indiceIguales = getIndiceActualPolaca();
     int idxIguales = atoi(indiceIguales);
-    
+
     insertarEnPolaca("1");
     insertarEnPolaca("@equal");
     insertarEnPolaca(":=");
-    
+
     // Paso 5: Etiqueta final
     char *indiceFinal = getIndiceActualPolaca();
     int idxFinal = atoi(indiceFinal);
-    
+
     // Paso 6: Actualizar todos los saltos
     // Actualizar los BEQ para que salten a la etiqueta de iguales
     for (int i = 0; i < numSaltos; i++)
@@ -280,22 +246,16 @@ void generarCodigoEqualExpressions_1()
         snprintf(valorSalto, 20, "%d", idxIguales);
         insertarEnPolacaIndice(saltosBEQ[i], valorSalto);
     }
-    
+
     // Actualizar el BI para que salte al final
     char valorSaltoFinal[20];
     snprintf(valorSaltoFinal, 20, "%d", idxFinal);
     insertarEnPolacaIndice(idxSaltoFinal, valorSaltoFinal);
-    
+
     // Paso 7: Insertar @equal como valor de retorno de la función
     insertarEnPolaca("@equal");
-    
-    printf("[DEBUG] Código equalExpressions generado con %d comparaciones\n", numSaltos);
 }
 
-/**
- * @brief Procesa una expresión cuando se completa en el parser
- * Extrae desde el último INICIO_EXP hasta el final, guarda en lista y elimina de polaca
- */
 void procesarExpresionCompleta()
 {
     // Inicializar la lista si es la primera vez
@@ -321,19 +281,12 @@ void procesarExpresionCompleta()
     if (strlen(expresion) > 0)
     {
         agregarExpresion(listaExpresionesGlobal, expresion);
-        printf("[DEBUG] Expresión agregada a la lista: '%s'\n", expresion);
     }
 
     // Eliminar desde INICIO_EXP hasta el final de la polaca
     eliminarDesdeNodoHastaFinal(nodoInicioExp);
 }
 
-/**
- * @brief Genera código en la polaca para comparar todas las expresiones (VERSIÓN 2 OPTIMIZADA)
- * Solo utiliza dos variables: @expActual y @expAux
- * @expActual se mantiene fija mientras @expAux recorre las expresiones siguientes
- * Resultado se guarda en @equal (1 si hay iguales, 0 si no)
- */
 void generarCodigoEqualExpressions_2()
 {
     if (listaExpresionesGlobal == NULL || listaExpresionesGlobal->cantidad < 2)
@@ -348,25 +301,23 @@ void generarCodigoEqualExpressions_2()
     }
 
     int cantidadExpresiones = listaExpresionesGlobal->cantidad;
-    
-    printf("[DEBUG] Generando código V2 OPTIMIZADO para comparar %d expresiones\n", cantidadExpresiones);
-    printf("[DEBUG] @expActual se mantiene fija, @expAux recorre las siguientes\n");
 
     // Array para guardar los índices de los saltos BEQ
     int saltosBEQ[100];
     int numSaltos = 0;
-    
+
     // Para cada posición i (desde 0 hasta n-2)
     for (int i = 0; i < cantidadExpresiones - 1; i++)
     {
         const char *expActual = obtenerExpresion(listaExpresionesGlobal, i);
-        if (expActual == NULL) continue;
-        
+        if (expActual == NULL)
+            continue;
+
         // Evaluar la expresión i y guardarla en @expActual (se queda fija)
         char expCopia[TAM_CONTENIDO_PILA];
         strncpy(expCopia, expActual, TAM_CONTENIDO_PILA - 1);
         expCopia[TAM_CONTENIDO_PILA - 1] = '\0';
-        
+
         // Insertar tokens de la expresión actual
         char *token = strtok(expCopia, " ");
         while (token != NULL)
@@ -374,22 +325,23 @@ void generarCodigoEqualExpressions_2()
             insertarEnPolaca(token);
             token = strtok(NULL, " ");
         }
-        
+
         // Guardar resultado en @expActual (se mantiene fija para todas las comparaciones)
         insertarEnPolaca("@expActual");
         insertarEnPolaca(":=");
-        
+
         // Comparar con todas las expresiones siguientes (j > i)
         for (int j = i + 1; j < cantidadExpresiones; j++)
         {
             const char *expSiguiente = obtenerExpresion(listaExpresionesGlobal, j);
-            if (expSiguiente == NULL) continue;
-            
+            if (expSiguiente == NULL)
+                continue;
+
             // Evaluar la expresión j y guardarla en @expAux
             char expAuxCopia[TAM_CONTENIDO_PILA];
             strncpy(expAuxCopia, expSiguiente, TAM_CONTENIDO_PILA - 1);
             expAuxCopia[TAM_CONTENIDO_PILA - 1] = '\0';
-            
+
             // Insertar tokens de la expresión auxiliar
             token = strtok(expAuxCopia, " ");
             while (token != NULL)
@@ -397,49 +349,49 @@ void generarCodigoEqualExpressions_2()
                 insertarEnPolaca(token);
                 token = strtok(NULL, " ");
             }
-            
+
             // Guardar resultado en @expAux
             insertarEnPolaca("@expAux");
             insertarEnPolaca(":=");
-            
+
             // Comparar @expActual con @expAux
             insertarEnPolaca("@expActual");
             insertarEnPolaca("@expAux");
             insertarEnPolaca("CMP");
-            
+
             // BEQ = si son iguales, saltar a asignar @equal=1
             insertarEnPolaca("BEQ");
-            
+
             // Guardar índice del salto para actualizar después
             char *indiceActual = getIndiceActualPolaca();
             saltosBEQ[numSaltos++] = atoi(indiceActual);
             avanzarPolaca(); // Reservar espacio para el destino del salto
         }
     }
-    
+
     // Si llegamos aquí, no hay expresiones iguales
     insertarEnPolaca("0");
     insertarEnPolaca("@equal");
     insertarEnPolaca(":=");
-    
+
     // Saltar al final (después de @equal=1)
     insertarEnPolaca("BI");
     char *indiceSaltoFinal = getIndiceActualPolaca();
     int idxSaltoFinal = atoi(indiceSaltoFinal);
     avanzarPolaca();
-    
+
     // Etiqueta para cuando SÍ son iguales
     char *indiceIguales = getIndiceActualPolaca();
     int idxIguales = atoi(indiceIguales);
-    
+
     insertarEnPolaca("1");
     insertarEnPolaca("@equal");
     insertarEnPolaca(":=");
-    
+
     // Etiqueta final (después de ambas asignaciones)
     char *indiceFinal = getIndiceActualPolaca();
     int idxFinal = atoi(indiceFinal);
-    
+
     // Actualizar todos los saltos BEQ para que apunten a la etiqueta de iguales
     for (int i = 0; i < numSaltos; i++)
     {
@@ -447,16 +399,12 @@ void generarCodigoEqualExpressions_2()
         snprintf(valorSalto, 20, "%d", idxIguales);
         insertarEnPolacaIndice(saltosBEQ[i], valorSalto);
     }
-    
+
     // Actualizar el BI para que salte al final
     char valorSaltoFinal[20];
     snprintf(valorSaltoFinal, 20, "%d", idxFinal);
     insertarEnPolacaIndice(idxSaltoFinal, valorSaltoFinal);
-    
+
     // Insertar @equal como valor de retorno de la función
     insertarEnPolaca("@equal");
-    
-    printf("[DEBUG] Código V2 OPTIMIZADO generado con %d comparaciones\n", numSaltos);
 }
-
-

@@ -114,13 +114,11 @@ void eliminarListaExpresiones(t_lista_expresiones *lista)
     {
         siguiente = actual->siguiente;
 
-        // Liberar el nodo
         free(actual);
 
         actual = siguiente;
     }
 
-    // Liberar la estructura de la lista
     free(lista);
 }
 
@@ -138,14 +136,11 @@ void imprimirListaExpresiones(t_lista_expresiones *lista)
         return;
     }
 
-    printf("Lista de expresiones (cantidad: %d):\n", lista->cantidad);
-
     t_nodo_expresion *actual = lista->inicio;
     int indice = 0;
 
     while (actual != NULL)
     {
-        printf("  Expresión %d: %s\n", indice, actual->expresion);
         actual = actual->siguiente;
         indice++;
     }
