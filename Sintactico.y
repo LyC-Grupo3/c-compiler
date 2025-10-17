@@ -68,6 +68,14 @@ extern void desapilarNroCeldaYEscribirEnEllaValor(t_pila *pila, const char *valo
 %token PUNTO_C COMA
 
 
+/* ---------------------------------- FIXES --------------------------------- */
+%start start
+
+
+%left OP_SUM OP_RES
+%left OP_MUL OP_DIV
+%right MENOS_UNARIO
+
 
 /* -------------------------------------------------------------------------- */
 /*                              SECCION DE REGLAS                             */
@@ -144,6 +152,12 @@ factor:
 
                                                             t_simbolo *simbolo = buscarSimboloIDEnTablaSimbolo($1);
                                                             apilarTipoDatoUtilizado(simbolo->tipoDato);
+                                                        }
+    | OP_RES PAR_A expresion PAR_C %prec MENOS_UNARIO   {
+                                                            informarMatchLexicoSintactico("factor", "OP_RES PAR_A expresion PAR_C (MENOS_UNARIO)");
+
+                                                            insertarEnPolaca("-1");
+                                                            insertarEnPolaca("*");
                                                         }
     | CONST_INT                                         {
                                                             informarMatchLexicoSintactico("factor", "CONST_INT");
