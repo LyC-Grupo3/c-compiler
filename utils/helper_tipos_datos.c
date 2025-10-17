@@ -46,7 +46,7 @@ void validarTipoDatoResolucionDeExpresion()
     */
     if (strcmp(tipoDatoExpresion1, TIPO_TOKEN_CONST_STR) == 0 || strcmp(tipoDatoExpresion2, TIPO_TOKEN_CONST_STR) == 0)
     {
-        printf("1 - Error resolucion expresion: No se pueden realizar operaciones aritméticas con strings.\n");
+        printf("[SINTACTICO ] 200. Error resolucion expresion: No se pueden realizar operaciones aritméticas con strings.\n");
         exit(1);
     }
 
@@ -63,7 +63,7 @@ void validarTipoDatoResolucionDeExpresion()
      */
     if (strcmp(tipoDatoExpresion1, tipoDatoExpresion2) != 0)
     {
-        printf("2 - Error resolucion expresion: No se pueden realizar operacion arimenticas entre '%s' y '%s'.\n", tipoDatoExpresion1, tipoDatoExpresion2);
+        printf("[SINTACTICO]  201. Error resolucion expresion: No se pueden realizar operacion arimenticas entre '%s' y '%s'.\n", tipoDatoExpresion1, tipoDatoExpresion2);
         exit(1);
     }
 
@@ -96,7 +96,7 @@ void validarIDAsignacionEsTipoDatoExpresion(const char *id)
 
             variableINT := (4.5 + 4.5)
         */
-        printf("4 - Error asignacion expresion: La variable '%s' es de tipo '%s', no se le puede asignar una expresion de tipo '%s'.\n", id, simbolo->tipoDato, tipoDatoExpresion);
+        printf("[SINTACTICO] 300. Error asignacion expresion: La variable '%s' es de tipo '%s', no se le puede asignar una expresion de tipo '%s'.\n", id, simbolo->tipoDato, tipoDatoExpresion);
         exit(1);
     }
 }
@@ -115,7 +115,7 @@ void validarIDAsignacionEsTipoDatoString(const char *id)
 
             variableINT := "cadena"
         */
-        printf("5 - Error asignacion string: La variable '%s' es de tipo '%s', no se le puede asignar un string'.\n", id, simbolo->tipoDato);
+        printf("[SINTACTICO] 301. Error asignacion string: La variable '%s' es de tipo '%s', no se le puede asignar un string'.\n", id, simbolo->tipoDato);
         exit(1);
     }
 }
@@ -142,8 +142,7 @@ void validarTipoDatoExpresionesAlComparar()
                 write("Hola")
             }
         */
-        // TODO: REVISAR NO ESTA FUNCIONANDO
-        printf("6 - Error comparacion: No se pueden realizar comparaciones con strings.\n");
+        printf("[SINTACTICO] 400. Error comparacion: No se pueden realizar comparaciones con strings.\n");
         exit(1);
     }
 
@@ -161,8 +160,7 @@ void validarTipoDatoExpresionesAlComparar()
                 write("Hola")
             }
         */
-        // TODO: REVISAR NO ESTA FUNCIONANDO
-        printf("7 - Error comparacion: No se pueden realizar comparaciones entre: '%s' y '%s'.\n", tipoDatoExpresion1, tipoDatoExpresion2);
+        printf("[SINTACTICO] 401. Error comparacion: No se pueden realizar comparaciones entre: '%s' y '%s'.\n", tipoDatoExpresion1, tipoDatoExpresion2);
         exit(1);
     }
 }

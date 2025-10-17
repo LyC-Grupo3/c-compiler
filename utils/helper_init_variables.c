@@ -44,7 +44,7 @@ void setTipoDatoEnTSParaVariablesDeclaradas()
                     variableFLOAT : int 
                 }
             */ 
-            printf("Error declaracion variable: La variable '%s' ya fue declarada previamente como: '%s'\n", idVariable, simboloEncontrado->tipoDato);
+            printf("[SINTACTICO] 100. Error declaracion variable: La variable '%s' ya fue declarada previamente como: '%s'\n", idVariable, simboloEncontrado->tipoDato);
             exit(1);
         }
 
@@ -64,7 +64,7 @@ t_simbolo *buscarSimboloIDEnTablaSimbolo(const char *nombre)
             CASO PRUEBA: init { variableDECLARADA : float } 
             variableNODECLARADA := 4
         */ 
-        printf("Error uso de variable: La variable '%s' no fue declarada previamente.\n", nombre);
+        printf("[SINTACTICO] 101. Error uso de variable: La variable '%s' no fue declarada previamente.\n", nombre);
         exit(1);
     }
 
