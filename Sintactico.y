@@ -159,6 +159,24 @@ factor:
                                                             insertarEnPolaca("-1");
                                                             insertarEnPolaca("*");
                                                         }
+    | OP_RES ID %prec MENOS_UNARIO                      {
+                                                            informarMatchLexicoSintactico("factor", "OP_RES ID (MENOS_UNARIO)");
+
+                                                            t_simbolo *simbolo = buscarSimboloIDEnTablaSimbolo($2);
+                                                            apilarTipoDatoUtilizado(simbolo->tipoDato);
+
+                                                            if(strcmp(simbolo->tipoDato, TIPO_TOKEN_CONST_STR) == 0)
+                                                            {
+                                                                printf("Error semántico: No se puede aplicar el operador unario '-' a una variable de tipo STRING.\n");
+                                                                exit(1);
+                                                            }
+                                                            else
+                                                            {
+                                                                insertarEnPolaca($2);
+                                                                insertarEnPolaca("-1");
+                                                                insertarEnPolaca("*");
+                                                            }
+                                                        }
     | CONST_INT                                         {
                                                             informarMatchLexicoSintactico("factor", "CONST_INT");
 
