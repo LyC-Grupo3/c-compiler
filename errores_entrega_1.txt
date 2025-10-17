@@ -1,0 +1,21 @@
+#+ DESCOMENTAR UNO POR UNO PARA PROBAR LOS ERRORES O USAR EL SCRIPT RUN_TEST_ERROR QUE CORRE TODOS LOS ARCHIVOS DE TESTS UNO POR UNO +#
+
+init {
+    varInt : int
+    varFloat: float
+    varString : string
+}
+
+
+#+                   TEST COTAS INT                                             +#
+#+ varFloat := 3.402824e+38                                                     +#
+#+ varFloat := -3.402824e+38                                                    +#
+
+
+#+                   TEST COTAS FLOAT                                           +#
+#+ varInt := 32768                                                              +#
+#+ varInt := -32769                                                             +#
+
+
+#+                   TEST COTAS STRING                                          +#
+#+ varString := "este_es_un_string_muy_largo_que_excede_los_cincuenta_caracteres_permitidos" +#
