@@ -1,45 +1,73 @@
 NOMBRE|TIPO|VALOR|LONGITUD
-a1|||
-b1|||
-var1|||
-p1|||
-p2|||
-p3|||
-a2|||
-b2|||
-a|||
+varFloat1|CONST_FLOAT||
+varFloat2|CONST_FLOAT||
+a|CONST_INT||
+b|CONST_INT||
+c|CONST_INT||
+d|CONST_INT||
+e|CONST_INT||
+f|CONST_INT||
+g|CONST_INT||
+h|CONST_INT||
+i|CONST_INT||
+j|CONST_INT||
+k|CONST_INT||
+l|CONST_INT||
+m|CONST_INT||
+n|CONST_INT||
+o|CONST_INT||
+p|CONST_INT||
+varInt1|CONST_INT||
+varInt2|CONST_INT||
+varFloat3|CONST_FLOAT||
+varFloat4|CONST_FLOAT||
+varString1|CONST_STR||
+varString2|CONST_STR||
+resultEqualExpressions|CONST_INT||
+resultAreamax|CONST_FLOAT||
+x1|CONST_INT||
+y1|CONST_INT||
+x2|CONST_INT||
+y2|CONST_INT||
+x3|CONST_INT||
+y3|CONST_INT||
+a1|CONST_INT||
+b1|CONST_INT||
+a2|CONST_INT||
+b2|CONST_INT||
+a3|CONST_INT||
+b3|CONST_INT||
 _1|CONST_INT|1|
 _2|CONST_INT|2|
-b|||
 _99999_99|CONST_FLOAT|99999.99|
 _99_0|CONST_FLOAT|99.0|
 _0_9999|CONST_FLOAT|0.9999|
-c|||
 _string repetido|CONST_STR|string repetido|15
 _string diferente|CONST_STR|string diferente|16
-d|||
 _27|CONST_INT|27|
-r|||
 _500|CONST_INT|500|
-_34|CONST_INT|34|
-_3|CONST_INT|3|
-z|||
-f|||
-_a es mas gr&&e que b y c es mas gr&&e que b|CONST_STR|a es mas gr&&e que b y c es mas gr&&e que b|43
-_a es mas gr&&e que b|CONST_STR|a es mas gr&&e que b|20
-_a es mas chico o igual a b|CONST_STR|a es mas chico o igual a b|26
-_a no es mas gr&&e que b|CONST_STR|a no es mas gr&&e que b|23
-_a es mas gr&&e que b o c es mas gr&&e que b|CONST_STR|a es mas gr&&e que b o c es mas gr&&e que b|43
-_c es mas gr&&e que d|CONST_STR|c es mas gr&&e que d|20
-base|||
-_ewr|CONST_STR|ewr|3
-y|||
+_4_0|CONST_FLOAT|4.0|
+_34_4|CONST_FLOAT|34.4|
+_3_1|CONST_FLOAT|3.1|
+_verdad IF simple|CONST_STR|verdad IF simple|16
+_verdad IF-ELSE simple|CONST_STR|verdad IF-ELSE simple|21
+_falso IF-ELSE simple|CONST_STR|falso IF-ELSE simple|20
+_verdad IF AND|CONST_STR|verdad IF AND|13
+_verdad IF-ELSE AND|CONST_STR|verdad IF-ELSE AND|18
+_falso IF-ELSE AND|CONST_STR|falso IF-ELSE AND|17
+_verdad OR|CONST_STR|verdad OR|9
+_verdad IF-ELSE OR|CONST_STR|verdad IF-ELSE OR|17
+_falso IF-ELSE OR|CONST_STR|falso IF-ELSE OR|16
+_dentro WHILE simple|CONST_STR|dentro WHILE simple|19
+_dentro WHILE compuesto AND|CONST_STR|dentro WHILE compuesto AND|26
+_dentro WHILE compuesto OR|CONST_STR|dentro WHILE compuesto OR|25
+_negado SIMPLE|CONST_STR|negado SIMPLE|13
+_dentro WHILE compuesto NOT|CONST_STR|dentro WHILE compuesto NOT|26
+_true a>b|CONST_STR|true a>b|8
+_true anidado|CONST_STR|true anidado|12
+_dentro WHILE anidado|CONST_STR|dentro WHILE anidado|20
+_cadena|CONST_STR|cadena|6
 _0|CONST_INT|0|
 _n5|CONST_INT|-5|
 _5|CONST_INT|5|
-areaMax|||
-x|||
-_4_0|CONST_FLOAT|4.0|
-_12|CONST_INT|12|
-_2_5|CONST_FLOAT|2.5|
-_6|CONST_INT|6|
+_3|CONST_INT|3|

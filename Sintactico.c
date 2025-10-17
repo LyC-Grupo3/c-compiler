@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 
         yyparse();
 
-        exportarPolaca("test_outputs/polaca.txt");
+        exportarPolaca("intermediate-code.txt");
         exportarTablaSimbolos("symbol-table.txt");
 
         // Exportar lista de expresiones si existe
