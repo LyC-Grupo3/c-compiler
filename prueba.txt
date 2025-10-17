@@ -9,69 +9,58 @@
 #+ a := := a +#
 #+ a := "este_es_un_string_muy_largo_que_excede_los_cincuenta_caracteres_permitidos" +#
 
-
-#+ INIT - Declaración de variables - Declaración del mismo tipo de variable en más de una línea +#
+#+                                INIT                            +#
+#+ Declaración de variables - Declaración del mismo tipo de variable en más de una línea +#
 init {
-    a1, b1 : float
-    var1 : int
-    p1, p2, p3 : string
-    a2, b2 : float
-    var1: string
+    varFloat1, varFloat2 : float
+    a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p : int
+    varInt1, varInt2 : int
+    varFloat3, varFloat4 : float
+    varString1, varString2 : string
+    resultEqualExpressions : int
+    resultAreamax : float
+    x1, y1, x2, y2, x3, y3 : int
+    a1, b1, a2, b2, a3, b3 : int
 }
 
 
 
 #+                                ASSIGMENTS                            +#
+
 #+ SIN EXP ARIMETICA +#
-#+ De paso valido simbolo con igual valor int +#
-a := 1
-a := 1
-a := 2
+varInt1 := 1
+varInt1 := 1
+varInt2 := 2
 
 
 
-#+ De paso valido simbolo con igual valor float +#
-#+ Valido que no se inserte dos veces el simbolo id a +#
-b := 99999.99
-b := 99999.99
-b := 99.
-b := 99.0000
-b := .9999
+varFloat1 := 99999.99
+varFloat1 := 99999.99
+varFloat2 := 99.
+varFloat2:= 99.0000
+varFloat3 := .9999
 
 
 
-c := "string repetido"
-c := "string repetido"
-c := "string diferente"
+varString1 := "string repetido"
+varString1 := "string repetido"
+varString2 := "string diferente"
 
 
 
 #+ CON EXP ARITMETICA +#
-d := 27 - c
-d := r + 500
-d := 34 * 3
-d := z / f
+varInt1 := 27 - varInt2
+varInt2 := varInt1 + 500
+varFloat1 := varFloat2 / 4.0
+varFloat2 := 34.4 * 3.1
 
 
+#+                                SELECCION - CONDICIONES SIMPLES                            +#
 
 #+ IF sin ELSE +#
-#+ Condiciones simples +#
 if (a > b)
 {
-    write("a es mas gr&&e que b y c es mas gr&&e que b")
-}
-
-
-
-#+ Condiciones compuestas +#
-#+ Condición con AND +#
-if (a > b && c > b)
-{
-    write("a es mas gr&&e que b")
-}
-else
-{
-    write("a es mas chico o igual a b")
+    write("verdad IF simple")
 }
 
 
@@ -79,67 +68,131 @@ else
 #+ IF con ELSE +#
 if (a > b)
 {
-    write("a es mas gr&&e que b")
+    write("verdad IF-ELSE simple")
 }
 else
 {
-    write("a es mas chico o igual a b")
+    write("falso IF-ELSE simple")
 }
 
 
 
-#+ Condición con NOT +#
-if (! a > b)
+#+                                SELECCION - CONDICIONES COMPUESTAS                            +#
+
+#+ Condición IF con AND +#
+if (a > b && c > b)
 {
-    write("a no es mas gr&&e que b")
+    write("verdad IF AND")
 }
 
 
 
-#+ Condición con OR +#
+#+ Condición IF ELSE con AND +#
+if (a > b && c > b)
+{
+    write("verdad IF-ELSE AND")
+}
+else
+{
+    write("falso IF-ELSE AND")
+}
+
+
+
+#+ Condición IF con OR +#
 if (a > b || c > b)
 {
-    write("a es mas gr&&e que b o c es mas gr&&e que b")
+    write("verdad OR")
 }
 
 
 
-#+ IF Anidado +#
+#+ Condición IF ELSE con OR +#
+if (a > b || c > b)
+{
+    write("verdad IF-ELSE OR")
+}
+else
+{
+    write("falso IF-ELSE OR")
+}
+
+
+#+                                ITERACION - CONDICIONES SIMPLES                            +#
+#+ Condición WHILE simple +#
+while (a > b)
+{
+    write("dentro WHILE simple")
+}
+
+
+
+#+                                ITERACION - CONDICIONES COMPUESTAS                            +#
+#+ Condición WHILE con AND +#
+while (a > b && c > d)
+{
+    write("dentro WHILE compuesto AND")
+}
+
+
+
+#+ Condición WHILE con OR +#
+while (a > b || c > d)
+{
+    write("dentro WHILE compuesto OR")
+}
+
+
+
+#+                                CONDICION CON NOT                            +#
+#+ Condición IF con NOT +#
+if (! a > b)
+{
+    write("negado SIMPLE")
+}
+
+
+
+#+ Condición WHILE con NOT +#
+while (! a > b)
+{
+    write("dentro WHILE compuesto NOT")
+}
+
+
+
+#+                                CONDICIONES ANIDADAS                            +#
 if (a > b)
 {
-    write("a es mas gr&&e que b")
+    write("true a>b")
     if (c > d)
     {
-        write("c es mas gr&&e que d")
+        write("true anidado")
+    }
+
+    while (e < f)
+    {
+        write("dentro WHILE anidado")
     }
 }
 
 
 
-#+ WHILE +#
-while (a > b)
-{
-    write("a es mas gr&&e que b")
-    a := a + 1
-}
-
-
-
 #+ READ +#
-read(base) #+ base es una variable +#
+read(varInt1)    #+ base es una variable +#
 
 
 
 #+ WRITE +#
-write("ewr")  #+ "ewr" es una cte string +#
-write(var1)  #+ var1 es una variable numérica definida previamente +#
+write("cadena")  #+ "cadena" es una cte string +#
+write(varInt1)   #+ varInt1 es una variable numérica definida previamente +#
 
 
 
 #+ FUNCIONES +#
-y := equalExpressions(0, -5) 
-y := equalExpressions(0, -5, a + b) 
-y := equalExpressions(a + b, 5, b * 2, 3 - 2, a + b) 
+resultEqualExpressions := equalExpressions(a, b) 
+resultEqualExpressions := equalExpressions(0, -5, a + b) 
+resultEqualExpressions := equalExpressions(a + b, 5, b * 2, 3 - 2, a + b) 
 
 
-areaMax := triangleAreaMaximum( [0,x; 4.0,12; 2.5,3] ; [x,0; 6,0; z,2] )
+resultAreamax := triangleAreaMaximum( [x1,y1; x2,y2; x3,y3] ; [a1,b1; a2,b2; a3,b3] )
