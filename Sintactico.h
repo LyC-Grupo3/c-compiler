@@ -14,6 +14,7 @@
 #include "./utils/helper_operador_comparacion.h"
 #include "./utils/helper_operador_logico.h"
 #include "./utils/helper_equal_expressions.h"
+#include "./utils/assembler.h"
 
 #include "y.tab.h"
 

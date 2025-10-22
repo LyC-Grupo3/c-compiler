@@ -84,7 +84,10 @@ extern void desapilarNroCeldaYEscribirEnEllaValor(t_pila *pila, const char *valo
 %%
 
 start:
-    programa                                            {informarMatchLexicoSintactico("SINTAXIS OK", "SINTAXIS OK");}
+    programa                                            {
+                                                            informarMatchLexicoSintactico("SINTAXIS OK", "SINTAXIS OK");
+                                                            generarAssembler();
+                                                        }
     ;
 
 programa:

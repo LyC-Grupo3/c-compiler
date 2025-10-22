@@ -81,6 +81,12 @@ int tablaSimbolosLlena(const t_tabla_simbolos *tabla)
     return tabla->cantidad == MAX_LISTA;
 }
 
+void insertarVariableASM(const char *nombre, const char *tipoDato, const char *valor, const char *longitud)
+{
+    t_simbolo simbolo = crearSimbolo(nombre, tipoDato, valor, longitud);
+    insertarSimbolo(&tabla_simbolos, &simbolo);
+}
+
 void procesarSimbolo(const char *lexema, const char *tipo_token)
 {
     // 1. Formatear el símbolo
@@ -173,7 +179,7 @@ int exportarTablaSimbolos(const char *nombre_archivo)
 }
 
 // Auxiliares para init_variables
-t_simbolo* buscarSimboloPorNombre(const char *nombre)
+t_simbolo *buscarSimboloPorNombre(const char *nombre)
 {
     for (int i = 0; i < tabla_simbolos.cantidad; i++)
     {
@@ -183,4 +189,34 @@ t_simbolo* buscarSimboloPorNombre(const char *nombre)
         }
     }
     return NULL;
+}
+
+t_simbolo *buscarSimboloPorValor(const char *valor)
+{
+    for (int i = 0; i < tabla_simbolos.cantidad; i++)
+    {
+        if (strcmp(tabla_simbolos.elementos[i].valor, valor) == 0)
+        {
+            return &tabla_simbolos.elementos[i];
+        }
+    }
+    return NULL;
+}
+
+t_tabla_simbolos *duplicarTablaSimbolos()
+{
+    t_tabla_simbolos *copia = (t_tabla_simbolos *)malloc(sizeof(t_tabla_simbolos));
+    if (copia == NULL)
+    {
+        printf("Error: No se pudo asignar memoria para duplicar la tabla de símbolos\n");
+        return NULL;
+    }
+
+    copia->cantidad = tabla_simbolos.cantidad;
+    for (int i = 0; i < tabla_simbolos.cantidad; i++)
+    {
+        copia->elementos[i] = tabla_simbolos.elementos[i];
+    }
+
+    return copia;
 }

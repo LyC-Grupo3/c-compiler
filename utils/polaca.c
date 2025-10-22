@@ -21,6 +21,47 @@ void inicializarPolaca()
     polaca->contador = 0;
 }
 
+int insertarEnPolacaPers(t_polaca *polaca, const char *elemento)
+{
+    if (elemento == NULL)
+    {
+        fprintf(stderr, "Error: Elemento NULL\n");
+        return 0;
+    }
+
+    t_nodo_polaca *nuevoNodo = (t_nodo_polaca *)malloc(sizeof(t_nodo_polaca));
+
+    if (nuevoNodo == NULL)
+    {
+        fprintf(stderr, "Error: No se pudo asignar memoria para el nodo\n");
+        return 0;
+    }
+
+    nuevoNodo->indice = polaca->contador;
+    polaca->contador++;
+
+    strncpy(nuevoNodo->contenido, elemento, TAM_CONTENIDO - 1);
+    nuevoNodo->contenido[TAM_CONTENIDO - 1] = '\0';
+    nuevoNodo->siguiente = NULL;
+
+    if (polaca->inicio == NULL)
+    {
+        polaca->inicio = nuevoNodo;
+        polaca->actual = nuevoNodo;
+    }
+    else
+    {
+        t_nodo_polaca *temp = polaca->inicio;
+        while (temp->siguiente != NULL)
+        {
+            temp = temp->siguiente;
+        }
+        temp->siguiente = nuevoNodo;
+    }
+
+    return 1;
+}
+
 int insertarEnPolaca(const char *elemento)
 {
     if (elemento == NULL)
@@ -313,4 +354,75 @@ void cerrarDebugPolaca()
         fclose(archivoDebugPolaca);
         archivoDebugPolaca = NULL;
     }
+}
+
+t_polaca *duplicarPolaca()
+{
+    if (polaca == NULL)
+    {
+        return NULL;
+    }
+
+    t_polaca *nuevaPolaca = (t_polaca *)malloc(sizeof(t_polaca));
+    if (nuevaPolaca == NULL)
+    {
+        fprintf(stderr, "Error: No se pudo asignar memoria para la nueva polaca\n");
+        return NULL;
+    }
+
+    nuevaPolaca->inicio = NULL;
+    nuevaPolaca->actual = NULL;
+    nuevaPolaca->contador = polaca->contador;
+
+    t_nodo_polaca *actualOriginal = polaca->inicio;
+    t_nodo_polaca *ultimoNuevoNodo = NULL;
+
+    while (actualOriginal != NULL)
+    {
+        t_nodo_polaca *nuevoNodo = (t_nodo_polaca *)malloc(sizeof(t_nodo_polaca));
+        if (nuevoNodo == NULL)
+        {
+            fprintf(stderr, "Error: No se pudo asignar memoria para el nodo de la nueva polaca\n");
+            // Liberar nodos ya creados antes de retornar
+            free(nuevaPolaca);
+
+            return NULL;
+        }
+
+        nuevoNodo->indice = actualOriginal->indice;
+        strncpy(nuevoNodo->contenido, actualOriginal->contenido, TAM_CONTENIDO);
+        nuevoNodo->siguiente = NULL;
+
+        if (nuevaPolaca->inicio == NULL)
+        {
+            nuevaPolaca->inicio = nuevoNodo;
+        }
+        else
+        {
+            ultimoNuevoNodo->siguiente = nuevoNodo;
+        }
+
+        ultimoNuevoNodo = nuevoNodo;
+        actualOriginal = actualOriginal->siguiente;
+    }
+
+    nuevaPolaca->actual = ultimoNuevoNodo;
+
+    return nuevaPolaca;
+}
+
+t_nodo_polaca *obtenerDePolaca(t_polaca *polaca, int indice)
+{
+    t_nodo_polaca *actual = polaca->inicio;
+
+    while (actual != NULL)
+    {
+        if (actual->indice == indice)
+        {
+            return actual;
+        }
+        actual = actual->siguiente;
+    }
+
+    return NULL;
 }

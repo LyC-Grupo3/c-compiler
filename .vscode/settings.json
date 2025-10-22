@@ -18,6 +18,7 @@
         "helper_control_flow.h": "c",
         "utils.h": "c",
         "helper_equal_expressions.h": "c",
-        "lista_expresiones.h": "c"
+        "lista_expresiones.h": "c",
+        "assembler.h": "c"
     }
 }

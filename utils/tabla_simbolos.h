@@ -44,5 +44,10 @@ void crearTablaSimbolos(void);
 int exportarTablaSimbolos(const char *nombre_archivo);
 
 t_simbolo* buscarSimboloPorNombre(const char *nombre);
+t_simbolo *buscarSimboloPorValor(const char *valor);
+
+void insertarVariableASM(const char *nombre, const char *tipoDato, const char *valor, const char *longitud);
+
+t_tabla_simbolos* duplicarTablaSimbolos();
 
 #endif // TABLA_SIMBOLOS_H
