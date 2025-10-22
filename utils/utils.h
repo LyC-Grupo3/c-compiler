@@ -20,6 +20,8 @@
 /*                                  FUNCIONES                                 */
 /* -------------------------------------------------------------------------- */
 
+void normalizarValorFloat(const char *lexema, char *valor_normalizado, size_t max_len);
+
 void formatearSimbolo(const char *lexema, const char *tipo_token,
                       char *nombre_simbolo, char *tipo_simbolo,
                       char *valor_simbolo, char *longitud_simbolo,
