@@ -3,6 +3,7 @@
 
 #include "./lista_expresiones.h"
 #include "./polaca.h"
+#include "./tabla_simbolos.h"
 
 /* -------------------------------------------------------------------------- */
 /*                                  FUNCIONES                                 */

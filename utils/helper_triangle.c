@@ -154,4 +154,8 @@ void generarPolacaTriangleAreaMaximun()
 
     // Resetear contador para próximas llamadas
     contadorTriangulos = 0;
+
+    insertarVariableASM("@area_t1", TIPO_TOKEN_CONST_FLOAT, "", "");
+    insertarVariableASM("@area_t2", TIPO_TOKEN_CONST_FLOAT, "", "");
+    insertarVariableASM("@result_max", TIPO_TOKEN_CONST_FLOAT, "", "");
 }

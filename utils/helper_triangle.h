@@ -2,6 +2,7 @@
 #define HELPER_TRIANGLE_H
 
 #include "./pila.h"
+#include "./tabla_simbolos.h"
 
 /* -------------------------------------------------------------------------- */
 /*                         FUNCIONES TRIANGLE AREA MAXIMUM                    */

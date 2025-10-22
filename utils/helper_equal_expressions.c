@@ -407,4 +407,8 @@ void generarCodigoEqualExpressions_2()
 
     // Insertar @equal como valor de retorno de la función
     insertarEnPolaca("@equal");
+
+    insertarVariableASM("@expActual", TIPO_TOKEN_CONST_FLOAT, "", "");
+    insertarVariableASM("@expAux", TIPO_TOKEN_CONST_FLOAT, "", "");
+    insertarVariableASM("@equal", TIPO_TOKEN_CONST_INT, "", "");
 }
