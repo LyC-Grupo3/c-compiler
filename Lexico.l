@@ -28,6 +28,7 @@
 
 /* -------------------------------- CONJUNTOS ------------------------------- */
 DIGITO			[0-9]
+DIGITO_SIN_CERO	[1-9]
 LETRA			[a-zA-Z]
 
 
@@ -69,8 +70,8 @@ TRIAN_MAX       "triangleAreaMaximum"
 /* --------------------------------- BASICOS -------------------------------- */
 ID			    {LETRA}({LETRA}|{DIGITO})*
 
-CONST_INT       -?{DIGITO}+
-CONST_FLOAT     -?({DIGITO}*"."{DIGITO}*([eE][+-]?{DIGITO}+)?|{DIGITO}+[eE][+-]?{DIGITO}+|{DIGITO}+".") 
+CONST_INT       (-?{DIGITO_SIN_CERO}{DIGITO}*)|0
+CONST_FLOAT     -?({DIGITO}*{PUNTO}{DIGITO}+|{DIGITO}+{PUNTO}{DIGITO}*)
 CONST_STR       \"[^\n"]*\"
 
 OP_ASIG_VALOR   ":="
@@ -107,6 +108,7 @@ COR_C            "]"
 
 
 /* ------------------------------- PUNTUACION ------------------------------- */
+PUNTO            "."
 PUNTO_C          ";"
 COMA             ","
 
@@ -171,7 +173,9 @@ COMA             ","
         informarErrorValidacion(yytext, TIPO_TOKEN_CONST_FLOAT, "El valor excede el rango permitido", yylineno);
         exit(1);
     }
-    strcpy(yylval.lexema, yytext);
+    char valor_normalizado[MAX_LONG_VALOR_SIMBOLO];
+    normalizarValorFloat(yytext, valor_normalizado, MAX_LONG_VALOR_SIMBOLO);
+    strcpy(yylval.lexema, valor_normalizado);
     return CONST_FLOAT;
 }
 {CONST_STR}		{
