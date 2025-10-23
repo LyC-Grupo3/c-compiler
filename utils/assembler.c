@@ -65,6 +65,7 @@ void escribirCabecera(FILE *archivo)
     fprintf(archivo, ".MODEL LARGE  ; Modelo de Memoria\n");
     fprintf(archivo, ".386          ; Tipo de Procesador\n");
     fprintf(archivo, ".STACK 200h   ; Bytes en el Stack\n");
+    fprintf(archivo, "\nMAXTEXTSIZE EQU 256\n");
 }
 
 /* -------------------------------------------------------------------------- */
