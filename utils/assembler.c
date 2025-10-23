@@ -443,11 +443,12 @@ void escribirASMSaltoIncondicional(FILE *archivo, const char *contenidoCelda)
 void escribirASMSaltoCondicional(FILE *archivo, const char *operadorComparacion, const char *nroSalto)
 {
     /* -------------------------------- OPERANDOS ------------------------------- */
+    char operando2[MAX_LONG_VALOR_SIMBOLO];
+    strcpy(operando2, desapilar(pila_operandos));
+    
     char operando1[MAX_LONG_VALOR_SIMBOLO];
     strcpy(operando1, desapilar(pila_operandos));
 
-    char operando2[MAX_LONG_VALOR_SIMBOLO];
-    strcpy(operando2, desapilar(pila_operandos));
 
     /* --------------------------- OPERADOR COMPRACION -------------------------- */
     char instruccionSaltoASM[4];
