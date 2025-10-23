@@ -1,9 +1,13 @@
 #include "./assembler.h"
 
-FILE *archivoPolacaModificada = NULL;
+/* ---------------------------------- PILAS --------------------------------- */
+t_pila *pila_operandos;
+t_pila *pila_auxiliares_aritmetica;
 
 void generarAssembler()
 {
+    /* ----------------------------- ACRHIVO POLACA ----------------------------- */
+    FILE *archivoPolacaModificada = NULL;
 
     archivoPolacaModificada = fopen("test_outputs/debug_polaca_modificada.txt", "w");
     if (archivoPolacaModificada == NULL)
@@ -12,11 +16,7 @@ void generarAssembler()
         exit(1);
     }
 
-    t_tabla_simbolos *tabla_simbolos_copia = duplicarTablaSimbolos();
-    t_polaca *polaca_copia = duplicarPolaca();
-
-    formatearPolacaParaAssembler(polaca_copia);
-
+    /* ---------------------------- ARCHIVO ASSEMBLER --------------------------- */
     FILE *archivoAssembler = fopen("final.asm", "w");
 
     if (archivoAssembler == NULL)
@@ -25,12 +25,36 @@ void generarAssembler()
         exit(1);
     }
 
+    /* ----------------------------- TABLA SIMBOLOS ----------------------------- */
+    t_tabla_simbolos *tabla_simbolos_copia = duplicarTablaSimbolos();
+
+    /* ------------------------------- POLACA ----------------------------------- */
+    t_polaca *polaca_copia = duplicarPolaca();
+    formatearPolacaParaAssembler(polaca_copia);
+
+    /* ---------------------------------- PILAS --------------------------------- */
+    pila_operandos = crearPila();
+    pila_auxiliares_aritmetica = crearPila();
+
+    /* ------------------------------- CODIGO ASM ------------------------------- */
     escribirCabecera(archivoAssembler);
     escribirSegmentoData(archivoAssembler, tabla_simbolos_copia);
-    escribirSegmentCode(archivoAssembler);
+    escribirSegmentCode(archivoAssembler, polaca_copia);
     escribirSegmentoEnd(archivoAssembler);
 
+    /* ---------------------------------- DEBUG --------------------------------- */
+    imprimirEstadoPolacaHorizontal(polaca_copia->inicio, archivoPolacaModificada);
+
     printf("\n\n[ASSEMBLER] Codigo generado.\n");
+
+    fclose(archivoAssembler);
+    fclose(archivoPolacaModificada);
+
+    /* ----------------------------- LIMPIEZA MEMORIA --------------------------- */
+    eliminarPila(pila_operandos);
+    eliminarPila(pila_auxiliares_aritmetica);
+    eliminarPolacaDuplicada(polaca_copia);
+    eliminarTablaSimbolosDuplicada(tabla_simbolos_copia);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -97,12 +121,130 @@ void escribirSegmentoData(FILE *archivo, t_tabla_simbolos *tabla)
 /* -------------------------------------------------------------------------- */
 /*                              CODIGO ASM - CODE                             */
 /* -------------------------------------------------------------------------- */
-void escribirSegmentCode(FILE *archivo)
+void escribirSegmentCode(FILE *archivo, t_polaca *polaca)
 {
     fprintf(archivo, "\n\n.CODE\n");
     fprintf(archivo, "mov AX,@DATA  ; inicializa el segmento de datos\n");
     fprintf(archivo, "mov DS,AX\n");
-    fprintf(archivo, "mov es,ax ;\n");
+    fprintf(archivo, "mov es,ax ;\n\n");
+
+    t_nodo_polaca *celdaActual = polaca->inicio;
+
+    while (celdaActual != NULL)
+    {
+        char *operadorASM = getInstruccionASMOperador(celdaActual);
+        t_simbolo *simboloOperando = buscarSimboloPorNombre(celdaActual->contenido);
+
+        if (simboloOperando != NULL) // esOperando
+        {
+            apilar(pila_operandos, celdaActual->contenido);
+        }
+        else if (operadorASM != NULL) // esOperadorAritmetico
+        {
+            escribirASMOperacionAritmetica(archivo, operadorASM);
+        }
+        else if (strcmp(celdaActual->contenido, ":=") == 0) // esAsignacion
+        {
+            escribirASMAsignacion(archivo);
+        }
+
+        // Avanzar al siguiente nodo
+        celdaActual = celdaActual->siguiente;
+    }
+}
+
+/* --------------------------- CODIGO ASM - UTILES -------------------------- */
+int esOperando(t_nodo_polaca *celda)
+{
+    if (buscarSimboloPorNombre(celda->contenido) != NULL)
+    {
+        return 1;
+    }
+    return 0;
+}
+
+char *getInstruccionASMOperador(t_nodo_polaca *celda)
+{
+    if (strcmp(celda->contenido, "+") == 0)
+    {
+        return "FADD";
+    }
+    else if (strcmp(celda->contenido, "-") == 0)
+    {
+        return "FSUB";
+    }
+    else if (strcmp(celda->contenido, "*") == 0)
+    {
+        return "FMUL";
+    }
+    else if (strcmp(celda->contenido, "/") == 0)
+    {
+        return "FDIV";
+    }
+
+    return NULL;
+}
+
+/* ------------------ CODIGO ASM - OPERACION ARITMETICA --------------------- */
+void escribirASMOperacionAritmetica(FILE *archivo, const char *operadorASM)
+{
+    /* -------------------------------- OPERANDOS ------------------------------- */
+    char operando1[MAX_LONG_VALOR_SIMBOLO];
+    strcpy(operando1, desapilar(pila_operandos));
+
+    char operando2[MAX_LONG_VALOR_SIMBOLO];
+    strcpy(operando2, desapilar(pila_operandos));
+
+    char operandosCargaASM[256];
+
+    if (strcmp(operadorASM, "FDIV") == 0 || strcmp(operadorASM, "FSUB") == 0)
+    {
+        snprintf(operandosCargaASM, sizeof(operandosCargaASM), "FLD %s\n\tFLD %s", operando2, operando1);
+    }
+    else
+    {
+        snprintf(operandosCargaASM, sizeof(operandosCargaASM), "FLD %s\n\tFLD %s", operando1, operando2);
+    }
+
+    /* ------------------------------ AUX RESULTADO ----------------------------- */
+    static int cantAuxResultados = 0;
+    char varAuxASM[64];
+    snprintf(varAuxASM, sizeof(varAuxASM), "@aux%d", cantAuxResultados++);
+    apilar(pila_operandos, varAuxASM);
+
+    /* -------------------------------- ASM FINAL ------------------------------- */
+    fprintf(archivo, "; operacion arimetica\n");
+    fprintf(archivo, "\t%s\n\t%s\n\tFSTP %s\n", operandosCargaASM, operadorASM, varAuxASM);
+}
+
+/* ------------------------- CODIGO ASM - ASIGNACION ------------------------ */
+void escribirASMAsignacion(FILE *archivo)
+{
+    /* -------------------------------- VARIABLE -------------------------------- */
+    char variable[MAX_LONG_NOMBRE_SIMBOLO];
+    strcpy(variable, desapilar(pila_operandos));
+
+    /* ----------------------------- VALOR A ASIGNAR ---------------------------- */
+    char valor[MAX_LONG_VALOR_SIMBOLO];
+    strcpy(valor, desapilar(pila_operandos));
+    t_simbolo *simboloValorOperando = buscarSimboloPorNombre(valor);
+
+    /* -------------------------------- ASM FINAL ------------------------------- */
+    char asignacionASM[256];
+
+    // Si encontramos el símbolo y es un string, usamos la rutina de copia.
+    // Si el símbolo no existe (ej. temporales @aux...), lo tratamos como un valor numérico.
+    if (simboloValorOperando != NULL && strcmp(simboloValorOperando->tipoDato, TIPO_TOKEN_CONST_STR) == 0)
+    {
+        snprintf(asignacionASM, sizeof(asignacionASM), "\tMOV SI, OFFSET %s\n\tMOV DI, OFFSET %s\n\tCALL COPIAR", valor, variable);
+    }
+    else
+    {
+        snprintf(asignacionASM, sizeof(asignacionASM), "\tFLD %s\n\tFSTP %s", valor, variable);
+    }
+
+    fprintf(archivo, "; asignacion\n");
+    fprintf(archivo, "%s\n", asignacionASM);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -114,7 +256,6 @@ void escribirSegmentoEnd(FILE *archivo)
     fprintf(archivo, "int 21h\n");
     fprintf(archivo, "End\n");
 }
-
 
 /* -------------------------------------------------------------------------- */
 /*                              FORMATEAR POLACA                              */
@@ -135,8 +276,8 @@ void formatearPolacaParaAssembler(t_polaca *polaca)
     {
         if (esCeldaNumero(celdaActual)) // TIPO_TOKEN_CONST_FLOAT o TIPO_TOKEN_CONST_INT
         {
-            // Solo reemplazar si la celda actual no esta indicando el nro de celda a saltar y entonces es realmente un numero
-            if (celdaActual == NULL || !esCeldaSalto(celdaAnterior))
+            // Solo reemplazar si la celda anterior es NULL o no es un salto (los numeros en saltos son direcciones de celda)
+            if (celdaAnterior == NULL || !esCeldaSalto(celdaAnterior))
             {
                 actualizarContenidoCeldaPorNombreSimbolo(celdaActual, celdaActual->contenido);
             }
@@ -195,8 +336,6 @@ void formatearPolacaParaAssembler(t_polaca *polaca)
         celdaAnterior = celdaActual;
         celdaActual = celdaActual->siguiente;
     }
-
-    imprimirEstadoPolacaHorizontal(polaca->inicio, archivoPolacaModificada);
 }
 
 /* ------------------------ FORMATEAR POLACA - UTILES ----------------------- */
