@@ -78,13 +78,18 @@ void validarIDAsignacionEsTipoDatoExpresion(const char *id)
 
     t_simbolo *simbolo = buscarSimboloIDEnTablaSimbolo(id);
 
-    // if (strcmp(simbolo->tipoDato, TIPO_TOKEN_CONST_STR) == 0)
-    // {
-    //     // TODO: REVISAR NO ESTA FUNCIONANDO
-    //     // Aunque creo que salta primero por regla
-    //     printf("3 - Error asignacion expresion: La variable '%s' es de tipo '%s', no se le puede asignar una expresion que es string.\n", id, simbolo->tipoDato);
-    //     exit(1);
-    // }
+    if (strcmp(simbolo->tipoDato, TIPO_TOKEN_CONST_STR) == 0)
+    {
+        /*
+            init {
+                varString, variable: string
+            }
+            varString := "Hola como estas"
+            variable := varString
+        */
+        printf("300. Error asignacion expresion: La variable '%s' es de tipo '%s', no se le puede asignar una expresion que es string.\n", id, simbolo->tipoDato);
+        exit(1);
+    }
 
     if (strcmp(simbolo->tipoDato, tipoDatoExpresion) != 0)
     {
@@ -96,7 +101,7 @@ void validarIDAsignacionEsTipoDatoExpresion(const char *id)
 
             variableINT := (4.5 + 4.5)
         */
-        printf("[SINTACTICO] 300. Error asignacion expresion: La variable '%s' es de tipo '%s', no se le puede asignar una expresion de tipo '%s'.\n", id, simbolo->tipoDato, tipoDatoExpresion);
+        printf("[SINTACTICO] 301. Error asignacion expresion: La variable '%s' es de tipo '%s', no se le puede asignar una expresion de tipo '%s'.\n", id, simbolo->tipoDato, tipoDatoExpresion);
         exit(1);
     }
 }
