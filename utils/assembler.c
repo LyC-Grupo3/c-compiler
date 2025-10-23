@@ -262,6 +262,10 @@ void escribirSegmentCode(FILE *archivo, t_polaca *polaca)
         {
             // dummy
         }
+        else if(strcmp(celdaActual->contenido, "ABS") == 0) // esFuncionABS
+        {
+           escribirASMFuncionABS(archivo);
+        }
         else if (strcmp(celdaActual->contenido, "READ") == 0) // esFuncionRead
         {
             escribirASMFuncionRead(archivo);
@@ -476,6 +480,25 @@ void escribirASMSaltoCondicional(FILE *archivo, const char *operadorComparacion,
     /* -------------------------------- ASM FINAL ------------------------------- */
     fprintf(archivo, "; condicional\n");
     fprintf(archivo, "\tFLD %s\n\tFCOMP %s\n\tFSTSW ax\n\tSAHF\n\t%s %s\n", operando1, operando2, instruccionSaltoASM, nroSalto);
+}
+
+/* ------------------------ CODIGO ASM - FUNCION ABS ------------------------ */
+void escribirASMFuncionABS(FILE *archivo)
+{
+    /* -------------------------------- OPERANDO ------------------------------- */
+    char operando[MAX_LONG_VALOR_SIMBOLO];
+    strcpy(operando, desapilar(pila_operandos));
+
+    /* -------------------------------- AUX RESULTADO -------------------------- */
+    static int cantAuxResultadosABS = 0;
+    char varAuxASM[64];
+    snprintf(varAuxASM, sizeof(varAuxASM), "@aux_abs%d", cantAuxResultadosABS++);
+    apilar(pila_operandos, varAuxASM);
+    apilar(pila_auxiliares_aritmetica, varAuxASM);
+
+    /* -------------------------------- ASM FINAL ------------------------------- */
+    fprintf(archivo, "; funcion abs\n");
+    fprintf(archivo, "\tFLD %s\n\tFABS\n\tFSTP %s\n", operando, varAuxASM);
 }
 
 /* ------------------------ CODIGO ASM - FUNCION READ ----------------------- */

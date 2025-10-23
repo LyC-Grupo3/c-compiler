@@ -27,6 +27,7 @@ void escribirASMAsignacion(FILE *archivo);
 void escribirASMEtiquetaSalto(FILE *archivo, const char *contenidoCelda);
 FILE *escribirVariablesAuxiliaresASM(FILE *archivo);
 void escribirASMFuncionRead(FILE *archivo);
+void escribirASMFuncionABS(FILE *archivo);
 void escribirASMFuncionWrite(FILE *archivo);
 void eliminarEtiquetaDeCelda(char *contenidoCelda);
 void escribirASMSaltoIncondicional(FILE *archivo, const char *contenidoCelda);
