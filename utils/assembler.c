@@ -223,6 +223,16 @@ FILE *escribirVariablesAuxiliaresASM(FILE *archivo)
 void escribirSegmentCode(FILE *archivo, t_polaca *polaca)
 {
     fprintf(archivo, "\n\n.CODE\n");
+
+    fprintf(archivo, "; ------------------------ utiles ------------------------ \n");
+    /* ------------------------------------ 1 ----------------------------------- */
+    fprintf(archivo, "; devuelve en BX la cantidad de caracteres que tiene un string\n; DS:SI apunta al string.\n");
+    fprintf(archivo, "STRLEN PROC\n\tmov bx,0\nSTRL01:\n\tcmp BYTE PTR [SI+BX],'$'\n\tje STREND\n\tinc BX\n\tjmp STRL01\nSTREND:\n\tret\nSTRLEN ENDP\n");
+    /* ------------------------------------ 2 ----------------------------------- */
+    fprintf(archivo, "; copia DS:SI a ES:DI; busca la cantidad de caracteres\n");
+    fprintf(archivo, "COPIAR PROC\n\tcall STRLEN\n\tcmp bx,MAXTEXTSIZE\n\tjle COPIARSIZEOK\n\tmov bx,MAXTEXTSIZE\nCOPIARSIZEOK:\n\tmov cx,bx\n\tcld\n\trep movsb\n\tmov al,'$'\n\tmov BYTE PTR [DI],al\n\tret\nCOPIAR ENDP");
+
+    fprintf(archivo, "\n\n; ------------------------ mi programa ------------------------ \n");
     fprintf(archivo, "START:\n");
     fprintf(archivo, "; inicializa el segmento de datos\n");
     fprintf(archivo, "\tMOV AX,@DATA\n");

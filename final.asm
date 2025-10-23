@@ -13,32 +13,55 @@ MAXTEXTSIZE EQU 256
 varString db MAXTEXTSIZE dup (?),'$'
 varInt dd ?
 varFloat dd ?
-_4 dd 4.0
-_10 dd 10.0
-
-; variables auxiliares para resultados intermedios de operaciones aritméticas
-@aux0 dd ?
+_cte_str_0 db "Hola",'$', 4 dup (?)
 
 
 .CODE
-START:
-	mov AX,@DATA  ; inicializa el segmento de datos
-	mov DS,AX
-	mov es,ax ;
+; ------------------------ utiles ------------------------ 
+; devuelve en BX la cantidad de caracteres que tiene un string
+; DS:SI apunta al string.
+STRLEN PROC
+	mov bx,0
+STRL01:
+	cmp BYTE PTR [SI+BX],'$'
+	je STREND
+	inc BX
+	jmp STRL01
+STREND:
+	ret
+STRLEN ENDP
+; copia DS:SI a ES:DI; busca la cantidad de caracteres
+COPIAR PROC
+	call STRLEN
+	cmp bx,MAXTEXTSIZE
+	jle COPIARSIZEOK
+	mov bx,MAXTEXTSIZE
+COPIARSIZEOK:
+	mov cx,bx
+	cld
+	rep movsb
+	mov al,'$'
+	mov BYTE PTR [DI],al
+	ret
+COPIAR ENDP
 
-; operacion arimetica
-	FLD _10
-	FLD _4
-	FADD
-	FSTP @aux0
+; ------------------------ mi programa ------------------------ 
+START:
+; inicializa el segmento de datos
+	MOV AX,@DATA
+	MOV DS,AX
+	MOV es,ax ;
+
 ; asignacion
-	FLD @aux0
-	FSTP varInt
+	MOV SI, OFFSET _cte_str_0
+	MOV DI, OFFSET varString
+	CALL COPIAR
 ; funcion write
-	DisplayFloat varInt, 0
+	displayString varString
 	newLine
 
 
-mov ax,4c00h   ; Indica que debe finalizar la ejecución
-int 21h
+; indica que debe finalizar la ejecución
+MOV AX,4C00H
+INT 21H
 END START
