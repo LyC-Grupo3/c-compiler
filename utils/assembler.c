@@ -138,10 +138,7 @@ void escribirSegmentCode(FILE *archivo, t_polaca *polaca)
         if (strncmp(celdaActual->contenido, "@ET_", strlen("@ET_")) == 0) // esEtiquetaASM
         {
             escribirASMEtiquetaSalto(archivo, celdaActual->contenido);
-            printf("\nContenido antes: %s:\n", celdaActual->contenido);
-
             eliminarEtiquetaDeCelda(celdaActual->contenido);
-            printf("Contenido despues: %s\n", celdaActual->contenido);
         }
 
         if (simboloOperando != NULL) // esOperando
@@ -155,6 +152,11 @@ void escribirSegmentCode(FILE *archivo, t_polaca *polaca)
         else if (strcmp(celdaActual->contenido, ":=") == 0) // esAsignacion
         {
             escribirASMAsignacion(archivo);
+        }
+        else if (strcmp(celdaActual->contenido, "BI") == 0) // esSaltoIncondicional
+        {
+            celdaActual = celdaActual->siguiente;
+            escribirASMSaltoIncondicional(archivo, celdaActual->contenido);
         }
 
         // Avanzar al siguiente nodo
@@ -279,6 +281,13 @@ void eliminarEtiquetaDeCelda(char *contenidoCelda)
 
     char *nuevoInicio = posSeparadorEtiquetaContenidoOrig + 1;
     memmove(contenidoCelda, nuevoInicio, strlen(nuevoInicio) + 1);
+}
+
+/* -------------------- CODIGO ASM - SALTO INCONDICIONAL -------------------- */
+void escribirASMSaltoIncondicional(FILE *archivo, const char *contenidoCelda)
+{
+    fprintf(archivo, "; salto incondicional\n");
+    fprintf(archivo, "\tJMP %s\n", contenidoCelda);
 }
 
 /* -------------------------------------------------------------------------- */
