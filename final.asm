@@ -10,10 +10,12 @@ MAXTEXTSIZE EQU 256
 
 .DATA
 ; variables tabla simbolos
-varString db MAXTEXTSIZE dup (?),'$'
 varInt dd ?
-varFloat dd ?
-_cte_str_0 db "Hola",'$', 4 dup (?)
+_666 dd 666.0
+_4 dd 4.0
+_cte_str_0 db "El valor es 4",'$', 13 dup (?)
+_cte_str_1 db "El valor es distinto de 4",'$', 25 dup (?)
+_cte_str_2 db "Fin del programa",'$', 16 dup (?)
 
 
 .CODE
@@ -53,11 +55,26 @@ START:
 	MOV es,ax ;
 
 ; asignacion
-	MOV SI, OFFSET _cte_str_0
-	MOV DI, OFFSET varString
-	CALL COPIAR
+	FLD _666
+	FSTP varInt
+; condicional
+	FLD _4
+	FCOMP varInt
+	FSTSW ax
+	SAHF
+	JNE ET_12
 ; funcion write
-	displayString varString
+	displayString _cte_str_0
+	newLine
+; salto incondicional
+	JMP ET_14
+ET_12:
+; funcion write
+	displayString _cte_str_1
+	newLine
+ET_14:
+; funcion write
+	displayString _cte_str_2
 	newLine
 
 

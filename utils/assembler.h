@@ -7,6 +7,13 @@
 #include "./polaca.h"
 #include "./pila.h"
 
+#define VALOR_ASM_OP_IGUAL "JNE"
+#define VALOR_ASM_OP_DISTINTO "JE"
+#define VALOR_ASM_OP_MAYOR "JBE"
+#define VALOR_ASM_OP_MAYOR_IGUAL "JB"
+#define VALOR_ASM_OP_MENOR "JAE"
+#define VALOR_ASM_OP_MENOR_IGUAL "JA"
+
 void generarAssembler();
 void escribirCabecera(FILE *archivo);
 void escribirSegmentoData(FILE *archivo, t_tabla_simbolos *tabla);
@@ -23,6 +30,7 @@ void escribirASMFuncionRead(FILE *archivo);
 void escribirASMFuncionWrite(FILE *archivo);
 void eliminarEtiquetaDeCelda(char *contenidoCelda);
 void escribirASMSaltoIncondicional(FILE *archivo, const char *contenidoCelda);
+void escribirASMSaltoCondicional(FILE *archivo, const char *operadorComparacion, const char *nroSalto);
 void formatearPolacaParaAssembler(t_polaca *polaca);
 void actualizarContenidoCeldaPorNombreSimbolo(t_nodo_polaca *celda, const char *valorSimboloBuscar);
 char *limpiarComillas(char *str);

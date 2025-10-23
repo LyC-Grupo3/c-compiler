@@ -241,18 +241,28 @@ void escribirSegmentCode(FILE *archivo, t_polaca *polaca)
 
     t_nodo_polaca *celdaActual = polaca->inicio;
 
+    // para comparacion - salto condicional
+    t_nodo_polaca *celdaOperadorComparacion = NULL;
+    t_nodo_polaca *celdaNroSaltoComparacion = NULL;
+
     while (celdaActual != NULL)
     {
-        char *operadorASM = getInstruccionASMOperador(celdaActual);
-        t_simbolo *simboloOperando = buscarSimboloPorNombre(celdaActual->contenido);
-
+        // Si tengo una etiqueta de salto ASM debo generarla y ver luego que habia en la polaca original
         if (strncmp(celdaActual->contenido, "@ET_", strlen("@ET_")) == 0) // esEtiquetaASM
         {
             escribirASMEtiquetaSalto(archivo, celdaActual->contenido);
             eliminarEtiquetaDeCelda(celdaActual->contenido);
         }
 
-        if (strcmp(celdaActual->contenido, "READ") == 0) // esFuncionRead
+        // Una vez manejada la etiqueta ASM, ver el contenido original de la polaca
+        char *operadorASM = getInstruccionASMOperador(celdaActual);
+        t_simbolo *simboloOperando = buscarSimboloPorNombre(celdaActual->contenido);
+
+        if (strncmp(celdaActual->contenido, "ET", strlen("ET")) == 0 || strncmp(celdaActual->contenido, "_END", strlen("_END")) == 0) // esEtiquetaWhilePolaca o esFinCodigo
+        {
+            // dummy
+        }
+        else if (strcmp(celdaActual->contenido, "READ") == 0) // esFuncionRead
         {
             escribirASMFuncionRead(archivo);
         }
@@ -276,6 +286,21 @@ void escribirSegmentCode(FILE *archivo, t_polaca *polaca)
         {
             celdaActual = celdaActual->siguiente;
             escribirASMSaltoIncondicional(archivo, celdaActual->contenido);
+        }
+        else if (strcmp(celdaActual->contenido, "CMP") == 0) // esSaltoCondicional
+        {
+            celdaActual = celdaActual->siguiente;
+            celdaOperadorComparacion = celdaActual;
+
+            celdaActual = celdaActual->siguiente;
+            celdaNroSaltoComparacion = celdaActual;
+
+            escribirASMSaltoCondicional(archivo, celdaOperadorComparacion->contenido, celdaNroSaltoComparacion->contenido);
+        }
+        else
+        {
+            printf("[ASSEMBLER] Error: Contenido de celda no reconocido: '%s'\n", celdaActual->contenido);
+            // exit(1);
         }
 
         // Avanzar al siguiente nodo
@@ -408,6 +433,49 @@ void escribirASMSaltoIncondicional(FILE *archivo, const char *contenidoCelda)
 {
     fprintf(archivo, "; salto incondicional\n");
     fprintf(archivo, "\tJMP %s\n", contenidoCelda);
+}
+
+/* --------------------- CODIGO ASM - SALTO CONDICIONAL --------------------- */
+void escribirASMSaltoCondicional(FILE *archivo, const char *operadorComparacion, const char *nroSalto)
+{
+    /* -------------------------------- OPERANDOS ------------------------------- */
+    char operando1[MAX_LONG_VALOR_SIMBOLO];
+    strcpy(operando1, desapilar(pila_operandos));
+
+    char operando2[MAX_LONG_VALOR_SIMBOLO];
+    strcpy(operando2, desapilar(pila_operandos));
+
+    /* --------------------------- OPERADOR COMPRACION -------------------------- */
+    char instruccionSaltoASM[4];
+
+    if (strcmp(operadorComparacion, VALOR_POLACA_OP_IGUAL) == 0)
+    {
+        strcpy(instruccionSaltoASM, VALOR_ASM_OP_IGUAL);
+    }
+    else if (strcmp(operadorComparacion, VALOR_POLACA_OP_DISTINTO) == 0)
+    {
+        strcpy(instruccionSaltoASM, VALOR_ASM_OP_DISTINTO);
+    }
+    else if (strcmp(operadorComparacion, VALOR_POLACA_OP_MAYOR) == 0)
+    {
+        strcpy(instruccionSaltoASM, VALOR_ASM_OP_MAYOR);
+    }
+    else if (strcmp(operadorComparacion, VALOR_POLACA_OP_MAYOR_IGUAL) == 0)
+    {
+        strcpy(instruccionSaltoASM, VALOR_ASM_OP_MAYOR_IGUAL);
+    }
+    else if (strcmp(operadorComparacion, VALOR_POLACA_OP_MENOR) == 0)
+    {
+        strcpy(instruccionSaltoASM, VALOR_ASM_OP_MENOR);
+    }
+    else if (strcmp(operadorComparacion, VALOR_POLACA_OP_MENOR_IGUAL) == 0)
+    {
+        strcpy(instruccionSaltoASM, VALOR_ASM_OP_MENOR_IGUAL);
+    }
+
+    /* -------------------------------- ASM FINAL ------------------------------- */
+    fprintf(archivo, "; condicional\n");
+    fprintf(archivo, "\tFLD %s\n\tFCOMP %s\n\tFSTSW ax\n\tSAHF\n\t%s %s\n", operando1, operando2, instruccionSaltoASM, nroSalto);
 }
 
 /* ------------------------ CODIGO ASM - FUNCION READ ----------------------- */
