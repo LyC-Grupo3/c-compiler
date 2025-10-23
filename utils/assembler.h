@@ -17,7 +17,8 @@ int esOperando(t_nodo_polaca *celda);
 char *getInstruccionASMOperador(t_nodo_polaca *celda);
 void escribirASMOperacionAritmetica(FILE *archivo, const char *operadorASM);
 void escribirASMAsignacion(FILE *archivo);
-
+void escribirASMEtiquetaSalto(FILE *archivo, const char *contenidoCelda);
+void eliminarEtiquetaDeCelda(char *contenidoCelda);
 void formatearPolacaParaAssembler(t_polaca *polaca);
 void actualizarContenidoCeldaPorNombreSimbolo(t_nodo_polaca *celda, const char *valorSimboloBuscar);
 char *limpiarComillas(char *str);

@@ -135,6 +135,15 @@ void escribirSegmentCode(FILE *archivo, t_polaca *polaca)
         char *operadorASM = getInstruccionASMOperador(celdaActual);
         t_simbolo *simboloOperando = buscarSimboloPorNombre(celdaActual->contenido);
 
+        if (strncmp(celdaActual->contenido, "@ET_", strlen("@ET_")) == 0) // esEtiquetaASM
+        {
+            escribirASMEtiquetaSalto(archivo, celdaActual->contenido);
+            printf("\nContenido antes: %s:\n", celdaActual->contenido);
+
+            eliminarEtiquetaDeCelda(celdaActual->contenido);
+            printf("Contenido despues: %s\n", celdaActual->contenido);
+        }
+
         if (simboloOperando != NULL) // esOperando
         {
             apilar(pila_operandos, celdaActual->contenido);
@@ -245,6 +254,31 @@ void escribirASMAsignacion(FILE *archivo)
 
     fprintf(archivo, "; asignacion\n");
     fprintf(archivo, "%s\n", asignacionASM);
+}
+
+/* ----------------------- CODIGO ASM - ETIQUETA SALTO ---------------------- */
+void escribirASMEtiquetaSalto(FILE *archivo, const char *contenidoCelda)
+{
+    char *posSeparadorEtiquetaContenidoOrig = strstr(contenidoCelda, ":");
+    char etiquetaSaltoASM[100];
+
+    strncpy(etiquetaSaltoASM, contenidoCelda + 1, posSeparadorEtiquetaContenidoOrig - contenidoCelda);
+    etiquetaSaltoASM[posSeparadorEtiquetaContenidoOrig - contenidoCelda] = '\0';
+
+    /* -------------------------------- ASM FINAL ------------------------------- */
+    fprintf(archivo, "%s\n", etiquetaSaltoASM);
+}
+
+void eliminarEtiquetaDeCelda(char *contenidoCelda)
+{
+    char *posSeparadorEtiquetaContenidoOrig = strstr(contenidoCelda, ":");
+    if (posSeparadorEtiquetaContenidoOrig == NULL)
+    {
+        return;
+    }
+
+    char *nuevoInicio = posSeparadorEtiquetaContenidoOrig + 1;
+    memmove(contenidoCelda, nuevoInicio, strlen(nuevoInicio) + 1);
 }
 
 /* -------------------------------------------------------------------------- */
