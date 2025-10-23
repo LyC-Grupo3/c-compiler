@@ -220,3 +220,13 @@ t_tabla_simbolos *duplicarTablaSimbolos()
 
     return copia;
 }
+
+void eliminarTablaSimbolosDuplicada(t_tabla_simbolos *tabla)
+{
+    if (tabla == NULL)
+    {
+        return;
+    }
+
+    free(tabla);
+}

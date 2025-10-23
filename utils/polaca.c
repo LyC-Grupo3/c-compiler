@@ -426,3 +426,23 @@ t_nodo_polaca *obtenerDePolaca(t_polaca *polaca, int indice)
 
     return NULL;
 }
+
+void eliminarPolacaDuplicada(t_polaca *polaca)
+{
+    if (polaca == NULL)
+    {
+        return;
+    }
+
+    t_nodo_polaca *actual = polaca->inicio;
+    t_nodo_polaca *siguiente;
+
+    while (actual != NULL)
+    {
+        siguiente = actual->siguiente;
+        free(actual);
+        actual = siguiente;
+    }
+
+    free(polaca);
+}

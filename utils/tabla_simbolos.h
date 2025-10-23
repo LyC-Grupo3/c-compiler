@@ -50,4 +50,6 @@ void insertarVariableASM(const char *nombre, const char *tipoDato, const char *v
 
 t_tabla_simbolos* duplicarTablaSimbolos();
 
+void eliminarTablaSimbolosDuplicada(t_tabla_simbolos *tabla);
+
 #endif // TABLA_SIMBOLOS_H

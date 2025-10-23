@@ -59,6 +59,8 @@ int insertarEnPolacaPers(t_polaca *polaca, const char *elemento);
 
 t_polaca *duplicarPolaca();
 
+void eliminarPolacaDuplicada(t_polaca *polaca);
+
 t_nodo_polaca *obtenerDePolaca(t_polaca *polaca, int indice);
 
 #endif // POLACA_H
