@@ -18,6 +18,7 @@ char *getInstruccionASMOperador(t_nodo_polaca *celda);
 void escribirASMOperacionAritmetica(FILE *archivo, const char *operadorASM);
 void escribirASMAsignacion(FILE *archivo);
 void escribirASMEtiquetaSalto(FILE *archivo, const char *contenidoCelda);
+FILE *escribirVariablesAuxiliaresASM(FILE *archivo);
 void escribirASMFuncionRead(FILE *archivo);
 void escribirASMFuncionWrite(FILE *archivo);
 void eliminarEtiquetaDeCelda(char *contenidoCelda);

@@ -40,6 +40,7 @@ void generarAssembler()
     escribirCabecera(archivoAssembler);
     escribirSegmentoData(archivoAssembler, tabla_simbolos_copia);
     escribirSegmentCode(archivoAssembler, polaca_copia);
+    archivoAssembler = escribirVariablesAuxiliaresASM(archivoAssembler);
     escribirSegmentoEnd(archivoAssembler);
 
     /* ---------------------------------- DEBUG --------------------------------- */
@@ -62,6 +63,8 @@ void generarAssembler()
 /* -------------------------------------------------------------------------- */
 void escribirCabecera(FILE *archivo)
 {
+    fprintf(archivo, "include macros2.asm\n");
+    fprintf(archivo, "include number.asm\n\n");
     fprintf(archivo, ".MODEL LARGE  ; Modelo de Memoria\n");
     fprintf(archivo, ".386          ; Tipo de Procesador\n");
     fprintf(archivo, ".STACK 200h   ; Bytes en el Stack\n");
@@ -80,7 +83,9 @@ void escribirSegmentoData(FILE *archivo, t_tabla_simbolos *tabla)
     char valorStringASM[256];
 
     fprintf(archivo, "\n\n.DATA\n");
+    fprintf(archivo, "; variables tabla simbolos\n");
 
+    // Definir las variables usadas en la tabla de símbolos
     for (int i = 0; i < tabla->cantidad; i++)
     {
         t_simbolo *simbolo = &(tabla->elementos[i]);
@@ -119,15 +124,108 @@ void escribirSegmentoData(FILE *archivo, t_tabla_simbolos *tabla)
     }
 }
 
+FILE *escribirVariablesAuxiliaresASM(FILE *archivo)
+{
+    if (pilaVacia(pila_auxiliares_aritmetica))
+    {
+        return archivo; // No hay variables auxiliares para escribir
+    }
+
+    // Cerrar el archivo original
+    fclose(archivo);
+
+    // Abrir el archivo para lectura
+    FILE *archivoLectura = fopen("final.asm", "r");
+    if (archivoLectura == NULL)
+    {
+        printf("[ASSEMBLER] Error al abrir final.asm para lectura\n");
+        exit(1);
+    }
+
+    // Crear archivo temporal
+    FILE *archivoTemp = fopen("final.asm.tmp", "w");
+    if (archivoTemp == NULL)
+    {
+        printf("[ASSEMBLER] Error al crear archivo temporal\n");
+        fclose(archivoLectura);
+        exit(1);
+    }
+
+    char linea[512];
+    int dentroDeSectionData = 0;
+    int yaEscribiAuxiliares = 0;
+
+    // Copiar todo el archivo, insertando las auxiliares después de las variables de .DATA
+    while (fgets(linea, sizeof(linea), archivoLectura) != NULL)
+    {
+        fputs(linea, archivoTemp);
+
+        // Detectar cuando entramos a la sección .DATA
+        if (strstr(linea, ".DATA") != NULL)
+        {
+            dentroDeSectionData = 1;
+        }
+        // Detectar cuando salimos de .DATA (empieza .CODE)
+        else if (strstr(linea, ".CODE") != NULL)
+        {
+            dentroDeSectionData = 0;
+        }
+        // Si estamos en .DATA y encontramos una línea vacía o el inicio de .CODE, escribir auxiliares
+        else if (dentroDeSectionData && !yaEscribiAuxiliares)
+        {
+            // Verificar si es una línea vacía (solo espacios/newline) o ya llegamos al final de las variables
+            int esLineaVacia = 1;
+            for (int i = 0; linea[i] != '\0'; i++)
+            {
+                if (linea[i] != ' ' && linea[i] != '\t' && linea[i] != '\n' && linea[i] != '\r')
+                {
+                    esLineaVacia = 0;
+                    break;
+                }
+            }
+
+            if (esLineaVacia)
+            {
+                fprintf(archivoTemp, "; variables auxiliares para resultados intermedios de operaciones aritméticas\n");
+                t_nodo_pila *nodoActual = pila_auxiliares_aritmetica->tope;
+                while (nodoActual != NULL)
+                {
+                    fprintf(archivoTemp, "%s dd ?\n", nodoActual->contenido);
+                    nodoActual = nodoActual->siguiente;
+                }
+                yaEscribiAuxiliares = 1;
+            }
+        }
+    }
+
+    fclose(archivoLectura);
+    fclose(archivoTemp);
+
+    // Reemplazar el archivo original con el temporal
+    remove("final.asm");
+    rename("final.asm.tmp", "final.asm");
+
+    // Reabrir el archivo en modo append para que el resto del código pueda continuar
+    FILE *archivoNuevo = fopen("final.asm", "a");
+    if (archivoNuevo == NULL)
+    {
+        printf("[ASSEMBLER] Error al reabrir final.asm\n");
+        exit(1);
+    }
+
+    return archivoNuevo;
+}
+
 /* -------------------------------------------------------------------------- */
 /*                              CODIGO ASM - CODE                             */
 /* -------------------------------------------------------------------------- */
 void escribirSegmentCode(FILE *archivo, t_polaca *polaca)
 {
     fprintf(archivo, "\n\n.CODE\n");
-    fprintf(archivo, "mov AX,@DATA  ; inicializa el segmento de datos\n");
-    fprintf(archivo, "mov DS,AX\n");
-    fprintf(archivo, "mov es,ax ;\n\n");
+    fprintf(archivo, "START:\n");
+    fprintf(archivo, "\tmov AX,@DATA  ; inicializa el segmento de datos\n");
+    fprintf(archivo, "\tmov DS,AX\n");
+    fprintf(archivo, "\tmov es,ax ;\n\n");
 
     t_nodo_polaca *celdaActual = polaca->inicio;
 
@@ -231,6 +329,7 @@ void escribirASMOperacionAritmetica(FILE *archivo, const char *operadorASM)
     char varAuxASM[64];
     snprintf(varAuxASM, sizeof(varAuxASM), "@aux%d", cantAuxResultados++);
     apilar(pila_operandos, varAuxASM);
+    apilar(pila_auxiliares_aritmetica, varAuxASM);
 
     /* -------------------------------- ASM FINAL ------------------------------- */
     fprintf(archivo, "; operacion arimetica\n");
@@ -357,9 +456,9 @@ void escribirASMFuncionWrite(FILE *archivo)
 /* -------------------------------------------------------------------------- */
 void escribirSegmentoEnd(FILE *archivo)
 {
-    fprintf(archivo, "\n\nmove ax,4c00h   ; Indica que debe finalizar la ejecución\n");
+    fprintf(archivo, "\n\nmov ax,4c00h   ; Indica que debe finalizar la ejecución\n");
     fprintf(archivo, "int 21h\n");
-    fprintf(archivo, "End\n");
+    fprintf(archivo, "END START\n");
 }
 
 /* -------------------------------------------------------------------------- */
