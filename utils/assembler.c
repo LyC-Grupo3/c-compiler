@@ -193,6 +193,7 @@ FILE *escribirVariablesAuxiliaresASM(FILE *archivo)
                     fprintf(archivoTemp, "%s dd ?\n", nodoActual->contenido);
                     nodoActual = nodoActual->siguiente;
                 }
+                fprintf(archivoTemp, "\n");
                 yaEscribiAuxiliares = 1;
             }
         }
@@ -223,9 +224,10 @@ void escribirSegmentCode(FILE *archivo, t_polaca *polaca)
 {
     fprintf(archivo, "\n\n.CODE\n");
     fprintf(archivo, "START:\n");
-    fprintf(archivo, "\tmov AX,@DATA  ; inicializa el segmento de datos\n");
-    fprintf(archivo, "\tmov DS,AX\n");
-    fprintf(archivo, "\tmov es,ax ;\n\n");
+    fprintf(archivo, "; inicializa el segmento de datos\n");
+    fprintf(archivo, "\tMOV AX,@DATA\n");
+    fprintf(archivo, "\tMOV DS,AX\n");
+    fprintf(archivo, "\tMOV es,ax ;\n\n");
 
     t_nodo_polaca *celdaActual = polaca->inicio;
 
@@ -456,8 +458,9 @@ void escribirASMFuncionWrite(FILE *archivo)
 /* -------------------------------------------------------------------------- */
 void escribirSegmentoEnd(FILE *archivo)
 {
-    fprintf(archivo, "\n\nmov ax,4c00h   ; Indica que debe finalizar la ejecución\n");
-    fprintf(archivo, "int 21h\n");
+    fprintf(archivo, "\n\n; indica que debe finalizar la ejecución\n");
+    fprintf(archivo, "MOV AX,4C00H\n");
+    fprintf(archivo, "INT 21H\n");
     fprintf(archivo, "END START\n");
 }
 
