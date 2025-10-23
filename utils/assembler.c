@@ -141,7 +141,15 @@ void escribirSegmentCode(FILE *archivo, t_polaca *polaca)
             eliminarEtiquetaDeCelda(celdaActual->contenido);
         }
 
-        if (simboloOperando != NULL) // esOperando
+        if (strcmp(celdaActual->contenido, "READ") == 0) // esFuncionRead
+        {
+            escribirASMFuncionRead(archivo);
+        }
+        else if (strcmp(celdaActual->contenido, "WRITE") == 0) // esFuncionWrite
+        {
+            escribirASMFuncionWrite(archivo);
+        }
+        else if (simboloOperando != NULL) // esOperando
         {
             apilar(pila_operandos, celdaActual->contenido);
         }
@@ -288,6 +296,59 @@ void escribirASMSaltoIncondicional(FILE *archivo, const char *contenidoCelda)
 {
     fprintf(archivo, "; salto incondicional\n");
     fprintf(archivo, "\tJMP %s\n", contenidoCelda);
+}
+
+/* ------------------------ CODIGO ASM - FUNCION READ ----------------------- */
+void escribirASMFuncionRead(FILE *archivo)
+{
+    /* -------------------------------- OPERANDO ------------------------------- */
+    char operando[MAX_LONG_VALOR_SIMBOLO];
+    strcpy(operando, desapilar(pila_operandos));
+    t_simbolo *simboloOperando = buscarSimboloPorNombre(operando);
+
+    /* -------------------------------- ASM FINAL ------------------------------- */
+    char readASM[300];
+
+    if (strcmp(simboloOperando->tipoDato, TIPO_TOKEN_CONST_INT) == 0 || strcmp(simboloOperando->tipoDato, TIPO_TOKEN_CONST_FLOAT) == 0)
+    {
+        snprintf(readASM, sizeof(readASM), "\tGetFloat %s\n\tnewLine", operando);
+    }
+    else if (strcmp(simboloOperando->tipoDato, TIPO_TOKEN_CONST_STR) == 0)
+    {
+
+        snprintf(readASM, sizeof(readASM), "\tgetString %s\n\tnewLine", operando);
+    }
+
+    fprintf(archivo, "; funcion read\n");
+    fprintf(archivo, "%s\n", readASM);
+}
+
+/* ----------------------- CODIGO ASM - FUNCION WRITE ----------------------- */
+void escribirASMFuncionWrite(FILE *archivo)
+{
+    /* -------------------------------- OPERANDO ------------------------------- */
+    char operando[MAX_LONG_VALOR_SIMBOLO];
+    strcpy(operando, desapilar(pila_operandos));
+    t_simbolo *simboloOperando = buscarSimboloPorNombre(operando);
+
+    /* -------------------------------- ASM FINAL ------------------------------- */
+    char writeASM[300];
+
+    if (strcmp(simboloOperando->tipoDato, TIPO_TOKEN_CONST_INT) == 0)
+    {
+        snprintf(writeASM, sizeof(writeASM), "\tDisplayFloat %s, 0\n\tnewLine", operando);
+    }
+    else if (strcmp(simboloOperando->tipoDato, TIPO_TOKEN_CONST_INT))
+    {
+        snprintf(writeASM, sizeof(writeASM), "\tdisplayString %s\n\tnewLine", operando);
+    }
+    else if (strcmp(simboloOperando->tipoDato, TIPO_TOKEN_CONST_FLOAT) == 0)
+    {
+        snprintf(writeASM, sizeof(writeASM), "\tDisplayFloat %s, 2\n\tnewLine", operando);
+    }
+
+    fprintf(archivo, "; funcion write\n");
+    fprintf(archivo, "%s\n", writeASM);
 }
 
 /* -------------------------------------------------------------------------- */
