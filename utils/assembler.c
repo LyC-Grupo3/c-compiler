@@ -491,9 +491,7 @@ void escribirASMFuncionABS(FILE *archivo)
     strcpy(operando, desapilar(pila_operandos));
 
     /* -------------------------------- AUX RESULTADO -------------------------- */
-    static int cantAuxResultadosABS = 0;
-    char varAuxASM[64];
-    snprintf(varAuxASM, sizeof(varAuxASM), "@aux_abs%d", cantAuxResultadosABS++);
+    char varAuxASM[] = "@aux_abs";
     apilar(pila_operandos, varAuxASM);
     apilar(pila_auxiliares_aritmetica, varAuxASM);
 
