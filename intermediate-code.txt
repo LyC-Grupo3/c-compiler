@@ -1,4 +1,385 @@
 === CÓDIGO INTERMEDIO - NOTACIÓN POLACA INVERSA ===
 
-[ 0 ] [    1    ] [ 2  ] [ 3 ] [    4    ] [ 5  ] [ 6 ] [    7    ] [ 8  ] [    9     ] [    10     ] [ 11 ] [    12    ] [    13     ] [ 14 ] [ 15  ] [    16     ] [ 17 ] [   18    ] [    19     ] [ 20 ] [  21   ] [    22     ] [ 23 ] [        24         ] [     25     ] [ 26 ] [        27         ] [     28     ] [ 29 ] [         30         ] [     31     ] [ 32 ] [ 33 ] [   34    ] [ 35 ] [   36    ] [ 37 ] [   38    ] [ 39  ] [ 40 ] [   41    ] [ 42 ] [    43     ] [ 44  ] [ 45 ] [    46     ] [ 47 ] [  48  ] [ 49  ] [ 50 ] [    51     ] [ 52 ] [ 53 ] [ 54 ] [ 55  ] [ 56  ] [ 57 ] [         58         ] [  59   ] [ 60 ] [ 61 ] [ 62  ] [ 63  ] [ 64 ] [           65            ] [  66   ] [ 67 ] [ 68 ] [           69           ] [  70   ] [ 71 ] [ 72 ] [ 73  ] [ 74  ] [ 75 ] [ 76 ] [ 77 ] [ 78  ] [ 79  ] [ 80 ] [       81        ] [  82   ] [ 83 ] [ 84 ] [ 85  ] [ 86  ] [ 87 ] [ 88 ] [ 89 ] [ 90  ] [ 91  ] [ 92 ] [          93          ] [  94   ] [ 95 ] [ 96 ] [         97          ] [  98   ] [ 99 ] [ 100 ] [ 101 ] [ 102 ] [ 103 ] [ 104 ] [ 105 ] [ 106 ] [ 107 ] [ 108 ] [ 109 ] [ 110 ] [     111     ] [  112  ] [ 113 ] [ 114 ] [ 115 ] [ 116 ] [ 117 ] [ 118 ] [ 119 ] [ 120 ] [ 121 ] [ 122 ] [ 123 ] [ 124 ] [         125         ] [  126  ] [ 127 ] [ 128 ] [        129         ] [  130  ] [ 131 ] [ 132 ] [ 133 ] [ 134 ] [ 135 ] [ 136 ] [          137          ] [  138  ] [ 139 ] [ 140 ] [ 141 ] [ 142 ] [ 143 ] [ 144 ] [ 145 ] [ 146 ] [ 147 ] [ 148 ] [ 149 ] [ 150 ] [ 151 ] [             152              ] [  153  ] [ 154 ] [ 155 ] [ 156 ] [ 157 ] [ 158 ] [ 159 ] [ 160 ] [ 161 ] [ 162 ] [ 163 ] [ 164 ] [ 165 ] [ 166 ] [ 167 ] [ 168 ] [             169             ] [  170  ] [ 171 ] [ 172 ] [ 173 ] [ 174 ] [ 175 ] [ 176 ] [ 177 ] [       178       ] [  179  ] [ 180 ] [ 181 ] [ 182 ] [ 183 ] [ 184 ] [ 185 ] [             186              ] [  187  ] [ 188 ] [ 189 ] [ 190 ] [ 191 ] [ 192 ] [ 193 ] [ 194 ] [    195     ] [  196  ] [ 197 ] [ 198 ] [ 199 ] [ 200 ] [ 201 ] [      202       ] [  203  ] [ 204 ] [ 205 ] [ 206 ] [ 207 ] [ 208 ] [ 209 ] [          210           ] [  211  ] [ 212 ] [ 213 ] [   214   ] [ 215  ] [   216    ] [  217  ] [   218   ] [  219  ] [ 220 ] [    221     ] [ 222 ] [ 223 ] [   224   ] [ 225 ] [    226     ] [   227   ] [ 228 ] [ 229 ] [ 230 ] [ 231 ] [   232   ] [ 233 ] [    234     ] [   235   ] [ 236 ] [ 237 ] [ 238 ] [ 239 ] [   240   ] [ 241 ] [    242     ] [   243   ] [ 244 ] [ 245 ] [ 246 ] [ 247 ] [   248   ] [ 249 ] [    250     ] [   251   ] [ 252 ] [ 253 ] [ 254 ] [ 255 ] [    256     ] [ 257 ] [ 258 ] [   259   ] [ 260 ] [    261     ] [   262   ] [ 263 ] [ 264 ] [ 265 ] [ 266 ] [   267   ] [ 268 ] [    269     ] [   270   ] [ 271 ] [ 272 ] [ 273 ] [ 274 ] [   275   ] [ 276 ] [    277     ] [   278   ] [ 279 ] [ 280 ] [ 281 ] [ 282 ] [    283     ] [ 284 ] [ 285 ] [   286   ] [ 287 ] [    288     ] [   289   ] [ 290 ] [ 291 ] [ 292 ] [ 293 ] [   294   ] [ 295 ] [    296     ] [   297   ] [ 298 ] [ 299 ] [ 300 ] [ 301 ] [    302     ] [ 303 ] [ 304 ] [   305   ] [ 306 ] [    307     ] [   308   ] [ 309 ] [ 310 ] [ 311 ] [ 312 ] [  313   ] [ 314 ] [ 315 ] [ 316 ] [ 317 ] [  318   ] [ 319 ] [  320   ] [          321           ] [ 322 ] [ 323 ] [ 324 ] [ 325 ] [ 326 ] [ 327 ] [ 328 ] [ 329 ] [ 330 ] [ 331 ] [ 332 ] [ 333 ] [ 334 ] [ 335 ] [ 336 ] [ 337 ] [ 338 ] [ 339 ] [ 340 ] [ 341 ] [ 342 ] [   343    ] [ 344 ] [ 345 ] [ 346 ] [ 347 ] [ 348 ] [ 349 ] [ 350 ] [ 351 ] [ 352 ] [ 353 ] [ 354 ] [ 355 ] [ 356 ] [ 357 ] [ 358 ] [ 359 ] [ 360 ] [ 361 ] [ 362 ] [ 363 ] [ 364 ] [   365    ] [ 366 ] [   367    ] [   368    ] [ 369 ] [ 370 ] [ 371 ] [   372    ] [     373     ] [ 374 ] [ 375 ] [ 376 ] [   377    ] [     378     ] [ 379 ] [     380     ] [      381      ] [ 382 ] [ 383 ] 
-[ 1 ] [ varInt1 ] [ := ] [ 1 ] [ varInt1 ] [ := ] [ 2 ] [ varInt2 ] [ := ] [ 99999.99 ] [ varFloat1 ] [ := ] [ 99999.99 ] [ varFloat1 ] [ := ] [ 99. ] [ varFloat2 ] [ := ] [ 99.0000 ] [ varFloat2 ] [ := ] [ .9999 ] [ varFloat3 ] [ := ] [ "string repetido" ] [ varString1 ] [ := ] [ "string repetido" ] [ varString1 ] [ := ] [ "string diferente" ] [ varString2 ] [ := ] [ 27 ] [ varInt2 ] [ -  ] [ varInt1 ] [ := ] [ varInt1 ] [ 500 ] [ +  ] [ varInt2 ] [ := ] [ varFloat2 ] [ 4.0 ] [ /  ] [ varFloat1 ] [ := ] [ 34.4 ] [ 3.1 ] [ *  ] [ varFloat2 ] [ := ] [ a  ] [ b  ] [ CMP ] [ BLE ] [ 60 ] [ "verdad IF simple" ] [ WRITE ] [ a  ] [ b  ] [ CMP ] [ BLE ] [ 69 ] [ "verdad IF-ELSE simple" ] [ WRITE ] [ BI ] [ 71 ] [ "falso IF-ELSE simple" ] [ WRITE ] [ a  ] [ b  ] [ CMP ] [ BLE ] [ 83 ] [ c  ] [ b  ] [ CMP ] [ BLE ] [ 83 ] [ "verdad IF AND" ] [ WRITE ] [ a  ] [ b  ] [ CMP ] [ BLE ] [ 97 ] [ c  ] [ b  ] [ CMP ] [ BLE ] [ 97 ] [ "verdad IF-ELSE AND" ] [ WRITE ] [ BI ] [ 99 ] [ "falso IF-ELSE AND" ] [ WRITE ] [ a  ] [  b  ] [ CMP ] [ BLE ] [ 106 ] [ BI  ] [ 111 ] [  c  ] [  b  ] [ CMP ] [ BLE ] [ 113 ] [ "verdad OR" ] [ WRITE ] [  a  ] [  b  ] [ CMP ] [ BLE ] [ 120 ] [ BI  ] [ 125 ] [  c  ] [  b  ] [ CMP ] [ BLE ] [ 129 ] [ "verdad IF-ELSE OR" ] [ WRITE ] [ BI  ] [ 131 ] [ "falso IF-ELSE OR" ] [ WRITE ] [ ET  ] [  a  ] [  b  ] [ CMP ] [ BLE ] [ 141 ] [ "dentro WHILE simple" ] [ WRITE ] [ BI  ] [ 131 ] [ ET  ] [  a  ] [  b  ] [ CMP ] [ BLE ] [ 156 ] [  c  ] [  d  ] [ CMP ] [ BLE ] [ 156 ] [ "dentro WHILE compuesto AND" ] [ WRITE ] [ BI  ] [ 141 ] [ ET  ] [  a  ] [  b  ] [ CMP ] [ BLE ] [ 164 ] [ BI  ] [ 169 ] [  c  ] [  d  ] [ CMP ] [ BLE ] [ 173 ] [ "dentro WHILE compuesto OR" ] [ WRITE ] [ BI  ] [ 156 ] [  a  ] [  b  ] [ CMP ] [ BGT ] [ 180 ] [ "negado SIMPLE" ] [ WRITE ] [ ET  ] [  a  ] [  b  ] [ CMP ] [ BGT ] [ 190 ] [ "dentro WHILE compuesto NOT" ] [ WRITE ] [ BI  ] [ 180 ] [  a  ] [  b  ] [ CMP ] [ BLE ] [ 214 ] [ "true a>b" ] [ WRITE ] [  c  ] [  d  ] [ CMP ] [ BLE ] [ 204 ] [ "true anidado" ] [ WRITE ] [ ET  ] [  e  ] [  f  ] [ CMP ] [ BGE ] [ 214 ] [ "dentro WHILE anidado" ] [ WRITE ] [ BI  ] [ 204 ] [ varInt1 ] [ READ ] [ "cadena" ] [ WRITE ] [ varInt1 ] [ WRITE ] [  a  ] [ @expActual ] [ :=  ] [  b  ] [ @expAux ] [ :=  ] [ @expActual ] [ @expAux ] [ CMP ] [ BEQ ] [ 317 ] [  c  ] [ @expAux ] [ :=  ] [ @expActual ] [ @expAux ] [ CMP ] [ BEQ ] [ 317 ] [  d  ] [ @expAux ] [ :=  ] [ @expActual ] [ @expAux ] [ CMP ] [ BEQ ] [ 317 ] [  e  ] [ @expAux ] [ :=  ] [ @expActual ] [ @expAux ] [ CMP ] [ BEQ ] [ 317 ] [  b  ] [ @expActual ] [ :=  ] [  c  ] [ @expAux ] [ :=  ] [ @expActual ] [ @expAux ] [ CMP ] [ BEQ ] [ 317 ] [  d  ] [ @expAux ] [ :=  ] [ @expActual ] [ @expAux ] [ CMP ] [ BEQ ] [ 317 ] [  e  ] [ @expAux ] [ :=  ] [ @expActual ] [ @expAux ] [ CMP ] [ BEQ ] [ 317 ] [  c  ] [ @expActual ] [ :=  ] [  d  ] [ @expAux ] [ :=  ] [ @expActual ] [ @expAux ] [ CMP ] [ BEQ ] [ 317 ] [  e  ] [ @expAux ] [ :=  ] [ @expActual ] [ @expAux ] [ CMP ] [ BEQ ] [ 317 ] [  d  ] [ @expActual ] [ :=  ] [  e  ] [ @expAux ] [ :=  ] [ @expActual ] [ @expAux ] [ CMP ] [ BEQ ] [ 317 ] [  0  ] [ @equal ] [ :=  ] [ BI  ] [ 320 ] [  1  ] [ @equal ] [ :=  ] [ @equal ] [ resultEqualExpressions ] [ :=  ] [ y2  ] [ y3  ] [  -  ] [ x1  ] [  *  ] [ y3  ] [ y1  ] [  -  ] [ x2  ] [  *  ] [  +  ] [ y1  ] [ y2  ] [  -  ] [ x3  ] [  *  ] [  +  ] [ ABS ] [  2  ] [  /  ] [ @area_t1 ] [ :=  ] [ b2  ] [ b3  ] [  -  ] [ a1  ] [  *  ] [ b3  ] [ b1  ] [  -  ] [ a2  ] [  *  ] [  +  ] [ b1  ] [ b2  ] [  -  ] [ a3  ] [  *  ] [  +  ] [ ABS ] [  2  ] [  /  ] [ @area_t2 ] [ :=  ] [ @area_t1 ] [ @area_t2 ] [ CMP ] [ BLE ] [ 377 ] [ @area_t1 ] [ @result_max ] [ :=  ] [ BI  ] [ 380 ] [ @area_t2 ] [ @result_max ] [ :=  ] [ @result_max ] [ resultAreamax ] [ :=  ] [     ] 
+[  0] 1
+[  1] varInt1
+[  2] :=
+[  3] 1
+[  4] varInt1
+[  5] :=
+[  6] 2
+[  7] varInt2
+[  8] :=
+[  9] 99999.99
+[ 10] varFloat1
+[ 11] :=
+[ 12] 99999.99
+[ 13] varFloat1
+[ 14] :=
+[ 15] 99.
+[ 16] varFloat2
+[ 17] :=
+[ 18] 99.0000
+[ 19] varFloat2
+[ 20] :=
+[ 21] .9999
+[ 22] varFloat3
+[ 23] :=
+[ 24] "string repetido"
+[ 25] varString1
+[ 26] :=
+[ 27] "string repetido"
+[ 28] varString1
+[ 29] :=
+[ 30] "string diferente"
+[ 31] varString2
+[ 32] :=
+[ 33] 27
+[ 34] varInt2
+[ 35] -
+[ 36] varInt1
+[ 37] :=
+[ 38] varInt1
+[ 39] 500
+[ 40] +
+[ 41] varInt2
+[ 42] :=
+[ 43] varFloat2
+[ 44] 4.0
+[ 45] /
+[ 46] varFloat1
+[ 47] :=
+[ 48] 34.4
+[ 49] 3.1
+[ 50] *
+[ 51] varFloat2
+[ 52] :=
+[ 53] a
+[ 54] b
+[ 55] CMP
+[ 56] BLE
+[ 57] 60
+[ 58] "verdad IF simple"
+[ 59] WRITE
+[ 60] a
+[ 61] b
+[ 62] CMP
+[ 63] BLE
+[ 64] 69
+[ 65] "verdad IF-ELSE simple"
+[ 66] WRITE
+[ 67] BI
+[ 68] 71
+[ 69] "falso IF-ELSE simple"
+[ 70] WRITE
+[ 71] a
+[ 72] b
+[ 73] CMP
+[ 74] BLE
+[ 75] 83
+[ 76] c
+[ 77] b
+[ 78] CMP
+[ 79] BLE
+[ 80] 83
+[ 81] "verdad IF AND"
+[ 82] WRITE
+[ 83] a
+[ 84] b
+[ 85] CMP
+[ 86] BLE
+[ 87] 97
+[ 88] c
+[ 89] b
+[ 90] CMP
+[ 91] BLE
+[ 92] 97
+[ 93] "verdad IF-ELSE AND"
+[ 94] WRITE
+[ 95] BI
+[ 96] 99
+[ 97] "falso IF-ELSE AND"
+[ 98] WRITE
+[ 99] a
+[100] b
+[101] CMP
+[102] BLE
+[103] 106
+[104] BI
+[105] 111
+[106] c
+[107] b
+[108] CMP
+[109] BLE
+[110] 113
+[111] "verdad OR"
+[112] WRITE
+[113] a
+[114] b
+[115] CMP
+[116] BLE
+[117] 120
+[118] BI
+[119] 125
+[120] c
+[121] b
+[122] CMP
+[123] BLE
+[124] 129
+[125] "verdad IF-ELSE OR"
+[126] WRITE
+[127] BI
+[128] 131
+[129] "falso IF-ELSE OR"
+[130] WRITE
+[131] ET
+[132] a
+[133] b
+[134] CMP
+[135] BLE
+[136] 141
+[137] "dentro WHILE simple"
+[138] WRITE
+[139] BI
+[140] 131
+[141] ET
+[142] a
+[143] b
+[144] CMP
+[145] BLE
+[146] 156
+[147] c
+[148] d
+[149] CMP
+[150] BLE
+[151] 156
+[152] "dentro WHILE compuesto AND"
+[153] WRITE
+[154] BI
+[155] 141
+[156] ET
+[157] a
+[158] b
+[159] CMP
+[160] BLE
+[161] 164
+[162] BI
+[163] 169
+[164] c
+[165] d
+[166] CMP
+[167] BLE
+[168] 173
+[169] "dentro WHILE compuesto OR"
+[170] WRITE
+[171] BI
+[172] 156
+[173] a
+[174] b
+[175] CMP
+[176] BGT
+[177] 180
+[178] "negado SIMPLE"
+[179] WRITE
+[180] ET
+[181] a
+[182] b
+[183] CMP
+[184] BGT
+[185] 190
+[186] "dentro WHILE compuesto NOT"
+[187] WRITE
+[188] BI
+[189] 180
+[190] a
+[191] b
+[192] CMP
+[193] BLE
+[194] 214
+[195] "true a>b"
+[196] WRITE
+[197] c
+[198] d
+[199] CMP
+[200] BLE
+[201] 204
+[202] "true anidado"
+[203] WRITE
+[204] ET
+[205] e
+[206] f
+[207] CMP
+[208] BGE
+[209] 214
+[210] "dentro WHILE anidado"
+[211] WRITE
+[212] BI
+[213] 204
+[214] varInt1
+[215] READ
+[216] "cadena"
+[217] WRITE
+[218] varInt1
+[219] WRITE
+[220] a
+[221] @expActual
+[222] :=
+[223] b
+[224] @expAux
+[225] :=
+[226] @expActual
+[227] @expAux
+[228] CMP
+[229] BEQ
+[230] 317
+[231] c
+[232] @expAux
+[233] :=
+[234] @expActual
+[235] @expAux
+[236] CMP
+[237] BEQ
+[238] 317
+[239] d
+[240] @expAux
+[241] :=
+[242] @expActual
+[243] @expAux
+[244] CMP
+[245] BEQ
+[246] 317
+[247] e
+[248] @expAux
+[249] :=
+[250] @expActual
+[251] @expAux
+[252] CMP
+[253] BEQ
+[254] 317
+[255] b
+[256] @expActual
+[257] :=
+[258] c
+[259] @expAux
+[260] :=
+[261] @expActual
+[262] @expAux
+[263] CMP
+[264] BEQ
+[265] 317
+[266] d
+[267] @expAux
+[268] :=
+[269] @expActual
+[270] @expAux
+[271] CMP
+[272] BEQ
+[273] 317
+[274] e
+[275] @expAux
+[276] :=
+[277] @expActual
+[278] @expAux
+[279] CMP
+[280] BEQ
+[281] 317
+[282] c
+[283] @expActual
+[284] :=
+[285] d
+[286] @expAux
+[287] :=
+[288] @expActual
+[289] @expAux
+[290] CMP
+[291] BEQ
+[292] 317
+[293] e
+[294] @expAux
+[295] :=
+[296] @expActual
+[297] @expAux
+[298] CMP
+[299] BEQ
+[300] 317
+[301] d
+[302] @expActual
+[303] :=
+[304] e
+[305] @expAux
+[306] :=
+[307] @expActual
+[308] @expAux
+[309] CMP
+[310] BEQ
+[311] 317
+[312] 0
+[313] @equal
+[314] :=
+[315] BI
+[316] 320
+[317] 1
+[318] @equal
+[319] :=
+[320] @equal
+[321] resultEqualExpressions
+[322] :=
+[323] y2
+[324] y3
+[325] -
+[326] x1
+[327] *
+[328] y3
+[329] y1
+[330] -
+[331] x2
+[332] *
+[333] +
+[334] y1
+[335] y2
+[336] -
+[337] x3
+[338] *
+[339] +
+[340] ABS
+[341] 2
+[342] /
+[343] @area_t1
+[344] :=
+[345] b2
+[346] b3
+[347] -
+[348] a1
+[349] *
+[350] b3
+[351] b1
+[352] -
+[353] a2
+[354] *
+[355] +
+[356] b1
+[357] b2
+[358] -
+[359] a3
+[360] *
+[361] +
+[362] ABS
+[363] 2
+[364] /
+[365] @area_t2
+[366] :=
+[367] @area_t1
+[368] @area_t2
+[369] CMP
+[370] BLE
+[371] 377
+[372] @area_t1
+[373] @result_max
+[374] :=
+[375] BI
+[376] 380
+[377] @area_t2
+[378] @result_max
+[379] :=
+[380] @result_max
+[381] resultAreamax
+[382] :=
