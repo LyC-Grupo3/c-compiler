@@ -158,4 +158,7 @@ void generarPolacaTriangleAreaMaximun()
     insertarVariableASM("@area_t1", TIPO_TOKEN_CONST_FLOAT, "", "");
     insertarVariableASM("@area_t2", TIPO_TOKEN_CONST_FLOAT, "", "");
     insertarVariableASM("@result_max", TIPO_TOKEN_CONST_FLOAT, "", "");
+
+    // Las constantes usadas como retorno las tengo que agregar a la tabla de simbolos porque sino luego no las encuentro para el ASM
+    procesarSimbolo("2", TIPO_TOKEN_CONST_INT);
 }
