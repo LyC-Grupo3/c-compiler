@@ -102,5 +102,3 @@ _8_5|CONST_FLOAT|8.5|
 _cte_str_35|CONST_STR|23. Resultado correcto triangleAreaMaximum|42
 _cte_str_36|CONST_STR|Resultado incorrecto triangleAreaMaximum|40
 _cte_str_37|CONST_STR|24. Resultado correcto triangleAreaMaximum|42
-_cte_str_39|CONST_STR|17. Ingrese texto para varInt1|30
-_cte_str_40|CONST_STR|18. Valor ingresado:|20

@@ -113,8 +113,6 @@ _8_5 dd 8.5
 _cte_str_35 db "23. Resultado correcto triangleAreaMaximum",'$', 42 dup (?)
 _cte_str_36 db "Resultado incorrecto triangleAreaMaximum",'$', 40 dup (?)
 _cte_str_37 db "24. Resultado correcto triangleAreaMaximum",'$', 42 dup (?)
-_cte_str_39 db "17. Ingrese texto para varInt1",'$', 30 dup (?)
-_cte_str_40 db "18. Valor ingresado:",'$', 20 dup (?)
 
 ; variables auxiliares para resultados intermedios de operaciones aritméticas
 @aux0 dd ?
@@ -1160,18 +1158,6 @@ ET_674:
 	DisplayFloat resultAreamax, 2
 	newLine
 ET_678:
-; funcion write
-	displayString _cte_str_39
-	newLine
-; funcion read
-	GetFloat varInt1
-	newLine
-; funcion write
-	displayString _cte_str_40
-	newLine
-; funcion write
-	DisplayFloat varInt1, 0
-	newLine
 
 
 ; indica que debe finalizar la ejecución
