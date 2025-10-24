@@ -542,13 +542,18 @@ void escribirASMFuncionWrite(FILE *archivo)
     {
         snprintf(writeASM, sizeof(writeASM), "\tDisplayFloat %s, 0\n\tnewLine", operando);
     }
-    else if (strcmp(simboloOperando->tipoDato, TIPO_TOKEN_CONST_INT))
+    else if (strcmp(simboloOperando->tipoDato, TIPO_TOKEN_CONST_STR) == 0)
     {
         snprintf(writeASM, sizeof(writeASM), "\tdisplayString %s\n\tnewLine", operando);
     }
     else if (strcmp(simboloOperando->tipoDato, TIPO_TOKEN_CONST_FLOAT) == 0)
     {
         snprintf(writeASM, sizeof(writeASM), "\tDisplayFloat %s, 2\n\tnewLine", operando);
+    }
+    else
+    {
+        printf("[ASSEMBLER] Error 3999: Tipo de dato no soportado en funcion WRITE para el operando %s\n", operando);
+        exit(1);
     }
 
     fprintf(archivo, "; funcion write\n");
