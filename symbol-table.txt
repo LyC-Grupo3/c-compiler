@@ -67,7 +67,3 @@ _true a>b|CONST_STR|true a>b|8
 _true anidado|CONST_STR|true anidado|12
 _dentro WHILE anidado|CONST_STR|dentro WHILE anidado|20
 _cadena|CONST_STR|cadena|6
-_0|CONST_INT|0|
-_n5|CONST_INT|-5|
-_5|CONST_INT|5|
-_3|CONST_INT|3|

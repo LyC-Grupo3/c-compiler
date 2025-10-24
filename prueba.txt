@@ -1,5 +1,3 @@
-#+ Esto es un comentario +#
-
 #+                                INIT                            +#
 #+ Declaración de variables - Declaración del mismo tipo de variable en más de una línea +#
 init {
@@ -12,7 +10,63 @@ init {
     resultAreamax : float
     x1, y1, x2, y2, x3, y3 : int
     a1, b1, a2, b2, a3, b3 : int
+
+    #+ 100. Error declaracion variable: La variable variableREPETIDA ya fue declarada previamente como: CONST_FLOAT +#
+    #+ variableREPETIDA : float  +#
+    #+ variableREPETIDA : int    +#
 }
+
+
+
+
+#+                                TEST ERRORES                          +#
+#+ Error de validación CONST_FLOAT - El valor excede el rango permitido COTA SUPERIOR +#
+#+ varFloat1 := 3.402824e+38                                                     +#
+
+
+#+ Error de validación CONST_FLOAT - El valor excede el rango permitido COTA INFERIOR +#
+#+ varFloat1 := -3.402824e+38                                                    +#
+
+
+#+ Error de validación CONST_INT - El valor excede el rango permitido COTA SUPERIOR +#
+#+ varInt1 := 32768                                                              +#
+
+
+#+ Error de validación CONST_INT - El valor excede el rango permitido COTA INFERIOR +#
+#+ varInt1 := -32769                                                             +#
+
+
+#+ Error de validación CONST_STR - La longitud del string excede el maximo permitido +#
+#+ varString1 := "este_es_un_string_muy_largo_que_excede_los_cincuenta_caracteres_permitidos" +#
+
+
+#+ 101. Error uso de variable: La variable variableNODECLARADA no fue declarada previamente. +#
+#+ variableNODECLARADA := 4 +#
+
+
+#+ 200. Error resolucion expresion: No se pueden realizar operaciones aritméticas con strings. +#
+#+ varInt1 := (varInt1 + varString1) +#
+
+
+#+ 201. Error resolucion expresion: No se pueden realizar operacion arimenticas entre CONST_FLOAT y CONST_INT. +#
+#+ varInt1 := (varInt1 + varFloat1) +#
+
+
+#+ 300. Error asignacion expresion: La variable variableINT es de tipo CONST_INT no se le puede asignar una expresion de tipo CONST_FLOAT. +#
+#+ varInt1 := (4.5 + 4.5) +#
+
+
+#+ 301. Error asignacion string: La variable variableINT es de tipo CONST_INT no se le puede asignar un string. +#
+#+ varInt1 := "cadena" +#
+
+
+#+ 400. Error comparacion: No se pueden realizar comparaciones con strings. +#
+#+ if ( varInt1 > varString1 ) { write("Hola") } +#
+
+
+#+ 401. Error comparacion: No se pueden realizar comparaciones entre: CONST_FLOAT y CONST_INT. +#
+#+ if ( varInt1 > varFloat1 ) { write("Hola") } +#
+
 
 
 
@@ -181,9 +235,6 @@ write(varInt1)   #+ varInt1 es una variable numérica definida previamente +#
 
 
 #+ FUNCIONES +#
-resultEqualExpressions := equalExpressions(a, b) 
-resultEqualExpressions := equalExpressions(0, -5, a + b) 
-resultEqualExpressions := equalExpressions(a + b, 5, b * 2, 3 - 2, a + b) 
-
+resultEqualExpressions := equalExpressions(a, b, c, d, e) 
 
 resultAreamax := triangleAreaMaximum( [x1,y1; x2,y2; x3,y3] ; [a1,b1; a2,b2; a3,b3] )
