@@ -411,4 +411,8 @@ void generarCodigoEqualExpressions_2()
     insertarVariableASM("@expActual", TIPO_TOKEN_CONST_FLOAT, "", "");
     insertarVariableASM("@expAux", TIPO_TOKEN_CONST_FLOAT, "", "");
     insertarVariableASM("@equal", TIPO_TOKEN_CONST_INT, "", "");
+
+    // Las constantes usadas como retorno las tengo que agregar a la tabla de simbolos porque sino luego no las encuentro para el ASM
+    procesarSimbolo("1", TIPO_TOKEN_CONST_INT);
+    procesarSimbolo("0", TIPO_TOKEN_CONST_INT);
 }
