@@ -66,6 +66,8 @@ compilador
 
 *.exe
 
+.vscode/
+
 # Test output files
 test_outputs/*
 !test_outputs/.gitkeep

@@ -167,8 +167,8 @@ void exportarPolaca(const char *nombreArchivo)
 
     fprintf(archivo, "=== CÓDIGO INTERMEDIO - NOTACIÓN POLACA INVERSA ===\n\n");
 
-    // imprimirEstadoPolacaVertical(polaca->inicio, archivo);
-    imprimirEstadoPolacaHorizontal(polaca->inicio, archivo);
+    imprimirEstadoPolacaVertical(polaca->inicio, archivo);
+    // imprimirEstadoPolacaHorizontal(polaca->inicio, archivo);
 
     fclose(archivo);
 }
