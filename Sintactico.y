@@ -561,6 +561,14 @@ funcion_read:
     READ PAR_A ID PAR_C                                 {
                                                             informarMatchLexicoSintactico("funcion_read", "READ PAR_A ID PAR_C");
 
+                                                            t_simbolo *simbolo = buscarSimboloIDEnTablaSimbolo($3);
+                                                            if(simbolo == NULL)
+                                                            {
+                                                                // LA FUNCION YA LA VALIDA ANTES, ASI QUE COMENTO ESTO PARA NO REPETIR MENSAJE
+                                                                // printf("Error semántico: La variable '%s' no fue declarada.\n", $1);
+                                                                // exit(1);
+                                                            }
+
                                                             insertarEnPolaca($3);
                                                             insertarEnPolaca("READ");
                                                         }
@@ -576,6 +584,14 @@ funcion_write:
                                                         }
     | WRITE PAR_A ID PAR_C                              {
                                                             informarMatchLexicoSintactico("funcion_write", "WRITE PAR_A ID PAR_C");
+
+                                                            t_simbolo *simbolo = buscarSimboloIDEnTablaSimbolo($3);
+                                                            if(simbolo == NULL)
+                                                            {
+                                                                // LA FUNCION YA LA VALIDA ANTES, ASI QUE COMENTO ESTO PARA NO REPETIR MENSAJE
+                                                                // printf("Error semántico: La variable '%s' no fue declarada.\n", $1);
+                                                                // exit(1);
+                                                            }
 
                                                             insertarEnPolaca($3);
                                                             insertarEnPolaca("WRITE");
@@ -662,6 +678,14 @@ tipo_parametro_triangle_area:
     | ID                                                {
                                                             informarMatchLexicoSintactico("tipo_parametro_triangle_area", "ID");
                                                             
+                                                            t_simbolo *simbolo = buscarSimboloIDEnTablaSimbolo($1);
+                                                            if(simbolo == NULL)
+                                                            {
+                                                                // LA FUNCION YA LA VALIDA ANTES, ASI QUE COMENTO ESTO PARA NO REPETIR MENSAJE
+                                                                // printf("Error semántico: La variable '%s' no fue declarada.\n", $1);
+                                                                // exit(1);
+                                                            }
+
                                                             apilarCoordenadaTriangulo($1);
                                                         }
     ;
