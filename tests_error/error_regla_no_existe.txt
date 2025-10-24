@@ -1,3 +1,0 @@
-init { a : string }
-
-a := := a

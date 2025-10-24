@@ -64,6 +64,8 @@ y.output
 y.tab.h
 compilador
 
+.vscode/
+
 # Test output files
 test_outputs/*
 !test_outputs/.gitkeep
