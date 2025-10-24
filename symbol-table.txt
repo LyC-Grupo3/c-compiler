@@ -102,3 +102,9 @@ _8_5|CONST_FLOAT|8.5|
 _cte_str_35|CONST_STR|23. Resultado correcto triangleAreaMaximum|42
 _cte_str_36|CONST_STR|Resultado incorrecto triangleAreaMaximum|40
 _cte_str_37|CONST_STR|24. Resultado correcto triangleAreaMaximum|42
+_cte_str_39|CONST_STR|26. Ingrese texto para variable string:|39
+_cte_str_40|CONST_STR|El valor de la variable de tipo string es:|42
+_cte_str_41|CONST_STR|27. Ingrese valor int para variable int:|40
+_cte_str_42|CONST_STR|El valor de la variable de tipo int es:|39
+_cte_str_43|CONST_STR|28. Ingrese valor float para variable float:|44
+_cte_str_44|CONST_STR|El valor de la variable de tipo float es:|41

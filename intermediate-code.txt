@@ -678,3 +678,27 @@
 [675] WRITE
 [676] resultAreamax
 [677] WRITE
+[678] "26. Ingrese texto para variable string:"
+[679] WRITE
+[680] varString
+[681] READ
+[682] "El valor de la variable de tipo string es:"
+[683] WRITE
+[684] varString
+[685] WRITE
+[686] "27. Ingrese valor int para variable int:"
+[687] WRITE
+[688] varInt
+[689] READ
+[690] "El valor de la variable de tipo int es:"
+[691] WRITE
+[692] varInt
+[693] WRITE
+[694] "28. Ingrese valor float para variable float:"
+[695] WRITE
+[696] varFloat
+[697] READ
+[698] "El valor de la variable de tipo float es:"
+[699] WRITE
+[700] varFloat
+[701] WRITE

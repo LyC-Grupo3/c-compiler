@@ -381,3 +381,23 @@ else
     write("Resultado incorrecto triangleAreaMaximum")
     write(resultAreamax)
 }
+
+#+ FUNCIONES - READ +#
+write("26. Ingrese texto para variable string:")
+read(varString)
+write("El valor de la variable de tipo string es:")
+write(varString)
+
+
+
+write("27. Ingrese valor int para variable int:")
+read(varInt)
+write("El valor de la variable de tipo int es:")
+write(varInt)
+
+
+
+write("28. Ingrese valor float para variable float:")
+read(varFloat)
+write("El valor de la variable de tipo float es:")
+write(varFloat)
