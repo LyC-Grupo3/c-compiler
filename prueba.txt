@@ -3,11 +3,11 @@
 #+                                INIT                            +#
 #+ Declaración de variables - Declaración del mismo tipo de variable en más de una línea +#
 init {
-    varFloat1, varFloat2 : float
+    varFloat, varFloat1, varFloat2 : float
     a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p : int
-    varInt1, varInt2 : int
+    varInt, varInt1, varInt2 : int
     varFloat3, varFloat4 : float
-    varString1, varString2 : string
+    varString, varString1, varString2 : string
     resultEqualExpressions : int
     resultAreamax : float
     x1, y1, x2, y2, x3, y3 : int
@@ -47,23 +47,39 @@ varFloat2 := 34.4 * 3.1
 
 
 #+                                SELECCION - CONDICIONES SIMPLES                            +#
+a := 1
+b := 0
 
 #+ IF sin ELSE +#
 if (a > b)
 {
-    write("verdad IF simple")
+    write("1. verdad IF simple")
 }
 
 
 
 #+ IF con ELSE +#
+a := 1
+b := 0
+
+if (a > b)
+{
+    write("1. verdad IF-ELSE simple")
+}
+else
+{
+    write("falso IF-ELSE simple")
+}
+
+a :=b
+
 if (a > b)
 {
     write("verdad IF-ELSE simple")
 }
 else
 {
-    write("falso IF-ELSE simple")
+    write("2. falso IF-ELSE simple")
 }
 
 
@@ -71,119 +87,243 @@ else
 #+                                SELECCION - CONDICIONES COMPUESTAS                            +#
 
 #+ Condición IF con AND +#
+a := 1
+b := 0
+c := 1
+d := 0
+
 if (a > b && c > b)
 {
-    write("verdad IF AND")
+    write("3. verdad IF AND")
 }
 
 
 
 #+ Condición IF ELSE con AND +#
+a := 1
+b := 0
+c := 1
+d := 0
+
 if (a > b && c > b)
 {
-    write("verdad IF-ELSE AND")
+    write("4. verdad IF-ELSE AND")
 }
 else
 {
     write("falso IF-ELSE AND")
 }
 
+c :=b
+if (a > b && c > b)
+{
+    write("verdad IF-ELSE AND")
+}
+else
+{
+    write("5. falso IF-ELSE AND")
+}
+
 
 
 #+ Condición IF con OR +#
-if (a > b || c > b)
+a := 0
+b := 1
+c := 1
+d := 0
+
+if (a > b || c > d)
 {
-    write("verdad OR")
+    write("6. verdad OR")
 }
 
 
 
 #+ Condición IF ELSE con OR +#
-if (a > b || c > b)
+a := 0
+b := 1
+c := 1
+d := 0
+
+if (a > b || c > d)
 {
-    write("verdad IF-ELSE OR")
+    write("7. verdad IF-ELSE OR")
 }
 else
 {
     write("falso IF-ELSE OR")
 }
 
+a := b
+c := d
+
+if (a > b || c > d)
+{
+    write("verdad IF-ELSE OR")
+}
+else
+{
+    write("8. falso IF-ELSE OR")
+}
+
+
 
 #+                                ITERACION - CONDICIONES SIMPLES                            +#
 #+ Condición WHILE simple +#
+a := 1
+b := 0
+
 while (a > b)
 {
-    write("dentro WHILE simple")
+    write("9. dentro WHILE simple")
+    b := a
 }
 
 
 
 #+                                ITERACION - CONDICIONES COMPUESTAS                            +#
 #+ Condición WHILE con AND +#
+a := 1
+b := 0
+c := 1
+d := 0
+
 while (a > b && c > d)
 {
-    write("dentro WHILE compuesto AND")
+    write("10. dentro WHILE compuesto AND")
+    b := a
+    d := c
 }
 
 
 
 #+ Condición WHILE con OR +#
+a := 0
+b := 1
+c := 1
+d := 0
+
 while (a > b || c > d)
 {
-    write("dentro WHILE compuesto OR")
+    write("11. dentro WHILE compuesto OR")
+    c := d
 }
 
 
 
 #+                                CONDICION CON NOT                            +#
 #+ Condición IF con NOT +#
+a := 0
+b := 1
+
 if (! a > b)
 {
-    write("negado SIMPLE")
+    write("12. negado SIMPLE")
+    a := 9999
 }
 
 
 
 #+ Condición WHILE con NOT +#
+a := 0
+b := 1
+
 while (! a > b)
 {
-    write("dentro WHILE compuesto NOT")
+    write("13. dentro WHILE compuesto NOT")
+    a := 9999
 }
 
 
 
 #+                                CONDICIONES ANIDADAS                            +#
+a := 1
+b := 0
+c := 1
+d := 0
+
 if (a > b)
 {
-    write("true a>b")
+    write("14. true a>b")
     if (c > d)
     {
-        write("true anidado")
+        write("15. true anidado")
     }
 
     while (e < f)
     {
-        write("dentro WHILE anidado")
+        write("16. dentro WHILE anidado")
+        e := f
     }
 }
 
 
-
-#+ READ +#
-read(varInt1)    #+ base es una variable +#
-
-
-
 #+ WRITE +#
-write("cadena")  #+ "cadena" es una cte string +#
-write(varInt1)   #+ varInt1 es una variable numérica definida previamente +#
+varFloat := 123.456
+write("17. write varFloat valor: ")
+write(varFloat)
+
+varInt := 789
+write("18. write varInt valor: ")
+write(varInt)
+
+varString := "cadena"
+write("19. write varString valor: ")
+write(varString)
+
+write("20. write cadena literal")
+
+
+#+ FUNCIONES - EQUAL EXPRESSIONS +#
+resultEqualExpressions := equalExpressions(1.5 + 1.5, 1 + 2) 
+
+if(resultEqualExpressions == 1)
+{
+    write("21. EXPRESIONES IGUALES")
+}
+else
+{
+    write("EXPRESIONES DISTINTAS")
+}
+
+
+resultEqualExpressions := equalExpressions(1 + 2, 1 + 100, 1.5 + 1.5) 
+
+if(resultEqualExpressions == 1)
+{
+    write("22. EXPRESIONES IGUALES")
+}
+else
+{
+    write("EXPRESIONES DISTINTAS")
+}
 
 
 
-#+ FUNCIONES +#
-resultEqualExpressions := equalExpressions(a, b) 
-resultEqualExpressions := equalExpressions(0, -5, a + b) 
-resultEqualExpressions := equalExpressions(a + b, 5, b * 2, 3 - 2, a + b) 
+#+ FUNCIONES - TRIANGLE AREA +#
+resultAreamax := triangleAreaMaximum( [1,1; 1,1; 1,1] ; [-2,1; 3,2; 1,5] )
+
+if(resultAreamax == 8.5)
+{
+    write("23. Resultado correcto triangleAreaMaximum")
+    write(resultAreamax)
+}
+else
+{
+    write("Resultado incorrecto triangleAreaMaximum")
+    write(resultAreamax)
+}
 
 
-resultAreamax := triangleAreaMaximum( [x1,y1; x2,y2; x3,y3] ; [a1,b1; a2,b2; a3,b3] )
+resultAreamax := triangleAreaMaximum( [1,1; 1,1; 1,1] ; [-2,1; 3,2; 1,5] )
+
+if(resultAreamax == 8.5)
+{
+    write("24. Resultado correcto triangleAreaMaximum")
+    write(resultAreamax)
+}
+else
+{
+    write("Resultado incorrecto triangleAreaMaximum")
+    write(resultAreamax)
+}

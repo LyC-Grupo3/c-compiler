@@ -1,4 +1,5 @@
 NOMBRE|TIPO|VALOR|LONGITUD
+varFloat|CONST_FLOAT||
 varFloat1|CONST_FLOAT||
 varFloat2|CONST_FLOAT||
 a|CONST_INT||
@@ -17,10 +18,12 @@ m|CONST_INT||
 n|CONST_INT||
 o|CONST_INT||
 p|CONST_INT||
+varInt|CONST_INT||
 varInt1|CONST_INT||
 varInt2|CONST_INT||
 varFloat3|CONST_FLOAT||
 varFloat4|CONST_FLOAT||
+varString|CONST_STR||
 varString1|CONST_STR||
 varString2|CONST_STR||
 resultEqualExpressions|CONST_INT||
@@ -42,32 +45,62 @@ _2|CONST_INT|2|
 _99999_99|CONST_FLOAT|99999.99|
 _99_0|CONST_FLOAT|99.0|
 _0_9999|CONST_FLOAT|0.9999|
-_string repetido|CONST_STR|string repetido|15
-_string diferente|CONST_STR|string diferente|16
+_cte_str_0|CONST_STR|string repetido|15
+_cte_str_2|CONST_STR|string diferente|16
 _27|CONST_INT|27|
 _500|CONST_INT|500|
 _4_0|CONST_FLOAT|4.0|
 _34_4|CONST_FLOAT|34.4|
 _3_1|CONST_FLOAT|3.1|
-_verdad IF simple|CONST_STR|verdad IF simple|16
-_verdad IF-ELSE simple|CONST_STR|verdad IF-ELSE simple|21
-_falso IF-ELSE simple|CONST_STR|falso IF-ELSE simple|20
-_verdad IF AND|CONST_STR|verdad IF AND|13
-_verdad IF-ELSE AND|CONST_STR|verdad IF-ELSE AND|18
-_falso IF-ELSE AND|CONST_STR|falso IF-ELSE AND|17
-_verdad OR|CONST_STR|verdad OR|9
-_verdad IF-ELSE OR|CONST_STR|verdad IF-ELSE OR|17
-_falso IF-ELSE OR|CONST_STR|falso IF-ELSE OR|16
-_dentro WHILE simple|CONST_STR|dentro WHILE simple|19
-_dentro WHILE compuesto AND|CONST_STR|dentro WHILE compuesto AND|26
-_dentro WHILE compuesto OR|CONST_STR|dentro WHILE compuesto OR|25
-_negado SIMPLE|CONST_STR|negado SIMPLE|13
-_dentro WHILE compuesto NOT|CONST_STR|dentro WHILE compuesto NOT|26
-_true a>b|CONST_STR|true a>b|8
-_true anidado|CONST_STR|true anidado|12
-_dentro WHILE anidado|CONST_STR|dentro WHILE anidado|20
-_cadena|CONST_STR|cadena|6
 _0|CONST_INT|0|
-_n5|CONST_INT|-5|
-_5|CONST_INT|5|
+_cte_str_3|CONST_STR|1. verdad IF simple|19
+_cte_str_4|CONST_STR|1. verdad IF-ELSE simple|24
+_cte_str_5|CONST_STR|falso IF-ELSE simple|20
+_cte_str_6|CONST_STR|verdad IF-ELSE simple|21
+_cte_str_7|CONST_STR|2. falso IF-ELSE simple|23
+_cte_str_8|CONST_STR|3. verdad IF AND|16
+_cte_str_9|CONST_STR|4. verdad IF-ELSE AND|21
+_cte_str_10|CONST_STR|falso IF-ELSE AND|17
+_cte_str_11|CONST_STR|verdad IF-ELSE AND|18
+_cte_str_12|CONST_STR|5. falso IF-ELSE AND|20
+_cte_str_13|CONST_STR|6. verdad OR|12
+_cte_str_14|CONST_STR|7. verdad IF-ELSE OR|20
+_cte_str_15|CONST_STR|falso IF-ELSE OR|16
+_cte_str_16|CONST_STR|verdad IF-ELSE OR|17
+_cte_str_17|CONST_STR|8. falso IF-ELSE OR|19
+_cte_str_18|CONST_STR|9. dentro WHILE simple|22
+_cte_str_19|CONST_STR|10. dentro WHILE compuesto AND|30
+_cte_str_20|CONST_STR|11. dentro WHILE compuesto OR|29
+_cte_str_21|CONST_STR|12. negado SIMPLE|17
+_9999|CONST_INT|9999|
+_cte_str_22|CONST_STR|13. dentro WHILE compuesto NOT|30
+_cte_str_23|CONST_STR|14. true a>b|12
+_cte_str_24|CONST_STR|15. true anidado|16
+_cte_str_25|CONST_STR|16. dentro WHILE anidado|24
+_123_456|CONST_FLOAT|123.456|
+_cte_str_26|CONST_STR|17. write varFloat valor: |26
+_789|CONST_INT|789|
+_cte_str_27|CONST_STR|18. write varInt valor: |24
+_cte_str_28|CONST_STR|cadena|6
+_cte_str_29|CONST_STR|19. write varString valor: |27
+_cte_str_30|CONST_STR|20. write cadena literal|24
+_1_5|CONST_FLOAT|1.5|
+@expActual|CONST_FLOAT||
+@expAux|CONST_FLOAT||
+@equal|CONST_INT||
+_cte_str_31|CONST_STR|21. EXPRESIONES IGUALES|23
+_cte_str_32|CONST_STR|EXPRESIONES DISTINTAS|21
+_100|CONST_INT|100|
+_cte_str_33|CONST_STR|22. EXPRESIONES IGUALES|23
+_n2|CONST_INT|-2|
 _3|CONST_INT|3|
+_5|CONST_INT|5|
+@area_t1|CONST_FLOAT||
+@area_t2|CONST_FLOAT||
+@result_max|CONST_FLOAT||
+_8_5|CONST_FLOAT|8.5|
+_cte_str_35|CONST_STR|23. Resultado correcto triangleAreaMaximum|42
+_cte_str_36|CONST_STR|Resultado incorrecto triangleAreaMaximum|40
+_cte_str_37|CONST_STR|24. Resultado correcto triangleAreaMaximum|42
+_cte_str_39|CONST_STR|17. Ingrese texto para varInt1|30
+_cte_str_40|CONST_STR|18. Valor ingresado:|20
