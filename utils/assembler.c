@@ -131,6 +131,40 @@ FILE *escribirVariablesAuxiliaresASM(FILE *archivo)
         return archivo; // No hay variables auxiliares para escribir
     }
 
+    /* -------------------------------- AUXILIAR -------------------------------- */
+    // Limpiar duplicados de la pila de auxiliares
+    t_pila *pilaAuxSinDuplicados = crearPila();
+
+    t_nodo_pila *nodoActual = pila_auxiliares_aritmetica->tope;
+    while (nodoActual != NULL)
+    {
+        // Verificar si el contenido ya está en la pila sin duplicados
+        int encontrado = 0;
+        t_nodo_pila *nodoBusqueda = pilaAuxSinDuplicados->tope;
+        while (nodoBusqueda != NULL)
+        {
+            if (strcmp(nodoBusqueda->contenido, nodoActual->contenido) == 0)
+            {
+                encontrado = 1;
+                break;
+            }
+            nodoBusqueda = nodoBusqueda->siguiente;
+        }
+
+        // Si no se encontró, apilarlo en la pila sin duplicados
+        if (!encontrado)
+        {
+            apilar(pilaAuxSinDuplicados, nodoActual->contenido);
+        }
+
+        nodoActual = nodoActual->siguiente;
+    }
+
+    // Reemplazar la pila original con la pila sin duplicados
+    eliminarPila(pila_auxiliares_aritmetica);
+    pila_auxiliares_aritmetica = pilaAuxSinDuplicados;
+
+    /* ----------------------------------- OK ----------------------------------- */
     // Cerrar el archivo original
     fclose(archivo);
 
@@ -262,9 +296,9 @@ void escribirSegmentCode(FILE *archivo, t_polaca *polaca)
         {
             // dummy
         }
-        else if(strcmp(celdaActual->contenido, "ABS") == 0) // esFuncionABS
+        else if (strcmp(celdaActual->contenido, "ABS") == 0) // esFuncionABS
         {
-           escribirASMFuncionABS(archivo);
+            escribirASMFuncionABS(archivo);
         }
         else if (strcmp(celdaActual->contenido, "READ") == 0) // esFuncionRead
         {
@@ -304,7 +338,7 @@ void escribirSegmentCode(FILE *archivo, t_polaca *polaca)
         else
         {
             printf("[ASSEMBLER] Error: Contenido de celda no reconocido: '%s'\n", celdaActual->contenido);
-            // exit(1);
+            exit(1);
         }
 
         // Avanzar al siguiente nodo
@@ -445,10 +479,9 @@ void escribirASMSaltoCondicional(FILE *archivo, const char *operadorComparacion,
     /* -------------------------------- OPERANDOS ------------------------------- */
     char operando2[MAX_LONG_VALOR_SIMBOLO];
     strcpy(operando2, desapilar(pila_operandos));
-    
+
     char operando1[MAX_LONG_VALOR_SIMBOLO];
     strcpy(operando1, desapilar(pila_operandos));
-
 
     /* --------------------------- OPERADOR COMPRACION -------------------------- */
     char instruccionSaltoASM[4];

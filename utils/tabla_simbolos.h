@@ -43,12 +43,12 @@ void crearTablaSimbolos(void);
 
 int exportarTablaSimbolos(const char *nombre_archivo);
 
-t_simbolo* buscarSimboloPorNombre(const char *nombre);
+t_simbolo *buscarSimboloPorNombre(const char *nombre);
 t_simbolo *buscarSimboloPorValor(const char *valor);
 
-void insertarVariableASM(const char *nombre, const char *tipoDato, const char *valor, const char *longitud);
+void insertarVariableASM(const char *nombre, const char *tipoDato);
 
-t_tabla_simbolos* duplicarTablaSimbolos();
+t_tabla_simbolos *duplicarTablaSimbolos();
 
 void eliminarTablaSimbolosDuplicada(t_tabla_simbolos *tabla);
 

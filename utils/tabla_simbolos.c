@@ -81,9 +81,15 @@ int tablaSimbolosLlena(const t_tabla_simbolos *tabla)
     return tabla->cantidad == MAX_LISTA;
 }
 
-void insertarVariableASM(const char *nombre, const char *tipoDato, const char *valor, const char *longitud)
+void insertarVariableASM(const char *nombre, const char *tipoDato)
 {
-    t_simbolo simbolo = crearSimbolo(nombre, tipoDato, valor, longitud);
+    if (existeSimboloPorNombre(&tabla_simbolos, nombre) == 1)
+    {
+        informarDuplicadoSimbolo(nombre);
+        return;
+    }
+
+    t_simbolo simbolo = crearSimbolo(nombre, tipoDato, "", "");
     insertarSimbolo(&tabla_simbolos, &simbolo);
 }
 

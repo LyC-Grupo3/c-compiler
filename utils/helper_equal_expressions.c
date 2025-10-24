@@ -408,9 +408,10 @@ void generarCodigoEqualExpressions_2()
     // Insertar @equal como valor de retorno de la función
     insertarEnPolaca("@equal");
 
-    insertarVariableASM("@expActual", TIPO_TOKEN_CONST_FLOAT, "", "");
-    insertarVariableASM("@expAux", TIPO_TOKEN_CONST_FLOAT, "", "");
-    insertarVariableASM("@equal", TIPO_TOKEN_CONST_INT, "", "");
+    // Agregar las variables temporales a la tabla de símbolos
+    insertarVariableASM("@expActual", TIPO_TOKEN_CONST_FLOAT);
+    insertarVariableASM("@expAux", TIPO_TOKEN_CONST_FLOAT);
+    insertarVariableASM("@equal", TIPO_TOKEN_CONST_INT);
 
     // Las constantes usadas como retorno las tengo que agregar a la tabla de simbolos porque sino luego no las encuentro para el ASM
     procesarSimbolo("1", TIPO_TOKEN_CONST_INT);

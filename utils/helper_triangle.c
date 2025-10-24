@@ -113,9 +113,9 @@ void generarPolacaCalculoAreaTriangulo()
 void generarPolacaTriangleAreaMaximun()
 {
     // comparar las dos áreas y retornar el máximo
-    // Piensenlo como 
-    // if (area1 > area2) 
-    // then max = area1 
+    // Piensenlo como
+    // if (area1 > area2)
+    // then max = area1
     // else  max = area2
     // end if
     // return max
@@ -155,9 +155,10 @@ void generarPolacaTriangleAreaMaximun()
     // Resetear contador para próximas llamadas
     contadorTriangulos = 0;
 
-    insertarVariableASM("@area_t1", TIPO_TOKEN_CONST_FLOAT, "", "");
-    insertarVariableASM("@area_t2", TIPO_TOKEN_CONST_FLOAT, "", "");
-    insertarVariableASM("@result_max", TIPO_TOKEN_CONST_FLOAT, "", "");
+    // Agregar las variables temporales a la tabla de símbolos
+    insertarVariableASM("@area_t1", TIPO_TOKEN_CONST_FLOAT);
+    insertarVariableASM("@area_t2", TIPO_TOKEN_CONST_FLOAT);
+    insertarVariableASM("@result_max", TIPO_TOKEN_CONST_FLOAT);
 
     // Las constantes usadas como retorno las tengo que agregar a la tabla de simbolos porque sino luego no las encuentro para el ASM
     procesarSimbolo("2", TIPO_TOKEN_CONST_INT);
