@@ -4,7 +4,7 @@
 
 %{
 
-#include "./Sintactico.h"
+#include "./utils/Sintactico.h"
 
 extern t_pila *pilaBase;
 

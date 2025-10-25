@@ -5,7 +5,7 @@
 
 %{
 
-#include "./Lexico.h"
+#include "./utils/Lexico.h"
 
 %}
 
