@@ -17,7 +17,7 @@ void generarAssembler()
     }
 
     /* ---------------------------- ARCHIVO ASSEMBLER --------------------------- */
-    FILE *archivoAssembler = fopen("final.asm", "w");
+    FILE *archivoAssembler = fopen("asm/final.asm", "w");
 
     if (archivoAssembler == NULL)
     {
@@ -177,7 +177,7 @@ FILE *escribirVariablesAuxiliaresASM(FILE *archivo)
     }
 
     // Crear archivo temporal
-    FILE *archivoTemp = fopen("final.asm.tmp", "w");
+    FILE *archivoTemp = fopen("asm/final.asm.tmp", "w");
     if (archivoTemp == NULL)
     {
         printf("[ASSEMBLER] Error al crear archivo temporal\n");
@@ -237,11 +237,11 @@ FILE *escribirVariablesAuxiliaresASM(FILE *archivo)
     fclose(archivoTemp);
 
     // Reemplazar el archivo original con el temporal
-    remove("final.asm");
-    rename("final.asm.tmp", "final.asm");
+    remove("asm/final.asm");
+    rename("asm/final.asm.tmp", "asm/final.asm");
 
     // Reabrir el archivo en modo append para que el resto del código pueda continuar
-    FILE *archivoNuevo = fopen("final.asm", "a");
+    FILE *archivoNuevo = fopen("asm/final.asm", "a");
     if (archivoNuevo == NULL)
     {
         printf("[ASSEMBLER] Error al reabrir final.asm\n");
