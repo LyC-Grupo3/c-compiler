@@ -1,5 +1,5 @@
-include macros2.asm
-include number.asm
+include C:\asm\macros2.asm
+include C:\asm\number.asm
 
 .MODEL LARGE  ; Modelo de Memoria
 .386          ; Tipo de Procesador

@@ -63,8 +63,8 @@ void generarAssembler()
 /* -------------------------------------------------------------------------- */
 void escribirCabecera(FILE *archivo)
 {
-    fprintf(archivo, "include macros2.asm\n");
-    fprintf(archivo, "include number.asm\n\n");
+    fprintf(archivo, "include C:\\asm\\macros2.asm\n");
+    fprintf(archivo, "include C:\\asm\\number.asm\n\n");
     fprintf(archivo, ".MODEL LARGE  ; Modelo de Memoria\n");
     fprintf(archivo, ".386          ; Tipo de Procesador\n");
     fprintf(archivo, ".STACK 200h   ; Bytes en el Stack\n");
@@ -169,7 +169,7 @@ FILE *escribirVariablesAuxiliaresASM(FILE *archivo)
     fclose(archivo);
 
     // Abrir el archivo para lectura
-    FILE *archivoLectura = fopen("final.asm", "r");
+    FILE *archivoLectura = fopen("asm/final.asm", "r");
     if (archivoLectura == NULL)
     {
         printf("[ASSEMBLER] Error al abrir final.asm para lectura\n");
