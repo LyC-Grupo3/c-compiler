@@ -4,6 +4,16 @@
 // Contador para etiquetas únicas
 static int label_count = 0;
 
+/*
+* generar_asm: Función principal que coordina la generación del archivo ASM
+* @param output_file: Nombre del archivo de salida .asm
+* Esta función:
+* 1. Abre el archivo de salida
+* 2. Genera el encabezado con las directivas del ensamblador
+* 3. Genera la sección de datos con variables y constantes
+* 4. Genera la sección de código con las instrucciones
+* 5. Cierra el archivo agregando la directiva END
+*/
 void generar_asm(const char* output_file) {
     FILE* fp = fopen(output_file, "w");
     if (!fp) {
@@ -20,9 +30,9 @@ void generar_asm(const char* output_file) {
 }
 
 void write_header(FILE* fp) {
-    fprintf(fp, ".8086\n");
-    fprintf(fp, ".model small\n");
-    fprintf(fp, ".stack 100h\n\n");
+    fprintf(fp, ".386\n");          // Usar conjunto de instrucciones 386
+    fprintf(fp, ".model large\n");   // Modelo de memoria large (múltiples segmentos)
+    fprintf(fp, ".stack 200h\n\n");  // Definir tamaño del stack en 512 bytes
 }
 
 void write_data_section(FILE* fp) {
