@@ -5,6 +5,7 @@
 %{
 
 #include "./Sintactico.h"
+#include "./assembler.h"
 
 extern t_pila *pilaBase;
 
@@ -84,7 +85,10 @@ extern void desapilarNroCeldaYEscribirEnEllaValor(t_pila *pila, const char *valo
 %%
 
 start:
-    programa                                            {informarMatchLexicoSintactico("SINTAXIS OK", "SINTAXIS OK");}
+    programa                                            {
+                                                            informarMatchLexicoSintactico("SINTAXIS OK", "SINTAXIS OK");
+                                                            generar_asm("asm/final.asm");
+                                                        }
     ;
 
 programa:
